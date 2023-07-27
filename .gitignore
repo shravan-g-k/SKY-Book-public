@@ -47,3 +47,6 @@ app.*.map.json
 server/node_modules/
 #API Keys
 server/private.js
+#Firbase Credentials
+lib/firebase_options.dart
+android/app/google-services.json
