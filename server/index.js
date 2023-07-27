@@ -1,6 +1,6 @@
 import AI  from "./hugging_face.mjs";
 import express from "express";
-AI("Write about gandhi in 10 words").then(
+AI("Why is my life so sad?").then(
     (response) => {
         console.log(response);
     }

@@ -3,7 +3,7 @@ import { HuggingFaceAPIkey } from "./private.js";
 const hf = new HfInference(HuggingFaceAPIkey);
 
 async function AI(data) {
-  const wrap = "You are a writing assistant who helps people write articles and journals your duty is to provide the user with a simple crisp and clear answer" ;
+  const wrap = "You are 'Helpful' and 'Kind' person You give answer to people with clear and motivating words." ;
 
   for await (var output of hf.textGenerationStream({
     model: "OpenAssistant/oasst-sft-4-pythia-12b-epoch-3.5",
