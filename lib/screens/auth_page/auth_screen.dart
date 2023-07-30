@@ -16,47 +16,56 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     final theme = ref.watch(themeProvider);
     return Scaffold(
       backgroundColor: theme.backgroundColor,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              'Journal Bot',
-              style: TextStyle(
-                color: theme.textColor,
-                fontSize: 50,
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Journal Bot',
+                style: TextStyle(
+                  color: theme.onBackgroundColor,
+                  fontSize: 50,
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'Welcome to Journal Bot!',
-              style: TextStyle(fontSize: 16, color: theme.textColor),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'Please sign in to continue.',
-              style: TextStyle(
-                fontSize: 16,
-                color: theme.textColor,
+              const SizedBox(height: 16),
+              Text(
+                'Welcome to Journal Bot!',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: theme.onBackgroundColor,
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text(
-                'Sign in with Google',
+              const SizedBox(height: 16),
+              Text(
+                'Please sign in to continue.',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: theme.onBackgroundColor,
+                ),
               ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  theme.toggleTheme();
-                });
-              },
-              child:const Text('theme'),
-            )
-          ],
+              const SizedBox(height: 16),
+              ElevatedButton(
+                style: ButtonStyle(
+                  minimumSize: MaterialStateProperty.all(
+                    const Size(double.infinity, 40),
+                  ),
+                  backgroundColor: MaterialStateProperty.all(
+                    theme.primaryColor,
+                  ),
+                ),
+                onPressed: () {},
+                child: Text(
+                  'Sign in with Google',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: theme.onPrimaryColor,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
