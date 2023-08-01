@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:journalbot/utils/wrapper.dart';
+import 'package:journalbot/wrapper.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
 
 void main() {
