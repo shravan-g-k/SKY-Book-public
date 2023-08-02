@@ -50,3 +50,5 @@ server/private.js
 #Firbase Credentials
 lib/firebase_options.dart
 android/app/google-services.json
+#Develpment Credentials
+lib/private.dart

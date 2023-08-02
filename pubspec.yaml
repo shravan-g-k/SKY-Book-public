@@ -39,6 +39,9 @@ dependencies:
   shared_preferences: ^2.2.0
   flutter_riverpod: ^2.3.6
   stack_trace: ^1.11.0
+  firebase_auth: ^4.7.2
+  google_sign_in: ^6.1.4
+  http: ^1.1.0
 
 dev_dependencies:
   flutter_test:
