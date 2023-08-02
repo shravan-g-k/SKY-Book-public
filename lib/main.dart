@@ -25,9 +25,7 @@ class JournalBot extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
-      theme: ThemeData(
-        useMaterial3: true,
-      ),
+      theme: ThemeData(useMaterial3: true),
       title: 'Journal Bot',
       home: const Wrapper(),
     );
