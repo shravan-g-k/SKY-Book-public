@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:journalbot/screens/auth_page/auth_screen.dart';
+import 'package:journalbot/screens/auth_screen.dart';
 import 'package:journalbot/utils/error_screen.dart';
 import 'package:journalbot/utils/splash_screen.dart';
 import 'package:journalbot/utils/theme.dart';
