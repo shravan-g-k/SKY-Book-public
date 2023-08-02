@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:journalbot/screens/auth_page/auth_screen.dart';
 import 'package:journalbot/utils/error_screen.dart';
-import 'package:journalbot/utils/loading.dart';
+import 'package:journalbot/utils/splash_screen.dart';
 import 'package:journalbot/utils/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,7 +17,7 @@ class _WrapperState extends ConsumerState<Wrapper> {
   late Future<SharedPreferences> sharedPreferences;
   @override
   void initState() {
-    // Get the shared preferences to fetch the thememode 
+    // Get the shared preferences to fetch the thememode
     sharedPreferences = SharedPreferences.getInstance();
     super.initState();
   }
@@ -33,7 +33,7 @@ class _WrapperState extends ConsumerState<Wrapper> {
         } else if (snapshot.hasError) {
           return const ErrorScreen();
         } else {
-          return const Loader();
+          return const SplahScreen();
         }
       },
       future: sharedPreferences,
