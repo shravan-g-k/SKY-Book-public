@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:journalbot/const.dart';
 import 'package:journalbot/screens/auth_screen.dart';
+import 'package:journalbot/screens/home_page.dart';
 import 'package:journalbot/utils/error_screen.dart';
 import 'package:journalbot/utils/splash_screen.dart';
 import 'package:journalbot/utils/theme.dart';
@@ -27,13 +29,19 @@ class _WrapperState extends ConsumerState<Wrapper> {
     return FutureBuilder(
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          MyTheme theme = ref.read(themeProvider);
           // Initialize the theme provider with the users theme mode(if present)
-          ref.read(themeProvider).init(snapshot.data!);
-          return const AuthScreen();
+          theme.init(snapshot.data!);
+          String? token = snapshot.data!.getString(tokenKey);
+          if (token == null) {
+            return AuthScreen(theme);
+          } else {
+            return HomeScreen(theme);
+          }
         } else if (snapshot.hasError) {
           return const ErrorScreen();
         } else {
-          return const SplahScreen();
+          return const SplashScreen();
         }
       },
       future: sharedPreferences,

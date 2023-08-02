@@ -16,6 +16,8 @@ final tokenProvider = StateProvider<String?>((ref) {
   return null;
 });
 
+// This is the repository class for the authentication
+// Methods - signInWithGoogle, signOut,
 class AuthRepository {
   // Sign in with Google
   // Return AppUser object
@@ -60,4 +62,16 @@ class AuthRepository {
     });
     return appUser;
   }
+
+  // Sign out
+  // No error handling - done in the controller
+  Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
+    await GoogleSignIn().signOut();
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.remove(tokenKey);
+    });
+  }
+
+
 }
