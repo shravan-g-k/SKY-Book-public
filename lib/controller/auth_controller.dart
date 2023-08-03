@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:journalbot/screens/auth_screen.dart';
-import 'package:journalbot/screens/home_page.dart';
+import 'package:go_router/go_router.dart';
+import 'package:journalbot/routes.dart';
 import 'package:journalbot/utils/error_dialog.dart';
 import 'package:journalbot/utils/theme.dart';
 import '../repository/auth_repo.dart';
@@ -16,30 +16,20 @@ class AuthController {
   AuthController(this._ref);
 
 // Sign in with Google - success navigates to HomeScreen, failure shows error dialog
-  void signInWithGoogle(BuildContext context, MyTheme theme) {
-    _ref
-        .read(authRepositoryProvider)
-        .signInWithGoogle()
-        // TODO : change to RouteMaster
-        .then((value) => Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => HomeScreen(theme))))
-        .catchError(
-          (e) => errorDialog(
-              context: context, theme: theme, content: "Sign in failed"),
-        );
+  void signInWithGoogle(BuildContext context) {
+    _ref.read(authRepositoryProvider).signInWithGoogle().then((value) {
+      context.pushReplacementNamed(MyRouter.homeRoute);
+    }).catchError((e) {
+      errorDialog(context: context, ref: _ref, content: "Sign in failed");
+    });
   }
 
 // Sign out - success navigates to AuthScreen, failure shows error dialog
   void signOut(BuildContext context, MyTheme theme) {
-    _ref
-        .read(authRepositoryProvider)
-        .signOut()
-        // TODO : change to RouteMaster
-        .then((value) => Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => AuthScreen(theme))))
-        .catchError(
-          (e) => errorDialog(
-              context: context, theme: theme, content: "Sign out failed"),
-        );
+    _ref.read(authRepositoryProvider).signOut().then((value) {
+      context.pushReplacementNamed(MyRouter.authRoute);
+    }).catchError((e) {
+      errorDialog(context: context, ref: _ref, content: "Sign out failed");
+    });
   }
 }

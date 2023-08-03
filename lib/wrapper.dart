@@ -34,9 +34,9 @@ class _WrapperState extends ConsumerState<Wrapper> {
           theme.init(snapshot.data!);
           String? token = snapshot.data!.getString(tokenKey);
           if (token == null) {
-            return AuthScreen(theme);
+            return const AuthScreen();
           } else {
-            return HomeScreen(theme);
+            return const HomeScreen();
           }
         } else if (snapshot.hasError) {
           return const ErrorScreen();
