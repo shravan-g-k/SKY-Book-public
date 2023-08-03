@@ -7,8 +7,7 @@ import '../utils/theme.dart';
 // Sign in screen
 // Sign in with Google button
 class AuthScreen extends ConsumerStatefulWidget {
-  const AuthScreen(this.theme, {super.key});
-  final MyTheme theme;
+  const AuthScreen({super.key});
 
   @override
   ConsumerState<AuthScreen> createState() => _AuthScreenState();
@@ -18,7 +17,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   // Sign in with Google
   void _signInWithGoogle() async {
     // error handling done in AuthController
-    ref.read(authControllerProvider).signInWithGoogle(context, widget.theme);
+    ref.read(authControllerProvider).signInWithGoogle(context);
   }
 
   @override
