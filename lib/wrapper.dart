@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:journalbot/const.dart';
+import 'package:journalbot/repository/auth_repo.dart';
 import 'package:journalbot/screens/auth_screen.dart';
 import 'package:journalbot/screens/home_page.dart';
 import 'package:journalbot/utils/error_screen.dart';
 import 'package:journalbot/utils/splash_screen.dart';
 import 'package:journalbot/utils/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 
 class Wrapper extends ConsumerStatefulWidget {
   const Wrapper({super.key});
@@ -32,11 +34,13 @@ class _WrapperState extends ConsumerState<Wrapper> {
           MyTheme theme = ref.read(themeProvider);
           // Initialize the theme provider with the users theme mode(if present)
           theme.init(snapshot.data!);
-          String? token = snapshot.data!.getString(tokenKey);
+          // Get the token from the shared preferences
+          final token = snapshot.data!.getString(tokenKey);
           if (token == null) {
             return const AuthScreen();
           } else {
-            return const HomeScreen();
+            // UserWrapper is a wrapper for the HomeScreen
+            return UserWrapper(token);
           }
         } else if (snapshot.hasError) {
           return const ErrorScreen();
@@ -45,6 +49,35 @@ class _WrapperState extends ConsumerState<Wrapper> {
         }
       },
       future: sharedPreferences,
+    );
+  }
+}
+
+//TODO : change the slpash screen to logout screen and add more error handling for diff errors
+// Gets the AppUser from the token 
+// By making a request to the server
+class UserWrapper extends ConsumerStatefulWidget {
+  const UserWrapper(this.token, {super.key});
+  final String token;
+
+  @override
+  ConsumerState<UserWrapper> createState() => _UserWrapperState();
+}
+
+class _UserWrapperState extends ConsumerState<UserWrapper> {
+  @override
+  Widget build(BuildContext context) {
+    // userFutureProvider is a FutureProvider that makes a request to the server
+    // and returns the AppUser
+    final user = ref.watch(userFutureProvider(widget.token));
+    return user.when(
+      data: (data) {
+        return const HomeScreen();
+      },
+      error: (error, stackTrace) {
+        return const ErrorScreen();
+      },
+      loading: () => const SplashScreen(),
     );
   }
 }
