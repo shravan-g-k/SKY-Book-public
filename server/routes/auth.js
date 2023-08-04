@@ -1,6 +1,7 @@
 import Express from "express";
 import User from "../models/user_model.js";
 import jwt from "jsonwebtoken";
+import auth from "../middleware/auth_middleware.js";
 import { jwtPasswordKey } from "../private.js";
 
 // Auth Router
@@ -32,6 +33,24 @@ authRouter.post("/signin", async (req, res) => {
   } catch (err) {
     // Send error if user not created
     res.status(500).send("Error, user not created");
+  }
+});
+
+// Get user route - returns a user if it exists
+// GET /user
+// 200 - { name , email , _id }
+// 500 - Error, user not found
+authRouter.get("/user", auth,  async (req, res) => {
+  try {
+    // Get user id from request
+    const { id } = req.user;
+    // Find user by id
+    let user = await User.findById(id);
+    // Send user as response
+    res.status(200).json(user);
+  } catch (err) {
+    // Send error if user not found
+    res.status(500).send("Error, user not found");
   }
 });
 
