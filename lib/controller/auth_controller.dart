@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:journalbot/routes.dart';
 import 'package:journalbot/utils/error_dialog.dart';
 import 'package:journalbot/utils/theme.dart';
-import '../model/user_model.dart';
 import '../repository/auth_repo.dart';
 
 final authControllerProvider = Provider<AuthController>((ref) {
