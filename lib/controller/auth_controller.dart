@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:journalbot/routes.dart';
 import 'package:journalbot/utils/error_dialog.dart';
 import 'package:journalbot/utils/theme.dart';
+import '../model/user_model.dart';
 import '../repository/auth_repo.dart';
 
 final authControllerProvider = Provider<AuthController>((ref) {
@@ -15,9 +16,10 @@ class AuthController {
   final Ref _ref;
   AuthController(this._ref);
 
-// Sign in with Google - success navigates to HomeScreen, failure shows error dialog
+// Sign in with Google - success updates userProvider navigates to HomeScreen, failure shows error dialog
   void signInWithGoogle(BuildContext context) {
     _ref.read(authRepositoryProvider).signInWithGoogle().then((value) {
+      _ref.read(userProvider.notifier).update((state) => value);
       context.pushReplacementNamed(MyRouter.homeRoute);
     }).catchError((e) {
       errorDialog(context: context, ref: _ref, content: "Sign in failed");

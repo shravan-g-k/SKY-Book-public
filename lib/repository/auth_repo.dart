@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:journalbot/const.dart';
+import 'package:journalbot/controller/auth_controller.dart';
 import 'package:journalbot/model/user_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,7 +13,19 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
   return AuthRepository();
 });
 
-final tokenProvider = StateProvider<String?>((ref) {
+// FutureProvider for the AppUser object
+// calls the getUser method in the AuthRepository
+// updates the userProvider state 
+// Takes a String token as an argument
+final userFutureProvider = FutureProvider.family((ref, String token) {
+  return ref.read(authRepositoryProvider).getUser(token).then((value) {
+    ref.read(userProvider.notifier).state = value;
+    return value;
+  });
+});
+
+// StateProvider for the AppUser object
+final userProvider = StateProvider<AppUser?>((ref) {
   return null;
 });
 
@@ -73,5 +86,16 @@ class AuthRepository {
     });
   }
 
-
+  // Get the AppUser object from the token
+  // Return AppUser object
+  // Doesnt relate with the controller
+  // Used in the wrapper.dart - meant to call this only once when the app starts
+  // Once user is fetched from the server, the userProvider state is updated(by the userFutureProvider)
+  Future<AppUser> getUser(String token) async {
+    final response = await http.get(Uri.parse('$serverAddress/user'),
+        headers: {'x-auth-token': token});
+    Map<String, dynamic> json = jsonDecode(response.body);
+    AppUser appUser = AppUser.fromMap({...json, 'token': token});
+    return appUser;
+  }
 }
