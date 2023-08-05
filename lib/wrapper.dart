@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:journalbot/const.dart';
 import 'package:journalbot/repository/auth_repo.dart';
 import 'package:journalbot/screens/auth_screen.dart';
-import 'package:journalbot/screens/home_page.dart';
+import 'package:journalbot/screens/home_screen.dart';
 import 'package:journalbot/utils/error_screen.dart';
 import 'package:journalbot/utils/splash_screen.dart';
 import 'package:journalbot/utils/theme.dart';

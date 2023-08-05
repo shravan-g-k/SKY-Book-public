@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:journalbot/screens/auth_screen.dart';
-import 'package:journalbot/screens/home_page.dart';
+import 'package:journalbot/screens/home_screen.dart';
 import 'package:journalbot/wrapper.dart';
 
 class MyRouter {
