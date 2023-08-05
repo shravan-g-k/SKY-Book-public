@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:journalbot/repository/auth_repo.dart';
 
-import '../controller/auth_controller.dart';
-import '../utils/theme.dart';
-
+import '../../controller/auth_controller.dart';
+import '../../utils/theme.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -15,9 +14,9 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
-    
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     MyTheme theme = ref.watch(themeProvider);
@@ -51,7 +50,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ),
             OutlinedButton(
               onPressed: () {
-                ref.read(authControllerProvider).signOut(context, theme);
+                ref.read(authControllerProvider).signOut(context);
               },
               child: const Text('Log Out'),
             ),
