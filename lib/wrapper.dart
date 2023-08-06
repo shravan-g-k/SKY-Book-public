@@ -54,9 +54,7 @@ class _WrapperState extends ConsumerState<Wrapper> {
   }
 }
 
-//TODO : change the slpash screen to logout screen and add more error handling for diff errors
-// Gets the AppUser from the token 
-// By making a request to the server
+
 class UserWrapper extends ConsumerStatefulWidget {
   const UserWrapper(this.token, {super.key});
   final String token;

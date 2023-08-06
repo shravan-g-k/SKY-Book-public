@@ -13,11 +13,11 @@ void main() async {
 }
 
 // TODO : Change the name of the class
-class JournalBot extends ConsumerWidget {
+class JournalBot extends StatelessWidget {
   const JournalBot({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return MaterialApp.router(
       theme: ThemeData(useMaterial3: true),
       routerConfig: MyRouter.routerConfig,
