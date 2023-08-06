@@ -12,15 +12,19 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
   return AuthRepository();
 });
 
-// FutureProvider for the AppUser object
+// userFutureProvider for the AppUser object
 // calls the getUser method in the AuthRepository
-// updates the userProvider state 
+// updates the userProvider state
 // Takes a String token as an argument
 final userFutureProvider = FutureProvider.family((ref, String token) {
   return ref.read(authRepositoryProvider).getUser(token).then((value) {
     ref.read(userProvider.notifier).state = value;
     return value;
-  });
+  }).catchError(
+    (error) {
+      throw error;
+    },
+  );
 });
 
 // StateProvider for the AppUser object
@@ -78,11 +82,15 @@ class AuthRepository {
   // Sign out
   // No error handling - done in the controller
   Future<void> signOut() async {
-    await FirebaseAuth.instance.signOut();
-    await GoogleSignIn().signOut();
-    SharedPreferences.getInstance().then((prefs) {
-      prefs.remove(tokenKey);
-    });
+    try {
+      await FirebaseAuth.instance.signOut();
+      await GoogleSignIn().signOut();
+      SharedPreferences.getInstance().then((prefs) {
+        prefs.remove(tokenKey);
+      });
+    } catch (e) {
+      rethrow;
+    }
   }
 
   // Get the AppUser object from the token
@@ -93,6 +101,9 @@ class AuthRepository {
   Future<AppUser> getUser(String token) async {
     final response = await http.get(Uri.parse('$serverAddress/user'),
         headers: {'x-auth-token': token});
+    if (response.statusCode != 200) {
+      throw Exception('Error fetching user');
+    }
     Map<String, dynamic> json = jsonDecode(response.body);
     AppUser appUser = AppUser.fromMap({...json, 'token': token});
     return appUser;

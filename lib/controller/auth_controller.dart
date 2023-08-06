@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:journalbot/routes.dart';
-import 'package:journalbot/utils/error_dialog.dart';
-import 'package:journalbot/utils/theme.dart';
+import 'package:journalbot/utils/routes.dart';
+import 'package:journalbot/common/widgets/error_dialog.dart';
 import '../repository/auth_repo.dart';
 
 final authControllerProvider = Provider<AuthController>((ref) {
@@ -26,7 +25,7 @@ class AuthController {
   }
 
 // Sign out - success navigates to AuthScreen, failure shows error dialog
-  void signOut(BuildContext context, MyTheme theme) {
+  void signOut(BuildContext context) {
     _ref.read(authRepositoryProvider).signOut().then((value) {
       context.pushReplacementNamed(MyRouter.authRoute);
     }).catchError((e) {
