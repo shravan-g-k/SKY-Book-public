@@ -3,9 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:journalbot/const.dart';
 import 'package:journalbot/repository/auth_repo.dart';
 import 'package:journalbot/screens/auth_screen.dart';
-import 'package:journalbot/screens/home_screen.dart';
-import 'package:journalbot/utils/error_screen.dart';
-import 'package:journalbot/utils/splash_screen.dart';
+import 'package:journalbot/screens/home_screens/home_error_screen.dart';
+import 'package:journalbot/screens/home_screens/home_screen.dart';
+import 'package:journalbot/common/pages/error_screen.dart';
+import 'package:journalbot/common/pages/splash_screen.dart';
 import 'package:journalbot/utils/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -75,7 +76,7 @@ class _UserWrapperState extends ConsumerState<UserWrapper> {
         return const HomeScreen();
       },
       error: (error, stackTrace) {
-        return const ErrorScreen();
+        return const HomeErrorScreen();
       },
       loading: () => const SplashScreen(),
     );
