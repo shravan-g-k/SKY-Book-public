@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:journalbot/common/common_text_styles.dart';
 
 import '../controller/auth_controller.dart';
 import '../utils/theme.dart';
@@ -36,28 +37,19 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
               // JOURNAL BOT title
               Text(
                 'Journal Bot',
-                style: TextStyle(
-                  color: theme.onBackgroundColor,
-                  fontSize: 50,
-                ),
+                style: titleTextStyle(theme, fontSize: 50),
               ),
               const SizedBox(height: 16),
               // WELCOME message
               Text(
                 'Welcome to Journal Bot!',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: theme.onBackgroundColor,
-                ),
+                style: titleTextStyle(theme, fontSize: 16),
               ),
               const SizedBox(height: 16),
               // PLEASE SIGN IN message
               Text(
                 'Please sign in to continue.',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: theme.onBackgroundColor,
-                ),
+                style: titleTextStyle(theme, fontSize: 16),
               ),
               const SizedBox(height: 16),
               // SIGN IN WITH GOOGLE button
