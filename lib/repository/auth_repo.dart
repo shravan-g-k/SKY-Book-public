@@ -33,7 +33,7 @@ final userProvider = StateProvider<AppUser?>((ref) {
 });
 
 // This is the repository class for the authentication
-// Methods - signInWithGoogle, signOut,
+// Methods - signInWithGoogle, signOut, getUser
 class AuthRepository {
   // Sign in with Google
   // Return AppUser object
