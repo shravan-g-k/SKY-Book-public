@@ -24,6 +24,7 @@ class _AddNewBookBottomSheetState extends ConsumerState<AddNewBookBottomSheet>
       _bookIconController; //Icon of the book - actually its just text
   late final AnimationController
       _bottomSheetAnimationController; //bottom animation controller
+  late final FocusNode _bookNameFocusNode; //Focus node for the book name
   @override
   void initState() {
     // Initialize the controllers with default values
@@ -32,6 +33,7 @@ class _AddNewBookBottomSheetState extends ConsumerState<AddNewBookBottomSheet>
     _bookIconController = TextEditingController(text: "📒");
     _bottomSheetAnimationController = BottomSheet.createAnimationController(
         this); //This is why we used TickerProviderStateMixin
+    _bookNameFocusNode = FocusNode();
     super.initState();
   }
 
@@ -41,6 +43,7 @@ class _AddNewBookBottomSheetState extends ConsumerState<AddNewBookBottomSheet>
     _bookDescriptionController.dispose();
     _bookIconController.dispose();
     _bottomSheetAnimationController.dispose();
+    _bookNameFocusNode.dispose();
     super.dispose();
   }
 
@@ -105,6 +108,7 @@ class _AddNewBookBottomSheetState extends ConsumerState<AddNewBookBottomSheet>
                       child: SizedBox(
                         width: 80,
                         child: TextField(
+                          focusNode: _bookNameFocusNode,
                           controller: _bookIconController,
                           maxLength: 1,
                           textAlign: TextAlign.center,
@@ -124,10 +128,15 @@ class _AddNewBookBottomSheetState extends ConsumerState<AddNewBookBottomSheet>
                       top: 50,
                       left: (MediaQuery.of(context).size.width /
                           2), // Center the icon
-                      child: Icon(
-                        Icons.edit,
-                        color: theme.onBackgroundColor,
-                        size: 30,
+                      child: GestureDetector(
+                        onTap: () {
+                          _bookNameFocusNode.requestFocus();
+                        },
+                        child: Icon(
+                          Icons.edit,
+                          color: theme.onBackgroundColor,
+                          size: 30,
+                        ),
                       ),
                     ),
                   ],
