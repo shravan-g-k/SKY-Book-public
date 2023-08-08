@@ -1,15 +1,19 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
 class AppUser {
   final String name;
   final String email;
   final String id;
   final String token;
+  final List<String> books;
   AppUser({
     required this.name,
     required this.email,
     required this.id,
     required this.token,
+    required this.books,
   });
 
   AppUser copyWith({
@@ -17,12 +21,14 @@ class AppUser {
     String? email,
     String? id,
     String? token,
+    List<String>? books,
   }) {
     return AppUser(
       name: name ?? this.name,
       email: email ?? this.email,
       id: id ?? this.id,
       token: token ?? this.token,
+      books: books ?? this.books,
     );
   }
 
@@ -32,6 +38,7 @@ class AppUser {
       'email': email,
       'id': id,
       'token': token,
+      'books': books,
     };
   }
 
@@ -41,6 +48,7 @@ class AppUser {
       email: map['email'] ?? '',
       id: map['_id'] ?? '',
       token: map['token'] ?? '',
+      books: List<String>.from(map['books']),
     );
   }
 
@@ -51,22 +59,27 @@ class AppUser {
 
   @override
   String toString() {
-    return 'AppUser(name: $name, email: $email, id: $id, token: $token)';
+    return 'AppUser(name: $name, email: $email, id: $id, token: $token, books: $books)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-
+  
     return other is AppUser &&
-        other.name == name &&
-        other.email == email &&
-        other.id == id &&
-        other.token == token;
+      other.name == name &&
+      other.email == email &&
+      other.id == id &&
+      other.token == token &&
+      listEquals(other.books, books);
   }
 
   @override
   int get hashCode {
-    return name.hashCode ^ email.hashCode ^ id.hashCode ^ token.hashCode;
+    return name.hashCode ^
+      email.hashCode ^
+      id.hashCode ^
+      token.hashCode ^
+      books.hashCode;
   }
 }
