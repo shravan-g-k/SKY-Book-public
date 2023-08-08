@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
-// User Schema (name, email)
+// User Schema (name, email,[books])
 const userScheme = Schema({
     name : {
         type : String,
@@ -11,6 +11,7 @@ const userScheme = Schema({
         type : String,
         required : true,
     },
+    books : [String],
 });
 
 // User Model Users Collection

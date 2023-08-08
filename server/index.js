@@ -1,6 +1,7 @@
 import Express from "express";
 import { PORT } from "./const.js";
 import authRouter from "./routes/auth.js";
+import bookRouter from "./routes/book.js";
 import { mongoDBpassword } from "./private.js";
 import mongoose from "mongoose";
 
@@ -21,8 +22,10 @@ mongoose
 // Middleware
 // JSON body parser
 app.use(Express.json());
-// Auth router - has the /signin route
+// Auth router - has the /signin /user 
 app.use(authRouter);
+// Book router - has the /book/create 
+app.use(bookRouter);
 
 // Start server
 app.listen(PORT, "0.0.0.0", () => {
