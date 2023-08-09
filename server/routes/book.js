@@ -8,29 +8,44 @@ const bookRouter = Express.Router();
 // POST /book/create headers: {x-auth-token}
 // Request body: {bookTitle, bookIcon, bookDescription}
 // Response: {book}
-bookRouter.post("/book/create" ,auth,async (req, res) => {
-    try {
-        const {bookTitle, bookIcon, bookDescription} = req.body;
-        console.log(req.body);
-        const newBook = new Book({
-            title : bookTitle,
-            icon : bookIcon,
-            description : bookDescription
-        });
-        const book = await newBook.save();
-        // Add book to user
-        const user = await User.findOneAndUpdate(
-            {_id : req.user.id},// Find user by id
-            {$push : {books : book._id}},// Add book to user
-            {new : true}
-        );
-        // Send book
-        res.status(200).json(book);
-    } catch (error) {
-        console.log(error);
-        res.status(400).json({msg : "Error creating book"});
-    }
+bookRouter.post("/book/create", auth, async (req, res) => {
+  try {
+    const { bookTitle, bookIcon, bookDescription } = req.body;
+    console.log(req.body);
+    const newBook = new Book({
+      title: bookTitle,
+      icon: bookIcon,
+      description: bookDescription,
+    });
+    const book = await newBook.save();
+    // Add book to user
+    const user = await User.findOneAndUpdate(
+      { _id: req.user.id }, // Find user by id
+      { $push: { books: book._id } }, // Add book to user
+      { new: true }
+    );
+    // Send book
+    res.status(200).json(book);
+  } catch (error) {
+    res.status(400).json({ msg: "Error creating book" });
+  }
 });
 
+// Get all books
+// GET /book/all
+// Response: [books]
+bookRouter.get("/book/all", auth, async (req, res) => {
+  try {
+    // Get user
+    const userId = req.user.id;
+    const user = await User.findById(userId);
+    // Get books
+    const books = await Book.find({ _id: { $in: user.books } });
+    // Send books
+    res.status(200).json(books);
+  } catch (error) {
+    res.status(400).json({ msg: "Error getting books" });
+  }
+});
 
 export default bookRouter;
