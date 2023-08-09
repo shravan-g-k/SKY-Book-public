@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Book {
   String title;
@@ -64,21 +65,32 @@ class Book {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is Book &&
-      other.title == title &&
-      other.description == description &&
-      other.icon == icon &&
-      other.id == id &&
-      listEquals(other.pages, pages);
+        other.title == title &&
+        other.description == description &&
+        other.icon == icon &&
+        other.id == id &&
+        listEquals(other.pages, pages);
   }
 
   @override
   int get hashCode {
     return title.hashCode ^
-      description.hashCode ^
-      icon.hashCode ^
-      id.hashCode ^
-      pages.hashCode;
+        description.hashCode ^
+        icon.hashCode ^
+        id.hashCode ^
+        pages.hashCode;
+  }
+}
+
+class UserBooksNotifier extends StateNotifier<List<Book>> {
+  UserBooksNotifier() : super([]);
+  void intializeBooks(List<Book> books) {
+    state = books;
+  }
+
+  void addBook(Book book) {
+    state = [...state, book];
   }
 }

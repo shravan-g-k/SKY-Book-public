@@ -33,6 +33,8 @@ class BookController {
         state!.books.add(book.id);
         return state;
       });
+      // Update the booksProvider state
+      _ref.read(booksProvider.notifier).addBook(book);
     } catch (e) {
       errorDialog(context: context, ref: _ref);
     }
