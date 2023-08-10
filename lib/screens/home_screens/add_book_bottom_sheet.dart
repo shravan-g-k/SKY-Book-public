@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../common/common_text_styles.dart';
 import '../../controller/book_controller.dart';
 import '../../repository/auth_repo.dart';
-import '../../utils/theme.dart';
 
 class AddNewBookBottomSheet extends ConsumerStatefulWidget {
   const AddNewBookBottomSheet({super.key});
@@ -66,7 +64,7 @@ class _AddNewBookBottomSheetState extends ConsumerState<AddNewBookBottomSheet>
 
   @override
   Widget build(BuildContext context) {
-    final theme = ref.watch(themeProvider);
+    final colorScheme = Theme.of(context).colorScheme;
     return BottomSheet(
       onClosing: () {
         // Reset the controllers when the bottom sheet is closed
@@ -74,7 +72,6 @@ class _AddNewBookBottomSheetState extends ConsumerState<AddNewBookBottomSheet>
         _bookNameController.text = "Untitled";
         _bookIconController.text = "📒";
       },
-      backgroundColor: theme.backgroundColor,
       enableDrag: true,
       showDragHandle: true,
       animationController:
@@ -94,9 +91,11 @@ class _AddNewBookBottomSheetState extends ConsumerState<AddNewBookBottomSheet>
               mainAxisSize: MainAxisSize.min,
               children: [
                 // ADD A NEW BOOK
-                Text(
+                const Text(
                   "Add a new book",
-                  style: titleTextStyle(theme, fontSize: 24),
+                  style: TextStyle(
+                    fontSize: 25,
+                  ),
                 ),
                 // ICON of the book - Stack is used to show the edit icon on top of the book icon
                 // STACK -> BOOK ICON | EDIT ICON
@@ -113,12 +112,10 @@ class _AddNewBookBottomSheetState extends ConsumerState<AddNewBookBottomSheet>
                           maxLength: 1,
                           textAlign: TextAlign.center,
                           decoration: const InputDecoration(
-                            border: InputBorder.none,
                             counter: SizedBox.shrink(), // Hide the counter
                           ),
                           style: const TextStyle(
                             fontSize: 35,
-                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -132,9 +129,8 @@ class _AddNewBookBottomSheetState extends ConsumerState<AddNewBookBottomSheet>
                         onTap: () {
                           _bookNameFocusNode.requestFocus();
                         },
-                        child: Icon(
+                        child: const Icon(
                           Icons.edit,
-                          color: theme.onBackgroundColor,
                           size: 30,
                         ),
                       ),
@@ -144,16 +140,16 @@ class _AddNewBookBottomSheetState extends ConsumerState<AddNewBookBottomSheet>
                 // BOOK NAME text field
                 TextField(
                   controller: _bookNameController,
-                  style: titleTextStyle(theme, fontSize: 16),
                   decoration: InputDecoration(
                     hintText: "Book Name",
-                    hintStyle: titleTextStyle(theme, fontSize: 16),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(18),
                     ), //defining 2 borders creates a nice effect
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(color: theme.primaryColor),
+                      borderSide: BorderSide(
+                        color: colorScheme.primary,
+                      ),
                     ),
                   ),
                 ),
@@ -163,16 +159,16 @@ class _AddNewBookBottomSheetState extends ConsumerState<AddNewBookBottomSheet>
                 TextField(
                   controller: _bookDescriptionController,
                   maxLines: 3,
-                  style: titleTextStyle(theme, fontSize: 16),
                   decoration: InputDecoration(
                     hintText: "Description",
-                    hintStyle: titleTextStyle(theme, fontSize: 16),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(18),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(color: theme.primaryColor),
+                      borderSide: BorderSide(
+                        color: colorScheme.primary,
+                      ),
                     ),
                   ),
                 ),
@@ -185,18 +181,17 @@ class _AddNewBookBottomSheetState extends ConsumerState<AddNewBookBottomSheet>
                     addBook();
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: theme.primaryColor,
                     minimumSize: const Size(double.infinity, 40),
+                    backgroundColor: colorScheme.primary,
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8)),
                     ),
-                    side:
-                        BorderSide(color: theme.onBackgroundColor, width: 0.5),
                   ),
                   child: Text(
                     "Add Book",
-                    style: titleTextStyle(theme, fontSize: 18).copyWith(
-                      color: theme.onPrimaryColor,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: colorScheme.onPrimary,
                     ),
                   ),
                 ),

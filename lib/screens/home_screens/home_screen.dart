@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:journalbot/common/common_text_styles.dart';
+import 'package:journalbot/controller/auth_controller.dart';
 import 'package:journalbot/repository/auth_repo.dart';
+import 'package:journalbot/screens/home_screens/books_list.dart';
 
 import '../../utils/theme.dart';
 import 'add_book_bottom_sheet.dart';
@@ -43,12 +44,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    MyTheme theme = ref.watch(themeProvider);
     final user = ref.read(userProvider);
+    final colorScheme = Theme.of(context).colorScheme;
     // SCAFFOLD
     return Scaffold(
       key: scaffoldKey, // key is req for the bottom sheet to work
-      backgroundColor: theme.backgroundColor,
       // SAFE AREA
       body: SafeArea(
         // PADDING
@@ -64,15 +64,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                 children: [
                   Text(
                     wishUser(),
-                    style: titleTextStyle(theme, fontSize: 28),
+                    style: const TextStyle(fontSize: 30),
                   ),
                   const Spacer(),
                   IconButton(
                     icon: const Icon(Icons.sunny),
                     onPressed: () {
-                      setState(() {
-                        ref.read(themeProvider).toggleTheme();
-                      });
+                      ref.read(brightnessNotifierProvider.notifier).toggle();
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.logout),
+                    onPressed: () {
+                      ref.read(authControllerProvider).signOut(context);
                     },
                   )
                 ],
@@ -80,37 +84,44 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               // USER NAME
               Text(
                 user!.name,
-                style: titleTextStyle(theme, fontSize: 32),
                 overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 25,
+                ),
               ),
               // DIVIDER
-              Divider(color: theme.primaryColor),
+              Divider(color: colorScheme.primary),
               // YOUR BOOKS
-              Text(
+              const Text(
                 "Your Books",
-                style: titleTextStyle(theme, fontSize: 30),
+                style: TextStyle(
+                  fontSize: 25,
+                ),
               ),
               // NEW BOOK BUTTON
               ElevatedButton(
                 onPressed: () => newBookDialog(),
                 style: ElevatedButton.styleFrom(
+                  backgroundColor: colorScheme.primary,
                   minimumSize: const Size(double.infinity, 40),
-                  backgroundColor: theme.primaryColor,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(8)),
                   ),
-                  side: BorderSide(
-                    color: theme.onBackgroundColor,
+                  side: const BorderSide(
                     width: 0.5,
                   ),
                   splashFactory: InkRipple.splashFactory,
                 ),
                 child: Text(
                   '+ New Book',
-                  style: titleTextStyle(theme, fontSize: 18)
-                      .copyWith(color: theme.onPrimaryColor),
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: colorScheme.onPrimary,
+                    fontWeight: FontWeight.normal,
+                  ),
                 ),
               ),
+              const UserBooks()
             ],
           ),
         ),

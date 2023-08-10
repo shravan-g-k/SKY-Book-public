@@ -7,7 +7,6 @@ import 'package:journalbot/screens/home_screens/home_error_screen.dart';
 import 'package:journalbot/screens/home_screens/home_screen.dart';
 import 'package:journalbot/common/pages/error_screen.dart';
 import 'package:journalbot/common/pages/splash_screen.dart';
-import 'package:journalbot/utils/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -32,9 +31,6 @@ class _WrapperState extends ConsumerState<Wrapper> {
     return FutureBuilder(
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          MyTheme theme = ref.read(themeProvider);
-          // Initialize the theme provider with the users theme mode(if present)
-          theme.init(snapshot.data!);
           // Get the token from the shared preferences
           final token = snapshot.data!.getString(tokenKey);
           if (token == null) {

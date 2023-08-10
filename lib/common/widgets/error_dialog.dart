@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:journalbot/utils/theme.dart';
 
 // Error dialog
 void errorDialog({
@@ -9,22 +8,18 @@ void errorDialog({
   String title = "Something went wrong",
   String content = "Please try again later",
 }) {
-  final theme = ref.watch(themeProvider);
   showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: theme.secondaryColor,
           title: Text(
             title,
-            style: TextStyle(
-              color: theme.onSecondaryColor,
+            style: const TextStyle(
             ),
           ),
           content: Text(
             content,
-            style: TextStyle(
-              color: theme.onSecondaryColor,
+            style: const TextStyle(
               fontSize: 16,
             ),
           ),
