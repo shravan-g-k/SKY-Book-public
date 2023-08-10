@@ -16,7 +16,8 @@ final futureBookProvider = FutureProvider((ref) async {
   ref.read(booksProvider.notifier).intializeBooks(books);
 });
 // booksProvider is a NotifierProvider used to create an instance of List<Book>?
-final booksProvider = StateNotifierProvider<UserBooksNotifier,List<Book>?>((ref) => UserBooksNotifier() );
+final booksProvider = StateNotifierProvider<UserBooksNotifier, List<Book>?>(
+    (ref) => UserBooksNotifier());
 
 // BookRepository responsible for all the CRUD operations related to the Book model
 // Methods - createBook

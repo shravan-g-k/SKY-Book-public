@@ -1,5 +1,9 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 import 'package:journalbot/common/widgets/error_dialog.dart';
 import 'package:journalbot/model/book_model.dart';
 import 'package:journalbot/repository/auth_repo.dart';
@@ -35,8 +39,25 @@ class BookController {
       });
       // Update the booksProvider state
       _ref.read(booksProvider.notifier).addBook(book);
+      if (context.mounted) {
+        context.pop();
+      }
+      Fluttertoast.showToast(
+        msg: "Book created successfully",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     } catch (e) {
-      errorDialog(context: context, ref: _ref);
+      errorDialog(
+        context: context,
+        ref: _ref,
+        title: 'Something went wrong',
+        content: 'Error creating book',
+      );
     }
   }
 }
