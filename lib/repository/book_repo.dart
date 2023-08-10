@@ -10,10 +10,12 @@ import 'auth_repo.dart';
 // bookRepositoryProvider is a provider used to create an instance of BookRepository
 final bookRepositoryProvider = Provider((ref) => BookRepository());
 
-final futureBookProvider = FutureProvider((ref) async {
+final futureBookProvider = FutureProvider<List<Book>>((ref) async {
   final token = ref.read(userProvider)!.token;
   final books = await ref.read(bookRepositoryProvider).getBooks(token);
+
   ref.read(booksProvider.notifier).intializeBooks(books);
+  return books;
 });
 // booksProvider is a NotifierProvider used to create an instance of List<Book>?
 final booksProvider = StateNotifierProvider<UserBooksNotifier, List<Book>?>(
