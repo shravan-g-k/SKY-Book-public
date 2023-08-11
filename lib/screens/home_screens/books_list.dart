@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:journalbot/common/pages/error_screen.dart';
 import 'package:journalbot/common/widgets/loading.dart';
 import 'package:journalbot/repository/book_repo.dart';
+import 'package:journalbot/utils/routes.dart';
+
+import '../book_screen.dart';
 
 // User Books is just like a wrapper for the BooksList widget
 // calls the futureBookProvider to get the books of the user
@@ -65,51 +69,51 @@ class _BooksListState extends ConsumerState<BooksList> {
       child: ListView.builder(
         shrinkWrap: true,
         itemBuilder: (context, index) {
-          return Container(
-            margin: const EdgeInsets.only(top: 8),
-            decoration: BoxDecoration(
-              color: colorScheme.secondaryContainer,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                  color: colorScheme.shadow,
-                  blurRadius: 2,
-                  offset: const Offset(0, 3),
-                ),
-              ],
-            ),
-            child: ListTile(
-            // BOOK ICON
-              leading: Text(
-                books[index].icon,
-                style: const TextStyle(fontSize: 30),
-              ),
-              // BOOK TITLE
-              title: Text(
-                books[index].title,
-                style: TextStyle(
-                  fontSize: 20,
-                  color: colorScheme.onSecondaryContainer,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              // BOOK DESCRIPTION
-              subtitle: Text(
-                books[index].description,
-                style: TextStyle(
-                  overflow: TextOverflow.ellipsis,
-                  fontSize: 15,
-                  color: colorScheme.onSecondaryContainer,
-                ),
-              ),
-              // BOOK PAGES
-              trailing: Text(
-                books[index].pages.length <= 1
-                    ? '${books[index].pages.length} page'
-                    : '${books[index].pages.length} pages',
-                style: TextStyle(
-                  fontSize: 15,
-                  color: colorScheme.onSecondaryContainer,
+          return GestureDetector(
+            onTap: () {
+              context.pushNamed(
+                MyRouter.bookRoute,
+                extra: books[index],
+              );
+            },
+            child: Hero(
+              tag: books[index].id,
+              child: Card(
+                color: colorScheme.secondaryContainer,
+                child: ListTile(
+                  // BOOK ICON
+                  leading: Text(
+                    books[index].icon,
+                    style: const TextStyle(fontSize: 30),
+                  ),
+                  // BOOK TITLE
+                  title: Text(
+                    books[index].title,
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: colorScheme.onSecondaryContainer,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  // BOOK DESCRIPTION
+                  subtitle: Text(
+                    books[index].description,
+                    style: TextStyle(
+                      overflow: TextOverflow.ellipsis,
+                      fontSize: 15,
+                      color: colorScheme.onSecondaryContainer,
+                    ),
+                  ),
+                  // BOOK PAGES
+                  trailing: Text(
+                    books[index].pages.length <= 1
+                        ? '${books[index].pages.length} page'
+                        : '${books[index].pages.length} pages',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: colorScheme.onSecondaryContainer,
+                    ),
+                  ),
                 ),
               ),
             ),

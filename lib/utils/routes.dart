@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:journalbot/screens/auth_screen.dart';
+import 'package:journalbot/screens/book_screen.dart';
 import 'package:journalbot/screens/home_screens/home_screen.dart';
 import 'package:journalbot/wrapper.dart';
+
+import '../model/book_model.dart';
 
 class MyRouter {
   // All the routes in the app
   static const homeRoute = '/home';
   static const authRoute = '/auth';
-  // 
+  static const bookRoute = '/book';
+  //
 
   // The router config
   static final routerConfig = GoRouter(
@@ -33,6 +37,14 @@ class MyRouter {
           return customTransitionPage(const AuthScreen(), key: state.pageKey);
         },
       ),
+      GoRoute(
+        name: bookRoute,
+        path : bookRoute,
+        builder: (context, state) {
+          Book book = state.extra as Book;
+          return BookScreen(book: book);
+        },
+      )
     ],
   );
   // CUstom transition used for all the routes
