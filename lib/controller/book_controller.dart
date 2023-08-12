@@ -52,7 +52,6 @@ class BookController {
     } catch (e) {
       errorDialog(
         context: context,
-        ref: _ref,
         title: 'Something went wrong',
         content: 'Error creating book',
       );

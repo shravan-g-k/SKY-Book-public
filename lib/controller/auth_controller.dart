@@ -20,7 +20,7 @@ class AuthController {
       _ref.read(userProvider.notifier).update((state) => value);
       context.pushReplacementNamed(MyRouter.homeRoute);
     }).catchError((e) {
-      errorDialog(context: context, ref: _ref, content: "Sign in failed");
+      errorDialog(context: context, content: "Sign in failed");
     });
   }
 
@@ -29,7 +29,7 @@ class AuthController {
     _ref.read(authRepositoryProvider).signOut().then((value) {
       context.pushReplacementNamed(MyRouter.authRoute);
     }).catchError((e) {
-      errorDialog(context: context, ref: _ref, content: "Sign out failed");
+      errorDialog(context: context, content: "Sign out failed");
     });
   }
 }

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Error dialog
 void errorDialog({
   required BuildContext context,
-  required Ref ref,
   String title = "Something went wrong",
   String content = "Please try again later",
 }) {
