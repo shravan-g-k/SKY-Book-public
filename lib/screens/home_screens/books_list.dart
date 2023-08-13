@@ -5,9 +5,6 @@ import 'package:journalbot/common/pages/error_screen.dart';
 import 'package:journalbot/common/widgets/loading.dart';
 import 'package:journalbot/repository/book_repo.dart';
 import 'package:journalbot/utils/routes.dart';
-
-import '../book_screen.dart';
-
 // User Books is just like a wrapper for the BooksList widget
 // calls the futureBookProvider to get the books of the user
 // if the books are not empty, it returns the BooksList widget
