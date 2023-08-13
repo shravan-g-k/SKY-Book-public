@@ -57,4 +57,39 @@ class BookController {
       );
     }
   }
+
+// Update a book
+// Return Book object
+// Takes String title, description, icon, token as arguments
+  void updateBook({
+    required BuildContext context,
+    required Book book,
+  }) async {
+    try {
+      final token = _ref.read(userProvider)!.token;
+      // Call the updateBook method in the BookRepository
+      Book updatedBook = await _ref.read(bookRepositoryProvider).updateBook(
+            book: book,
+            token: token,
+          );
+      // Update the booksProvider state
+      _ref.read(booksProvider.notifier).updateBook(updatedBook);
+      // Show a toast message
+      Fluttertoast.showToast(
+        msg: "Book updated successfully",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    } catch (e) {
+      errorDialog(
+        context: context,
+        title: 'Something went wrong',
+        content: 'Error updating book',
+      );
+    }
+  }
 }

@@ -76,4 +76,32 @@ class BookRepository {
     // Return the list of Book objects
     return books;
   }
+
+// updateBook makes a PUT request to the server to update the book
+// Returns the new updated Book object
+// Takes Book book, String token as arguments
+  Future<Book> updateBook({
+    required Book book,
+    required String token,
+  }) async {
+    // Uri of the server
+    Uri url = Uri.parse('$serverAddress/book/update');
+    // Send a PUT request to the server
+    final response = await http.put(url,
+        headers: {
+          'x-auth-token': token,
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'bookId': book.id,
+          'bookTitle': book.title,
+          'bookDescription': book.description,
+          'bookIcon': book.icon,
+        }));
+    // Decode the response body
+    Map<String, dynamic> data = jsonDecode(response.body);
+    Book newBook = Book.fromMap(data);
+    // Return the Book object
+    return newBook;
+  }
 }
