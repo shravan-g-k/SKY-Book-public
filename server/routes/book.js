@@ -52,7 +52,7 @@ bookRouter.get("/book/all", auth, async (req, res) => {
 // POST /book/update headers: {x-auth-token}
 // Request body: {bookId, bookTitle, bookIcon, bookDescription}
 // Response: {book}
-bookRouter.post("/book/update", auth, async (req, res) => {
+bookRouter.put("/book/update", auth, async (req, res) => {
   try {
     const { bookId, bookTitle, bookIcon, bookDescription } = req.body;
     const book = await Book.findByIdAndUpdate(
