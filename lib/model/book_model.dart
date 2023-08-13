@@ -93,4 +93,11 @@ class UserBooksNotifier extends StateNotifier<List<Book>> {
   void addBook(Book book) {
     state = [...state, book];
   }
+
+  void updateBook(Book book) {
+    state = [
+      for (var i = 0; i < state.length; i++)
+        if (state[i].id == book.id) book else state[i]
+    ];
+  }
 }
