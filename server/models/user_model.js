@@ -3,15 +3,15 @@ const Schema = mongoose.Schema;
 
 // User Schema (name, email,[books])
 const userScheme = Schema({
-    name : {
-        type : String,
-        required : true
-    },
-    email : {
-        type : String,
-        required : true,
-    },
-    books : [String],
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  books: [String],
 });
 
 // User Model Users Collection
