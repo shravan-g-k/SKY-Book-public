@@ -40,10 +40,11 @@ class BookController {
       if (context.mounted) {
         context.pop();
       }
+      // Show book created toast message
       Fluttertoast.showToast(
         msg: "Book created successfully",
         toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
+        gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
         backgroundColor: Colors.black,
         textColor: Colors.white,
@@ -78,7 +79,7 @@ class BookController {
       Fluttertoast.showToast(
         msg: "Book updated successfully",
         toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
+        gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
         backgroundColor: Colors.black,
         textColor: Colors.white,
