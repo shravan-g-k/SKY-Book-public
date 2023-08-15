@@ -15,14 +15,20 @@ class HomeErrorScreen extends ConsumerWidget {
           children: [
             const Text(
               "Something unexpected happened",
+              textAlign: TextAlign.center,
             ),
             const Text(
               "Please try logging in again",
+              textAlign: TextAlign.center,
             ),
             OutlinedButton(
               onPressed: () {
                 ref.read(authControllerProvider).signOut(context);
               },
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0))),
+              ),
               child: const Text('Log Out'),
             ),
           ],

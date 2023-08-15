@@ -22,28 +22,28 @@ class JournalBot extends ConsumerWidget {
     final brightness = ref.watch(brightnessNotifierProvider);
     return MaterialApp.router(
       theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(255, 89, 0, 255),
-          brightness: brightness,
-        ),
-        textTheme: const TextTheme(
-          bodyLarge: titleTextStyle,
-          bodyMedium: titleTextStyle,
-          bodySmall: titleTextStyle,
-          headlineLarge: titleTextStyle,
-          headlineMedium: titleTextStyle,
-          headlineSmall: titleTextStyle,
-          displayLarge: titleTextStyle,
-          displayMedium: titleTextStyle,
-          displaySmall: titleTextStyle,
-          labelLarge: titleTextStyle,
-          labelMedium: titleTextStyle,
-          labelSmall: titleTextStyle,
-          
-        )
-      ),
-
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color.fromARGB(255, 89, 0, 255),
+            brightness: brightness,
+          ),
+          textTheme: const TextTheme(
+            titleLarge: titleTextStyle,
+            titleMedium: titleTextStyle,
+            titleSmall: titleTextStyle,
+            bodyLarge: titleTextStyle,
+            bodyMedium: titleTextStyle,
+            bodySmall: titleTextStyle,
+            headlineLarge: titleTextStyle,
+            headlineMedium: titleTextStyle,
+            headlineSmall: titleTextStyle,
+            displayLarge: titleTextStyle,
+            displayMedium: titleTextStyle,
+            displaySmall: titleTextStyle,
+            labelLarge: titleTextStyle,
+            labelMedium: titleTextStyle,
+            labelSmall: titleTextStyle,
+          )),
       routerConfig: MyRouter.routerConfig,
       title: 'Journal Bot',
     );
