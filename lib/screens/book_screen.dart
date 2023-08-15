@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:journalbot/common/widgets/error_dialog.dart';
 import 'package:journalbot/controller/book_controller.dart';
 
+import '../controller/page_controller.dart';
 import '../model/book_model.dart';
 
 // BookScreen is the screen where the user can edit the book
@@ -36,6 +37,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -45,14 +47,14 @@ class _BookScreenState extends ConsumerState<BookScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // ROW - Icon, Title
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  // ICON
-                  Hero(
-                    tag: widget.book.id,
-                    child: Material(
-                      child: Padding(
+              Hero(
+                tag: widget.book.id,
+                child: Material(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      // ICON
+                      Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Center(
                           child: SizedBox(
@@ -93,44 +95,44 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                           ),
                         ),
                       ),
-                    ),
+                      // SIZED BOX
+                      const SizedBox(height: 30),
+                      // TITLE
+                      Expanded(
+                        child: TextField(
+                          controller: _titleController,
+                          textInputAction: TextInputAction
+                              .done, //change the keyboard to done
+                          maxLines: null, //allow multiple lines
+                          onSubmitted: (value) {
+                            // we check if the value is empty
+                            if (value.isEmpty) {
+                              _titleController.text = widget.book.title;
+                              errorDialog(
+                                context: context,
+                                title: "Enter Title",
+                                content: "Title cannot be empty",
+                              );
+                              // we check if the value is same as the previous value
+                            } else if (value == widget.book.title) {
+                              errorDialog(
+                                context: context,
+                                title: "Enter Title",
+                                content: "Title cannot be same as previous",
+                              );
+                              // if the value is not empty and not same as previous value
+                              // we update the book
+                            } else {
+                              ref.read(bookControllerProvider).updateBook(
+                                  context: context,
+                                  book: widget.book.copyWith(title: value));
+                            }
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                  // SIZED BOX
-                  const SizedBox(height: 30),
-                  // TITLE
-                  Expanded(
-                    child: TextField(
-                      controller: _titleController,
-                      textInputAction:
-                          TextInputAction.done, //change the keyboard to done
-                      maxLines: null, //allow multiple lines
-                      onSubmitted: (value) {
-                        // we check if the value is empty
-                        if (value.isEmpty) {
-                          _titleController.text = widget.book.title;
-                          errorDialog(
-                            context: context,
-                            title: "Enter Title",
-                            content: "Title cannot be empty",
-                          );
-                          // we check if the value is same as the previous value
-                        } else if (value == widget.book.title) {
-                          errorDialog(
-                            context: context,
-                            title: "Enter Title",
-                            content: "Title cannot be same as previous",
-                          );
-                          // if the value is not empty and not same as previous value
-                          // we update the book
-                        } else {
-                          ref.read(bookControllerProvider).updateBook(
-                              context: context,
-                              book: widget.book.copyWith(title: value));
-                        }
-                      },
-                    ),
-                  ),
-                ],
+                ),
               ),
               // HIDE/SHOW DESCRIPTION BUTTON
               Align(
@@ -206,6 +208,39 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                   "Your Pages",
                   style: TextStyle(
                     fontSize: 25,
+                  ),
+                ),
+              ),
+              // SIZED BOX
+              const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () {
+                  ref.read(pageControllerProvider).createPage(
+                        title: 'New Page',
+                        icon: 'N',
+                        data: '',
+                        createdAt: DateTime.now(),
+                        updatedAt: DateTime.now(),
+                        bookId: widget.book.id,
+                      );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: colorScheme.primary,
+                  minimumSize: const Size(double.infinity, 40),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                  ),
+                  side: const BorderSide(
+                    width: 0.5,
+                  ),
+                  splashFactory: InkRipple.splashFactory,
+                ),
+                child: Text(
+                  '+ New Page',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: colorScheme.onPrimary,
+                    fontWeight: FontWeight.normal,
                   ),
                 ),
               ),
