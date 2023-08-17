@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:journalbot/screens/auth_screen.dart';
-import 'package:journalbot/screens/book_screen.dart';
+import 'package:journalbot/screens/books_screens/book_screen.dart';
 import 'package:journalbot/screens/home_screens/home_screen.dart';
 import 'package:journalbot/wrapper.dart';
 

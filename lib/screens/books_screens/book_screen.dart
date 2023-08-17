@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:journalbot/common/widgets/error_dialog.dart';
 import 'package:journalbot/controller/book_controller.dart';
+import 'package:journalbot/screens/books_screens/create_page_dialog.dart';
 
-import '../controller/page_controller.dart';
-import '../model/book_model.dart';
+import '../../model/book_model.dart';
 
 // BookScreen is the screen where the user can edit the book
 // create a new page
@@ -33,6 +33,15 @@ class _BookScreenState extends ConsumerState<BookScreen> {
         TextEditingController(text: widget.book.description);
     _iconController = TextEditingController(text: widget.book.icon);
     super.initState();
+  }
+
+  void createANewPageDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return CreatePageDialog(bookId: widget.book.id);
+      },
+    );
   }
 
   @override
@@ -215,14 +224,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
               const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
-                  ref.read(pageControllerProvider).createPage(
-                        title: 'New Page',
-                        icon: 'N',
-                        data: '',
-                        createdAt: DateTime.now(),
-                        updatedAt: DateTime.now(),
-                        bookId: widget.book.id,
-                      );
+                  createANewPageDialog();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: colorScheme.primary,
