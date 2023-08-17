@@ -100,4 +100,14 @@ class UserBooksNotifier extends StateNotifier<List<Book>> {
         if (state[i].id == book.id) book else state[i]
     ];
   }
+
+  void addPage(String bookId, String pageId) {
+    state = [
+      for (var i = 0; i < state.length; i++)
+        if (state[i].id == bookId)
+          state[i].copyWith(pages: [...state[i].pages, pageId])
+        else
+          state[i]
+    ];
+  }
 }
