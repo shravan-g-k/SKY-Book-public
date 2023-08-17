@@ -37,6 +37,7 @@ class PageController {
     final navigator = GoRouter.of(context);
     final user = _ref.read(userProvider)!; // Get the user to get the token
     try {
+      // Show a loading dialog
       showDialog(
         context: context,
         builder: (context) => const Loader(),
@@ -55,7 +56,7 @@ class PageController {
             bookId: bookId,
           )
           .then((value) {
-        navigator.pop();
+        navigator.pop();// Pop the loading dialog
         return value;
       });
       // Add the page to the book this updates the UI as well from x pages to x+1 pages
