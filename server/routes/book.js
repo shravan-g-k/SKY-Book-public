@@ -32,7 +32,7 @@ bookRouter.post("/book/create", auth, async (req, res) => {
 });
 
 // Get all books
-// GET /book/all
+// GET /book/all headers: {x-auth-token}
 // Response: [books]
 bookRouter.get("/book/all", auth, async (req, res) => {
   try {
