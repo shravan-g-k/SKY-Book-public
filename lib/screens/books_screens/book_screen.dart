@@ -163,7 +163,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                         ? 'Hide Description'
                         : 'Show Description',
                     style: const TextStyle(
-                      fontSize: 15,
+                      fontSize: 12,
                     ),
                   ),
                   style: ButtonStyle(
@@ -175,8 +175,6 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                   ),
                 ),
               ),
-              // SIZED BOX
-              const SizedBox(height: 10),
               // DESCRIPTION
               // show the description if _isDescriptionVisible is true
               if (_isDescriptionVisible)
