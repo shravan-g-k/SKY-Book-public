@@ -5,6 +5,7 @@ import 'package:journalbot/common/pages/error_screen.dart';
 import 'package:journalbot/common/widgets/loading.dart';
 import 'package:journalbot/repository/book_repo.dart';
 import 'package:journalbot/utils/routes.dart';
+
 // User Books is just like a wrapper for the BooksList widget
 // calls the futureBookProvider to get the books of the user
 // if the books are not empty, it returns the BooksList widget
@@ -49,16 +50,10 @@ class _UserBooksState extends ConsumerState<UserBooks> {
 }
 
 // List View of the books
-class BooksList extends ConsumerStatefulWidget {
+class BooksList extends ConsumerWidget {
   const BooksList({super.key});
-
   @override
-  ConsumerState<BooksList> createState() => _BooksListState();
-}
-
-class _BooksListState extends ConsumerState<BooksList> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     // get the books from the booksProvider
     final books = ref.watch(booksProvider);
     final colorScheme = Theme.of(context).colorScheme;
