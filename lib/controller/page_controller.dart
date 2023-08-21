@@ -61,6 +61,8 @@ class PageController {
       });
       // Add the page to the book this updates the UI as well from x pages to x+1 pages
       _ref.read(booksProvider.notifier).addPage(bookId, page.id);
+      // Add page to the pagesProvider updating the UI
+      _ref.read(pagesProvider.notifier).addPage(page);
       // Pop the Create Page Dialog
       navigator.pop();
       // Show a toast

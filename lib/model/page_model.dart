@@ -98,4 +98,8 @@ class PageNotifier extends StateNotifier<List<PageModel>> {
   void initializePages(List<PageModel> pages) {
     state = pages;
   }
+
+  void addPage(PageModel page) {
+    state = [...state, page];
+  }
 }
