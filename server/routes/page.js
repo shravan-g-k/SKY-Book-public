@@ -26,4 +26,38 @@ pageRouter.post("/page/create", auth, async (req, res) => {
   }
 });
 
+// Get Pages from book
+// GET /pages headers: {x-auth-token} 
+// additional headers: {bookid} | optional: {from} to get pages from a certain index
+// Response: [pages] - first 30 pages by default or next 30 pages from the from index
+pageRouter.get("/pages", auth, async (req, res) => {
+  try {
+    const { bookid , from } = req.headers;
+    // Get book
+    const book = await Book.findById(bookid);
+    // Get all the pageIds from book
+    var pageIds = book.pages;
+    const pages = [];
+    // Get the first 30 pages or next 30 pages from the from index
+    if(from) {
+      pageIds = pageIds.slice(from, from + 30);// 30 pages at a time
+    }else{
+      pageIds = pageIds.slice(0, 30);// 30 pages from the start by default
+    }
+    // Get all the pages from the specified pageIds
+    Promise.all(
+      // Iterate over all the pageIds and get the page Schema
+      pageIds.map(async (pageId) => {
+        const page = await Page.findById(pageId);
+        pages.push(page);// Add the page to the pages array
+      })
+    ).then(() => {
+      res.status(200).json(pages);// Send the pages
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ msg: "Error getting pages" });
+  }
+});
+
 export default pageRouter;
