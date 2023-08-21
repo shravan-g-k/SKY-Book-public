@@ -66,6 +66,7 @@ class CreatePageDialogState extends State<CreatePageDialog> {
             ),
             // TITLE
             TextFormField(
+              controller: _pageTitleController,
               decoration: const InputDecoration(
                 hintText: 'Page Title',
                 errorStyle: TextStyle(fontSize: 10),
