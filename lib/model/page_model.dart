@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 class PageModel {
   final String id;
   final String title;
@@ -58,7 +60,8 @@ class PageModel {
 
   String toJson() => json.encode(toMap());
 
-  factory PageModel.fromJson(String source) => PageModel.fromMap(json.decode(source));
+  factory PageModel.fromJson(String source) =>
+      PageModel.fromMap(json.decode(source));
 
   @override
   String toString() {
@@ -86,5 +89,13 @@ class PageModel {
       data.hashCode ^
       createdAt.hashCode ^
       updatedAt.hashCode;
+  }
+}
+
+class PageNotifier extends StateNotifier<List<PageModel>> {
+  PageNotifier() : super([]);
+
+  void initializePages(List<PageModel> pages) {
+    state = pages;
   }
 }

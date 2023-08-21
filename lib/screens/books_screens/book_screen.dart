@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:journalbot/common/widgets/error_dialog.dart';
 import 'package:journalbot/controller/book_controller.dart';
 import 'package:journalbot/screens/books_screens/create_page_dialog.dart';
+import 'package:journalbot/screens/books_screens/pages_list.dart';
 
 import '../../model/book_model.dart';
 
@@ -49,7 +50,8 @@ class _BookScreenState extends ConsumerState<BookScreen> {
     final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       body: SingleChildScrollView(
-        child: Padding(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
           // COLUMN - Icon, Title, Description, Pages
           child: Column(
@@ -208,7 +210,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                     }
                   },
                 ),
-              // YOUR PAGES
+              // YOUR PAGES text
               const Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -220,6 +222,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
               ),
               // SIZED BOX
               const SizedBox(height: 10),
+              // NEW PAGE BUTTON
               ElevatedButton(
                 onPressed: () {
                   createANewPageDialog();
@@ -230,10 +233,6 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(8)),
                   ),
-                  side: const BorderSide(
-                    width: 0.5,
-                  ),
-                  splashFactory: InkRipple.splashFactory,
                 ),
                 child: Text(
                   '+ New Page',
@@ -244,6 +243,8 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                   ),
                 ),
               ),
+              // PAGES
+              UserPages(widget.book.id)
             ],
           ),
         ),
