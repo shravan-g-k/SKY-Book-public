@@ -18,7 +18,14 @@ pageRouter.post("/page/create", auth, async (req, res) => {
     // save the page
     const doc = await page.save();
     // add the page to the book
-    await Book.findByIdAndUpdate(bookId, { $push: { pages: doc._id } });
+    await Book.findByIdAndUpdate(bookId, {
+      $push: {
+        pages: {
+          $each: [doc._id],
+          $position: 0,
+        },
+      },
+    });
     // send the page
     res.status(200).json(doc);
   } catch (error) {
@@ -27,32 +34,40 @@ pageRouter.post("/page/create", auth, async (req, res) => {
 });
 
 // Get Pages from book
-// GET /pages headers: {x-auth-token} 
+// GET /pages headers: {x-auth-token}
 // additional headers: {bookid} | optional: {from} to get pages from a certain index
 // Response: [pages] - first 30 pages by default or next 30 pages from the from index
 pageRouter.get("/pages", auth, async (req, res) => {
   try {
-    const { bookid , from } = req.headers;
+    const { bookid, from } = req.headers;
     // Get book
     const book = await Book.findById(bookid);
     // Get all the pageIds from book
     var pageIds = book.pages;
     const pages = [];
     // Get the first 30 pages or next 30 pages from the from index
-    if(from) {
-      pageIds = pageIds.slice(from, from + 30);// 30 pages at a time
-    }else{
-      pageIds = pageIds.slice(0, 30);// 30 pages from the start by default
+    if (from) {
+      pageIds = pageIds.slice(from, from + 30); // 30 pages at a time
+    } else {
+      pageIds = pageIds.slice(0, 30); // 30 pages from the start by default
     }
+
     // Get all the pages from the specified pageIds
     Promise.all(
       // Iterate over all the pageIds and get the page Schema
       pageIds.map(async (pageId) => {
-        const page = await Page.findById(pageId);
-        pages.push(page);// Add the page to the pages array
+        const page = await Page.findById(pageId).then((page) => {
+          pages.push(page); // Add the page to the pages array
+        });
       })
     ).then(() => {
-      res.status(200).json(pages);// Send the pages
+      pages.sort((a, b) => {
+        return (
+          pageIds.indexOf(a._id.toString()) - pageIds.indexOf(b._id.toString())
+        );
+      }); // Sort the pages according to the pageIds
+
+      res.status(200).json(pages); // Send the pages
     });
   } catch (error) {
     console.log(error);
