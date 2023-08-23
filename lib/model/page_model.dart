@@ -71,24 +71,24 @@ class PageModel {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is PageModel &&
-      other.id == id &&
-      other.title == title &&
-      other.icon == icon &&
-      other.data == data &&
-      other.createdAt == createdAt &&
-      other.updatedAt == updatedAt;
+        other.id == id &&
+        other.title == title &&
+        other.icon == icon &&
+        other.data == data &&
+        other.createdAt == createdAt &&
+        other.updatedAt == updatedAt;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-      title.hashCode ^
-      icon.hashCode ^
-      data.hashCode ^
-      createdAt.hashCode ^
-      updatedAt.hashCode;
+        title.hashCode ^
+        icon.hashCode ^
+        data.hashCode ^
+        createdAt.hashCode ^
+        updatedAt.hashCode;
   }
 }
 
@@ -100,6 +100,9 @@ class PageNotifier extends StateNotifier<List<PageModel>> {
   }
 
   void addPage(PageModel page) {
-    state = [...state, page];
+    state = [page, ...state];
+  }
+  void addPages(List<PageModel> pages) {
+    state = [...state, ...pages];
   }
 }

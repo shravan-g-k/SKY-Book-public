@@ -20,8 +20,7 @@ final futurePagesProvider = FutureProvider.autoDispose
   return pages;
 });
 
-final pagesProvider =
-    StateNotifierProvider<PageNotifier, List<PageModel>>(
+final pagesProvider = StateNotifierProvider<PageNotifier, List<PageModel>>(
   (ref) => PageNotifier(),
 );
 

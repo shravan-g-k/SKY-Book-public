@@ -56,7 +56,7 @@ class PageController {
             bookId: bookId,
           )
           .then((value) {
-        navigator.pop();// Pop the loading dialog
+        navigator.pop(); // Pop the loading dialog
         return value;
       });
       // Add the page to the book this updates the UI as well from x pages to x+1 pages
@@ -82,5 +82,21 @@ class PageController {
         content: 'Error creating book',
       );
     }
+  }
+
+  Future<bool?> getPages(String bookId, {int? from}) async {
+    try {
+      final user = _ref.read(userProvider)!;
+      final pages = await _ref.read(pageRepositoryProvider).getPages(
+          token: user.token, bookId: bookId, userId: user.id, from: from);
+      if (pages.isEmpty) {
+        return false;
+      }
+      _ref.read(pagesProvider.notifier).addPages(pages);
+      return true;
+    } catch (e) {
+      // No error handling
+    }
+    return null;
   }
 }

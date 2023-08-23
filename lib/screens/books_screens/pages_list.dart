@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:journalbot/common/widgets/loading.dart';
+import 'package:journalbot/controller/page_controller.dart';
 import 'package:journalbot/repository/page_repo.dart';
 
 class UserPages extends ConsumerStatefulWidget {
@@ -16,54 +17,117 @@ class _UserPagesState extends ConsumerState<UserPages> {
   Widget build(BuildContext context) {
     return ref.watch(futurePagesProvider(widget.bookId)).when(
           data: (pages) {
-            if (pages.isNotEmpty) {
-              return const PagesList();
-            } else {
-              return const Center(
-                child: Text(
-                  'No pages',
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
-              );
-            }
+            return PagesList(widget.bookId);
           },
           loading: () => const Loader(),
           error: (error, stackTrace) {
-            return ErrorWidget(error);
+            return Center(
+              child: Text(
+                stackTrace.toString(),
+              ),
+            );
           },
         );
   }
 }
 
 class PagesList extends ConsumerStatefulWidget {
-  const PagesList({super.key});
+  const PagesList(this.bookId, {super.key});
+  final String bookId;
 
   @override
   ConsumerState<PagesList> createState() => _PagesListState();
 }
 
 class _PagesListState extends ConsumerState<PagesList> {
+  late ScrollController scrollController;
+  late bool isLoading;
+  late bool hasNoMore;
+
+  @override
+  void initState() {
+    scrollController = ScrollController();
+    scrollController.addListener(scrollListner);
+    isLoading = false;
+    hasNoMore = false;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  void scrollListner() {
+    if (scrollController.position.atEdge &&
+        scrollController.position.pixels != 0) {
+      // Prevents multiple requests ie if the user scrolls fast
+      if (isLoading) return;
+      if (hasNoMore) return; // We know there is no more pages
+      setState(() {
+        // Set the loading to true and rebuild the widget
+        isLoading = true;
+      });
+      // Get the current pages used to get the length of the pages we have
+      final pages = ref.watch(pagesProvider);
+      // Get the pages from the server
+      ref
+          .read(pageControllerProvider)
+          .getPages(widget.bookId, from: pages.length)
+          .then((value) {
+        // If the value is false then there are no more pages
+        if (value == false) {
+          hasNoMore = true; // Set hasNoMore to true
+        }
+        setState(() {
+          // Pages are loaded so set isLoading to false
+          isLoading = false;
+        });
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final pages = ref.watch(pagesProvider);
     final colorScheme = Theme.of(context).colorScheme;
+    // If there are no pages return a text widget
+    if (pages.isEmpty) return const Center(child: Text('No Pages'));
+    // show a list of pages with a loading indicator at the end
     return Expanded(
       child: ListView.builder(
+        controller: scrollController,
         shrinkWrap: true,
-        itemCount: pages.length,
+        // Add 1 to the length of the pages to show the loading indicator
+        itemCount: pages.length + 1,
         itemBuilder: (context, index) {
-          final page = pages[index];
+          // check if the index is the last one
+          if (index == pages.length) {
+            if (hasNoMore) {
+              // If there are no more pages
+              return const Center(child: Text('No more pages'));
+            } else if (isLoading) {
+              // If the pages are loading
+              return const Center(child: CircularProgressIndicator());
+            } else {
+              // If the pages are not loading and there are more pages
+              return const SizedBox();
+            }
+          }
+          final page = pages[index]; // Get the page
+          // Return a card with the page icon, title and updatedAt
+          // CARD
           return Card(
             color: colorScheme.secondaryContainer,
+            // LIST TILE
             child: ListTile(
-              // BOOK ICON
+              // PAGE ICON
               leading: Text(
                 page.icon,
                 style: const TextStyle(fontSize: 30),
               ),
-              // BOOK TITLE
+              // PAGE TITLE
               title: Text(
                 page.title,
                 style: TextStyle(
@@ -72,9 +136,9 @@ class _PagesListState extends ConsumerState<PagesList> {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              // BOOK DESCRIPTION
+              // PAGE UPDATED AT
               subtitle: Text(
-                page.updatedAt.toString(),
+                "${page.updatedAt.day}/${page.updatedAt.month}/${page.updatedAt.year}",
                 style: TextStyle(
                   overflow: TextOverflow.ellipsis,
                   fontSize: 15,
