@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:journalbot/common/widgets/loading.dart';
 import 'package:journalbot/controller/page_controller.dart';
 import 'package:journalbot/repository/page_repo.dart';
+
+import '../../utils/routes.dart';
 
 class UserPages extends ConsumerStatefulWidget {
   const UserPages(this.bookId, {super.key});
@@ -99,6 +102,7 @@ class _PagesListState extends ConsumerState<PagesList> {
       child: ListView.builder(
         controller: scrollController,
         shrinkWrap: true,
+        padding: const EdgeInsets.all(0),
         // Add 1 to the length of the pages to show the loading indicator
         itemCount: pages.length + 1,
         itemBuilder: (context, index) {
@@ -118,31 +122,44 @@ class _PagesListState extends ConsumerState<PagesList> {
           final page = pages[index]; // Get the page
           // Return a card with the page icon, title and updatedAt
           // CARD
-          return Card(
-            color: colorScheme.secondaryContainer,
-            // LIST TILE
-            child: ListTile(
-              // PAGE ICON
-              leading: Text(
-                page.icon,
-                style: const TextStyle(fontSize: 30),
-              ),
-              // PAGE TITLE
-              title: Text(
-                page.title,
-                style: TextStyle(
-                  fontSize: 20,
-                  color: colorScheme.onSecondaryContainer,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              // PAGE UPDATED AT
-              subtitle: Text(
-                "${page.updatedAt.day}/${page.updatedAt.month}/${page.updatedAt.year}",
-                style: TextStyle(
-                  overflow: TextOverflow.ellipsis,
-                  fontSize: 15,
-                  color: colorScheme.onSecondaryContainer,
+          // detector to navigate to the page
+          return GestureDetector(
+            onTap: () {
+              context.pushNamed(
+                MyRouter.pageRoute,
+                extra: page,
+              );
+            },
+            // hero to animate to the page
+            child: Hero(
+              tag: page.id,
+              child: Card(
+                color: colorScheme.secondaryContainer,
+                // LIST TILE
+                child: ListTile(
+                  // PAGE ICON
+                  leading: Text(
+                    page.icon,
+                    style: const TextStyle(fontSize: 30),
+                  ),
+                  // PAGE TITLE
+                  title: Text(
+                    page.title,
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: colorScheme.onSecondaryContainer,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  // PAGE UPDATED AT
+                  subtitle: Text(
+                    "${page.updatedAt.day}/${page.updatedAt.month}/${page.updatedAt.year}",
+                    style: TextStyle(
+                      overflow: TextOverflow.ellipsis,
+                      fontSize: 15,
+                      color: colorScheme.onSecondaryContainer,
+                    ),
+                  ),
                 ),
               ),
             ),
