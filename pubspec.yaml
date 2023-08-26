@@ -45,6 +45,7 @@ dependencies:
   go_router: ^10.0.0
   fluttertoast: ^8.2.2
   encrypt: ^5.0.1
+  flutter_quill: ^7.0.4
 
 dev_dependencies:
   flutter_test:
