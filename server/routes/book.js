@@ -11,7 +11,6 @@ const bookRouter = Express.Router();
 bookRouter.post("/book/create", auth, async (req, res) => {
   try {
     const { bookTitle, bookIcon, bookDescription } = req.body;
-    console.log(req.body);
     const newBook = new Book({
       title: bookTitle,
       icon: bookIcon,
