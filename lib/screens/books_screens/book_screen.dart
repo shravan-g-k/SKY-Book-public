@@ -52,7 +52,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+          padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
           // COLUMN - Icon, Title, Description, Pages
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -61,85 +61,105 @@ class _BookScreenState extends ConsumerState<BookScreen> {
               Hero(
                 tag: widget.book.id,
                 child: Material(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                  child: Stack(
                     children: [
-                      // ICON
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Center(
-                          child: SizedBox(
-                            width: 100, //constriant the width of the textfield
-                            child: TextField(
-                              controller: _iconController,
-                              maxLength: 1,
-                              decoration: const InputDecoration(
-                                counter: SizedBox.shrink(), //hide the counter
-                              ),
-                              style: const TextStyle(fontSize: 50),
-                              onSubmitted: (value) {
-                                // we check if the value is empty
-                                if (value.isEmpty) {
-                                  _iconController.text = widget.book
-                                      .icon; //set the icon to the previous value
-                                  errorDialog(
-                                    context: context,
-                                    title: "Enter Icon",
-                                    content: "Icon cannot be empty",
-                                  );
-                                  // we check if the value is same as the previous value
-                                } else if (value == widget.book.icon) {
-                                  errorDialog(
-                                    context: context,
-                                    title: "Enter Icon",
-                                    content: "Icon cannot be same as previous",
-                                  );
-                                  // if the value is not empty and not same as previous value
-                                  // we update the book
-                                } else {
-                                  ref.read(bookControllerProvider).updateBook(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          // ICON
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SizedBox(
+                              width:
+                                  100, //constriant the width of the textfield
+                              child: TextField(
+                                controller: _iconController,
+                                maxLength: 1,
+                                decoration: const InputDecoration(
+                                  counter: SizedBox.shrink(), //hide the counter
+                                ),
+                                style: const TextStyle(fontSize: 50),
+                                onSubmitted: (value) {
+                                  // we check if the value is empty
+                                  if (value.isEmpty) {
+                                    _iconController.text = widget.book
+                                        .icon; //set the icon to the previous value
+                                    errorDialog(
                                       context: context,
-                                      book: widget.book.copyWith(icon: value));
-                                }
-                              },
+                                      title: "Enter Icon",
+                                      content: "Icon cannot be empty",
+                                    );
+                                    // we check if the value is same as the previous value
+                                  } else if (value == widget.book.icon) {
+                                    errorDialog(
+                                      context: context,
+                                      title: "Enter Icon",
+                                      content:
+                                          "Icon cannot be same as previous",
+                                    );
+                                    // if the value is not empty and not same as previous value
+                                    // we update the book
+                                  } else {
+                                    ref.read(bookControllerProvider).updateBook(
+                                        context: context,
+                                        book:
+                                            widget.book.copyWith(icon: value));
+                                  }
+                                },
+                              ),
                             ),
                           ),
-                        ),
+                          // SIZED BOX
+                          const SizedBox(width: 5),
+                          // TITLE
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 15.0),
+                              child: TextField(
+                                controller: _titleController,
+                                textInputAction: TextInputAction
+                                    .done, //change the keyboard to done
+                                maxLines: null, //allow multiple lines
+                                onSubmitted: (value) {
+                                  // we check if the value is empty
+                                  if (value.isEmpty) {
+                                    _titleController.text = widget.book.title;
+                                    errorDialog(
+                                      context: context,
+                                      title: "Enter Title",
+                                      content: "Title cannot be empty",
+                                    );
+                                    // we check if the value is same as the previous value
+                                  } else if (value == widget.book.title) {
+                                    errorDialog(
+                                      context: context,
+                                      title: "Enter Title",
+                                      content:
+                                          "Title cannot be same as previous",
+                                    );
+                                    // if the value is not empty and not same as previous value
+                                    // we update the book
+                                  } else {
+                                    ref.read(bookControllerProvider).updateBook(
+                                        context: context,
+                                        book:
+                                            widget.book.copyWith(title: value));
+                                  }
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      // SIZED BOX
-                      const SizedBox(height: 30),
-                      // TITLE
-                      Expanded(
-                        child: TextField(
-                          controller: _titleController,
-                          textInputAction: TextInputAction
-                              .done, //change the keyboard to done
-                          maxLines: null, //allow multiple lines
-                          onSubmitted: (value) {
-                            // we check if the value is empty
-                            if (value.isEmpty) {
-                              _titleController.text = widget.book.title;
-                              errorDialog(
-                                context: context,
-                                title: "Enter Title",
-                                content: "Title cannot be empty",
-                              );
-                              // we check if the value is same as the previous value
-                            } else if (value == widget.book.title) {
-                              errorDialog(
-                                context: context,
-                                title: "Enter Title",
-                                content: "Title cannot be same as previous",
-                              );
-                              // if the value is not empty and not same as previous value
-                              // we update the book
-                            } else {
-                              ref.read(bookControllerProvider).updateBook(
-                                  context: context,
-                                  book: widget.book.copyWith(title: value));
-                            }
-                          },
-                        ),
+                      Positioned(
+                        right: -5,
+                        top: 10,
+                        child: IconButton(
+                            icon: const Icon(Icons.close),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            }),
                       ),
                     ],
                   ),
