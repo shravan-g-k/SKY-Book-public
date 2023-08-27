@@ -75,4 +75,18 @@ pageRouter.get("/pages", auth, async (req, res) => {
   }
 });
 
+// Update a page
+// PUT /page/update headers: {x-auth-token}
+// request body: {pageId, encoded}
+// response body: {page} where page is the updated page
+pageRouter.put("/page/update", auth, async (req, res) => {
+  try {
+    const { pageId, encoded } = req.body;// Get the pageId and the encoded string
+    const page = await  Page.findByIdAndUpdate(pageId, { encoded }, { new: true });// Update the page with the new encoded string and return the updated page
+    res.status(200).json(page);// Send the updated page
+  } catch (error) {
+    res.status(400).json({ msg: "Error updating page" });
+  }
+});
+
 export default pageRouter;
