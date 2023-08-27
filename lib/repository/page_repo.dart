@@ -123,4 +123,60 @@ class PageRepository {
     // Return the list of PageModel objects
     return pages;
   }
+
+  // Update a page
+  // It encrypts the page data and sends it to the server
+  // recieves the encrypted data and decrypts it again
+  // returns the page
+  Future<PageModel> updatePage({
+    required String pageId,
+    required String title,
+    required String icon,
+    required String data,
+    required DateTime updatedAt,
+    required DateTime createdAt,
+    required String userId,
+    required String token,
+  }) async {
+    // Create a key and iv for encryption
+    final key = Key.fromUtf8(userId);
+    final iv = IV.fromLength(16);
+    final encrypter = Encrypter(AES(key));
+    // Encrypt the page data
+    final encrypted = encrypter
+        .encrypt(
+          jsonEncode({
+            'title': title,
+            'icon': icon,
+            'data': data,
+            'updatedAt': updatedAt.millisecondsSinceEpoch,
+            'createdAt': createdAt.millisecondsSinceEpoch,
+          }),
+          iv: iv,
+        )
+        .base64; // convert to base64 (string)
+    final url =
+        Uri.parse('$serverAddress/page/update'); // url for updating a page
+    // Send the encrypted data to the server
+    final response = await http.put(url,
+        body: jsonEncode({
+          'pageId': pageId,
+          'encoded': encrypted,
+        }),
+        headers: {
+          'x-auth-token': token,
+          'Content-Type': 'application/json',
+        });
+    // Decode the response
+    final Map<String, dynamic> json = jsonDecode(response.body);
+    final decodedPage = encrypter.decrypt64(json['encoded'], iv: iv);
+    // Create a page from the decoded response
+    final page = PageModel.fromJson(
+      jsonEncode({
+        ...jsonDecode(decodedPage),
+        'id': json['_id'],
+      }),
+    );
+    return page;
+  }
 }

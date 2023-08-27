@@ -105,4 +105,11 @@ class PageNotifier extends StateNotifier<List<PageModel>> {
   void addPages(List<PageModel> pages) {
     state = [...state, ...pages];
   }
+
+  void updatePage(PageModel page) {
+    state = [
+      for (final p in state)
+        if (p.id == page.id) page else p,
+    ];
+  }
 }
