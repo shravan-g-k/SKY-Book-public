@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -5,6 +6,7 @@ import 'package:journalbot/common/widgets/loading.dart';
 import 'package:journalbot/controller/page_controller.dart';
 import 'package:journalbot/repository/page_repo.dart';
 
+import '../../model/page_model.dart';
 import '../../utils/routes.dart';
 
 class UserPages extends ConsumerStatefulWidget {
@@ -125,10 +127,19 @@ class _PagesListState extends ConsumerState<PagesList> {
           // detector to navigate to the page
           return GestureDetector(
             onTap: () {
-              context.pushNamed(
+              context
+                  .pushNamed(
                 MyRouter.pageRoute,
                 extra: page,
-              );
+              )
+                  .then((value) {
+                if (value != null) {
+                  ref.read(pageControllerProvider).updatePage(
+                        pageModel: value as PageModel,
+                        context: context,
+                      );
+                }
+              });
             },
             // hero to animate to the page
             child: Hero(

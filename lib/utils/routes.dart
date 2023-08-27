@@ -6,12 +6,15 @@ import 'package:journalbot/screens/home_screens/home_screen.dart';
 import 'package:journalbot/wrapper.dart';
 
 import '../model/book_model.dart';
+import '../model/page_model.dart';
+import '../screens/page_screen.dart';
 
 class MyRouter {
   // All the routes in the app
   static const homeRoute = '/home';
   static const authRoute = '/auth';
   static const bookRoute = '/book';
+  static const pageRoute = '/page';
   //
 
   // The router config
@@ -39,10 +42,18 @@ class MyRouter {
       ),
       GoRoute(
         name: bookRoute,
-        path : bookRoute,
+        path: bookRoute,
         builder: (context, state) {
           Book book = state.extra as Book;
           return BookScreen(book: book);
+        },
+      ),
+      GoRoute(
+        name: pageRoute,
+        path: pageRoute,
+        builder: (context, state) {
+          PageModel page = state.extra as PageModel;
+          return PageScreen(page: page);
         },
       )
     ],
