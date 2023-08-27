@@ -28,10 +28,14 @@ class _PageScreenState extends ConsumerState<PageScreen> {
     titleController = TextEditingController(text: widget.page.title);
     iconController = TextEditingController(text: widget.page.icon);
     // Initialize the quill controller with the initial page data
-    controller = quill.QuillController(
-      document: quill.Document.fromJson(jsonDecode(widget.page.data)),
-      selection: const TextSelection.collapsed(offset: 0),
-    );
+    if (widget.page.data.isEmpty) {
+      controller = quill.QuillController.basic();
+    } else {
+      controller = quill.QuillController(
+        document: quill.Document.fromJson(jsonDecode(widget.page.data)),
+        selection: const TextSelection.collapsed(offset: 0),
+      );
+    }
     timer =
         autosave(); // Start the timer and assign so that it can be cancelled later
     super.initState();
@@ -54,8 +58,9 @@ class _PageScreenState extends ConsumerState<PageScreen> {
       (timer) {
         PageModel pageModel = PageModel(
           id: widget.page.id,
-          title: titleController.text,
-          icon: iconController.text,
+          title:
+              titleController.text.isEmpty ? 'Untitled' : titleController.text,
+          icon: iconController.text.isEmpty ? '📄' : iconController.text,
           data: jsonEncode(controller.document
               .toDelta()
               .toJson()), // Convert the quill document to json
@@ -87,8 +92,10 @@ class _PageScreenState extends ConsumerState<PageScreen> {
           context,
           PageModel(
             id: widget.page.id,
-            title: titleController.text,
-            icon: iconController.text,
+            title: titleController.text.isEmpty
+                ? 'Untitled'
+                : titleController.text,
+            icon: iconController.text.isEmpty ? '📄' : iconController.text,
             data: jsonEncode(controller.document.toDelta().toJson()),
             createdAt: widget.page.createdAt,
             updatedAt: DateTime.now(),
