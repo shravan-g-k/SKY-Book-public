@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:journalbot/model/page_model.dart';
 
@@ -20,19 +20,20 @@ class PageScreen extends ConsumerStatefulWidget {
 class _PageScreenState extends ConsumerState<PageScreen> {
   late TextEditingController titleController;
   late TextEditingController iconController;
-  late QuillController controller;
-  late Timer timer;// Timer for autosaving
+  late quill.QuillController controller;
+  late Timer timer; // Timer for autosaving
   @override
   void initState() {
     // Initialize the controllers with the intitial page data
     titleController = TextEditingController(text: widget.page.title);
     iconController = TextEditingController(text: widget.page.icon);
     // Initialize the quill controller with the initial page data
-    controller = QuillController(
-      document: Document.fromJson(jsonDecode(widget.page.data)),
+    controller = quill.QuillController(
+      document: quill.Document.fromJson(jsonDecode(widget.page.data)),
       selection: const TextSelection.collapsed(offset: 0),
     );
-    timer = autosave();// Start the timer and assign so that it can be cancelled later
+    timer =
+        autosave(); // Start the timer and assign so that it can be cancelled later
     super.initState();
   }
 
@@ -55,13 +56,18 @@ class _PageScreenState extends ConsumerState<PageScreen> {
           id: widget.page.id,
           title: titleController.text,
           icon: iconController.text,
-          data: jsonEncode(controller.document.toDelta().toJson()),// Convert the quill document to json
+          data: jsonEncode(controller.document
+              .toDelta()
+              .toJson()), // Convert the quill document to json
           createdAt: widget.page.createdAt,
-          updatedAt: widget.page.updatedAt,//updatedAt is not updated bcz we want to check if the data has changed or not
+          updatedAt: widget.page
+              .updatedAt, //updatedAt is not updated bcz we want to check if the data has changed or not
         );
         // Only update the page if the data has changed
         if (pageModel.data != widget.page.data) {
-          pageModel = pageModel.copyWith(updatedAt: DateTime.now());//updatedAt is updated to the current time
+          pageModel = pageModel.copyWith(
+              updatedAt:
+                  DateTime.now()); //updatedAt is updated to the current time
           ref.read(pageControllerProvider).updatePage(
                 pageModel: pageModel,
                 context: context,
@@ -97,30 +103,31 @@ class _PageScreenState extends ConsumerState<PageScreen> {
           // To avoid the keyboard overlapping the toolbar
           padding:
               EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-              // Quill toolbar
-          child: QuillToolbar.basic(
+          // Quill toolbar
+          child: quill.QuillToolbar.basic(
             controller: controller,
-            iconTheme: QuillIconTheme(
+            iconTheme: quill.QuillIconTheme(
               iconSelectedColor: Theme.of(context).colorScheme.primary,
               iconUnselectedColor: Theme.of(context).colorScheme.primary,
               iconSelectedFillColor: Theme.of(context).colorScheme.onSecondary,
             ),
             toolbarIconSize: 22,
-            multiRowsDisplay: false,// Display the toolbar in a single row
+            multiRowsDisplay: false, // Display the toolbar in a single row
           ),
         ),
-        // COLUMN - Icon, title and quill editor
+        // COLUMN - Icon, title, 2 date and quill editor
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             // PADDING - Icon and title and close button
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.fromLTRB(8, 10, 8, 0),
               // HERO - to animate the icon and title and close button
               child: Hero(
                 tag: widget.page.id,
-                child: Material(// Material to avoid the hero animation error
-                // STACK - Icon title and close button
+                child: Material(
+                  // Material to avoid the hero animation error
+                  // STACK - Icon title and close button
                   child: Stack(
                     children: [
                       Row(
@@ -186,6 +193,36 @@ class _PageScreenState extends ConsumerState<PageScreen> {
                 ),
               ),
             ),
+
+            // PADDING - 2 dates
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+              // ROW - 2 dates
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // CREATED AT
+                  Text(
+                    'Created : ${widget.page.createdAt.day}/${widget.page.createdAt.month}/${widget.page.createdAt.year}',
+                    style: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12,
+                    ),
+                  ),
+                  // UPDATED AT
+                  Text(
+                    'Updated :  ${widget.page.updatedAt.day}/${widget.page.updatedAt.month}/${widget.page.updatedAt.year}',
+                    style: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            // SIZED BOX
+            const SizedBox(height: 10),
+
             // EXPANDED - Quill editor
             Expanded(
               child: Container(
@@ -210,7 +247,7 @@ class _PageScreenState extends ConsumerState<PageScreen> {
                     // QUILL EDITOR
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-                      child: QuillEditor.basic(
+                      child: quill.QuillEditor.basic(
                         controller: controller,
                         readOnly: false,
                         padding: const EdgeInsets.all(8),
