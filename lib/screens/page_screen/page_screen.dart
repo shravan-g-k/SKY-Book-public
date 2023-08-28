@@ -6,7 +6,7 @@ import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:journalbot/model/page_model.dart';
 
-import '../controller/page_controller.dart';
+import '../../controller/page_controller.dart';
 
 // Page screen for editing a page data
 class PageScreen extends ConsumerStatefulWidget {
@@ -105,6 +105,20 @@ class _PageScreenState extends ConsumerState<PageScreen> {
       },
       // SCAFFOLD
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+          onPressed: () {
+            print(
+                'primary color ${Theme.of(context).colorScheme.primary.red}, ${Theme.of(context).colorScheme.primary.green}, ${Theme.of(context).colorScheme.primary.blue}');
+            print(
+                'primary on ${Theme.of(context).colorScheme.onPrimary.red}, ${Theme.of(context).colorScheme.onPrimary.green}, ${Theme.of(context).colorScheme.onPrimary.blue}');
+            print(
+                'Sec  ${Theme.of(context).colorScheme.secondary.red}, ${Theme.of(context).colorScheme.secondary.green}, ${Theme.of(context).colorScheme.secondary.blue}');
+            print(
+                'Sec on ${Theme.of(context).colorScheme.onSecondary.red}, ${Theme.of(context).colorScheme.onSecondary.green}, ${Theme.of(context).colorScheme.onSecondary.blue}');
+          },
+          child: const Icon(Icons.person_4),
+        ),
         // BOTTOM NAVIGATION BAR - Quill toolbar
         bottomNavigationBar: Padding(
           // To avoid the keyboard overlapping the toolbar
@@ -146,7 +160,7 @@ class _PageScreenState extends ConsumerState<PageScreen> {
                             padding: const EdgeInsets.all(8.0),
                             child: SizedBox(
                               width:
-                                  100, //constriant the width of the textfield
+                                  100, //constraint the width of the textfield
                               child: TextField(
                                 controller: iconController,
                                 maxLength: 1,
