@@ -1,11 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:journalbot/common/widgets/loading.dart';
+import 'package:journalbot/const.dart';
 import 'package:journalbot/model/page_model.dart';
 import 'package:journalbot/repository/auth_repo.dart';
 import 'package:journalbot/repository/book_repo.dart';
+import 'package:http/http.dart' as http;
 
 import '../common/widgets/error_dialog.dart';
 import '../repository/page_repo.dart';
@@ -130,5 +134,21 @@ class PageController {
         gravity: ToastGravity.BOTTOM,
       );
     }
+  }
+}
+
+// Takes in a list of user messages and returns the next AI message
+// If AI has an error it returns null
+Future<String?> getAIMessage(List<String> messages) async {
+  final url = Uri.parse("$serverAddress/generate");
+  final response = await http.post(url,
+      headers: {'Content-type': 'application/json'},
+      body: jsonEncode({
+        'messages': messages,
+      }));
+  if (response.statusCode == 200) {
+    return jsonDecode(response.body);
+  } else {
+    return null;
   }
 }
