@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:journalbot/model/page_model.dart';
 
 import '../../controller/page_controller.dart';
+import 'ai_dialog.dart';
 
 // Page screen for editing a page data
 class PageScreen extends ConsumerStatefulWidget {
@@ -108,14 +109,21 @@ class _PageScreenState extends ConsumerState<PageScreen> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: Theme.of(context).colorScheme.primaryContainer,
           onPressed: () {
-            print(
-                'primary color ${Theme.of(context).colorScheme.primary.red}, ${Theme.of(context).colorScheme.primary.green}, ${Theme.of(context).colorScheme.primary.blue}');
-            print(
-                'primary on ${Theme.of(context).colorScheme.onPrimary.red}, ${Theme.of(context).colorScheme.onPrimary.green}, ${Theme.of(context).colorScheme.onPrimary.blue}');
-            print(
-                'Sec  ${Theme.of(context).colorScheme.secondary.red}, ${Theme.of(context).colorScheme.secondary.green}, ${Theme.of(context).colorScheme.secondary.blue}');
-            print(
-                'Sec on ${Theme.of(context).colorScheme.onSecondary.red}, ${Theme.of(context).colorScheme.onSecondary.green}, ${Theme.of(context).colorScheme.onSecondary.blue}');
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AiDialog(
+                  onAddText: (text) {
+                    controller.replaceText(
+                      controller.document.length - 1,
+                      0,
+                      text,
+                      null,
+                    );
+                  },
+                );
+              },
+            );
           },
           child: const Icon(Icons.person_4),
         ),

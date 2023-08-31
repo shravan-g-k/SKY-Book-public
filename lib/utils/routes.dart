@@ -7,7 +7,7 @@ import 'package:journalbot/wrapper.dart';
 
 import '../model/book_model.dart';
 import '../model/page_model.dart';
-import '../screens/page_screen.dart';
+import '../screens/page_screen/page_screen.dart';
 
 class MyRouter {
   // All the routes in the app
