@@ -110,4 +110,17 @@ class UserBooksNotifier extends StateNotifier<List<Book>> {
           state[i]
     ];
   }
+
+  void deletePage(String bookId, String pageId) {
+    state = [
+      for (var i = 0; i < state.length; i++)
+        if (state[i].id == bookId)
+          state[i].copyWith(pages: [
+            for (var j = 0; j < state[i].pages.length; j++)
+              if (state[i].pages[j] != pageId) state[i].pages[j]
+          ])
+        else
+          state[i]
+    ];
+  }
 }

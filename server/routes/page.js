@@ -89,4 +89,21 @@ pageRouter.put("/page/update", auth, async (req, res) => {
   }
 });
 
+pageRouter.delete("/page/delete", auth, async (req, res) => {
+  try {
+    const { pageId, bookId } = req.body;
+    // Delete the page
+    const page = await Page.findByIdAndDelete(pageId);
+    // Remove the page from the book
+    const book  = await Book.findByIdAndUpdate(bookId, {
+      $pull: {
+        pages: pageId,
+      },
+    });
+    res.status(200).json(page);
+  } catch (error) {
+    res.status(400).json({ msg: "Error deleting page" });
+  }
+});
+
 export default pageRouter;

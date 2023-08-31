@@ -11,8 +11,9 @@ import 'ai_dialog.dart';
 
 // Page screen for editing a page data
 class PageScreen extends ConsumerStatefulWidget {
-  const PageScreen({super.key, required this.page});
+  const PageScreen({required this.bookId, super.key, required this.page});
   final PageModel page;
+  final String bookId;
 
   @override
   ConsumerState<PageScreen> createState() => _PageScreenState();
@@ -195,27 +196,30 @@ class _PageScreenState extends ConsumerState<PageScreen> {
                           ),
                         ],
                       ),
-                      // CLOSE BUTTON
+                      // MENU BUTTON
                       Positioned(
                         right: -5,
                         top: 10,
-                        child: IconButton(
-                            icon: const Icon(Icons.close),
-                            onPressed: () {
-                              Navigator.pop(
-                                context,
-                                PageModel(
-                                  id: widget.page.id,
-                                  title: titleController.text,
-                                  icon: iconController.text,
-                                  data: jsonEncode(
-                                    controller.document.toDelta().toJson(),
-                                  ),
-                                  createdAt: widget.page.createdAt,
-                                  updatedAt: DateTime.now(),
-                                ),
-                              );
-                            }),
+                        child: PopupMenuButton(
+                          itemBuilder: (context) {
+                            return [
+                              PopupMenuItem(
+                                child: const Text('Delete'),
+                                onTap: () {
+                                  ref
+                                      .read(
+                                        pageControllerProvider,
+                                      )
+                                      .deletePage(
+                                        pageId: widget.page.id,
+                                        bookId: widget.bookId,
+                                        context: context,
+                                      );
+                                },
+                              ),
+                            ];
+                          },
+                        ),
                       ),
                     ],
                   ),

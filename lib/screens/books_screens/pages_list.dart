@@ -130,7 +130,7 @@ class _PagesListState extends ConsumerState<PagesList> {
               context
                   .pushNamed(
                 MyRouter.pageRoute,
-                extra: page,
+                extra: [page, widget.bookId],
               )
                   .then((value) {
                 if (value != null) {

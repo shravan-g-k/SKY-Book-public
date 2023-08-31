@@ -112,4 +112,11 @@ class PageNotifier extends StateNotifier<List<PageModel>> {
         if (p.id == page.id) page else p,
     ];
   }
+
+  void deletePage(String pageId) {
+    state = [
+      for (final p in state)
+        if (p.id != pageId) p,
+    ];
+  }
 }

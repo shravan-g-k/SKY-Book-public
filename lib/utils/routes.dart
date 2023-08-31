@@ -52,8 +52,10 @@ class MyRouter {
         name: pageRoute,
         path: pageRoute,
         builder: (context, state) {
-          PageModel page = state.extra as PageModel;
-          return PageScreen(page: page);
+          List<dynamic> list = state.extra as List<dynamic>;
+          PageModel page = list[0] as PageModel;
+          String bookId = list[1] as String;
+          return PageScreen(page: page, bookId: bookId);
         },
       )
     ],

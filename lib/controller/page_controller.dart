@@ -135,6 +135,45 @@ class PageController {
       );
     }
   }
+
+  // Delete a page
+  // Takes in the pageId, bookId and context
+  // Calls the deletePage method from the PageRepository class
+
+  Future<void> deletePage({
+    required String pageId,
+    required String bookId,
+    required BuildContext context,
+  }) async {
+    final user = _ref.read(userProvider)!; // Get the user to get the token
+    final navigator = GoRouter.of(context);
+    try {
+      // Delete a page
+      await _ref.read(pageRepositoryProvider).deletePage(
+            token: user.token,
+            bookId: bookId,
+            pageId: pageId,
+          );
+      // Delete the page from the pagesProvider updating the UI
+      _ref.read(pagesProvider.notifier).deletePage(pageId);
+      // Delete the page from the book this updates the UI as well from x pages to x-1 pages
+      _ref.read(booksProvider.notifier).deletePage(bookId, pageId);
+
+      // Show a toast
+      Fluttertoast.showToast(
+        msg: "Page deleted successfully",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+      );
+      navigator.pop();
+    } catch (e) {
+      errorDialog(
+        context: context,
+        title: 'Something went wrong',
+        content: 'Error deleting page',
+      );
+    }
+  }
 }
 
 // Takes in a list of user messages and returns the next AI message

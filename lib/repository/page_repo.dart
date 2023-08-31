@@ -179,4 +179,27 @@ class PageRepository {
     );
     return page;
   }
+
+  // Delete a page
+  // Takes String pageId, bookId String token as arguments
+  Future<void> deletePage({
+    required String pageId,
+    required String bookId,
+    required String token,
+  }) async {
+    // Uri of the server
+    final url = Uri.parse('$serverAddress/page/delete');
+    // Send a DELETE request to the server
+    await http.delete(
+      url,
+      headers: {
+        'x-auth-token': token,
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'pageId': pageId,
+        'bookId': bookId,
+      }),
+    );
+  }
 }
