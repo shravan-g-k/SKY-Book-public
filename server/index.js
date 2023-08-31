@@ -3,6 +3,7 @@ import { PORT } from "./const.js";
 import authRouter from "./routes/auth.js";
 import bookRouter from "./routes/book.js";
 import pageRouter from "./routes/page.js";
+import aiRouter from "./routes/ai.js";
 import { mongoDBpassword } from "./private.js";
 import mongoose from "mongoose";
 
@@ -25,10 +26,12 @@ mongoose
 app.use(Express.json());
 // Auth router - has the /signin /user 
 app.use(authRouter);
-// Book router - has the /book/create  /book/all /book/update
+// Book router - has the /book/create /book/all /book/update
 app.use(bookRouter);
-// Page router - has the /page/create
+// Page router - has the /page/create /pages /page/update
 app.use(pageRouter);
+// AI router - has the /generate
+app.use(aiRouter);
 
 // Start server
 app.listen(PORT, "0.0.0.0", () => {
