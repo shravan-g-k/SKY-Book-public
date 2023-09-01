@@ -115,12 +115,8 @@ class _PageScreenState extends ConsumerState<PageScreen> {
               builder: (context) {
                 return AiDialog(
                   onAddText: (text) {
-                    controller.replaceText(
-                      controller.document.length - 1,
-                      0,
-                      text,
-                      null,
-                    );
+                    controller.document
+                        .insert(controller.document.length - 1, text);
                   },
                 );
               },
