@@ -123,4 +123,12 @@ class UserBooksNotifier extends StateNotifier<List<Book>> {
           state[i]
     ];
   }
+
+  void deleteBook(String bookId) {
+    state = [
+      for (var i = 0; i < state.length; i++)
+        if (state[i].id != bookId) state[i]
+    ];
+  }
+
 }

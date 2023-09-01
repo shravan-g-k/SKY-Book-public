@@ -70,4 +70,23 @@ bookRouter.put("/book/update", auth, async (req, res) => {
   }
 });
 
+// DELETE book
+// DELETE /book/delete headers: {x-auth-token}
+// Request body: {bookId}
+// Response: {msg: "Book deleted"}
+bookRouter.delete("/book/delete", auth, async (req, res) => {
+  try {
+    const { bookId } = req.body;
+    Book.findByIdAndDelete(bookId, (err, book) => {
+      if (err) {
+        res.status(400).json({ msg: "Error deleting book" });
+      } else {
+        res.status(200).json({ msg: "Book deleted"});
+      }
+    });
+  } catch (error) {
+    res.status(400).json({ msg: "Error deleting book" });
+  }
+});
+
 export default bookRouter;

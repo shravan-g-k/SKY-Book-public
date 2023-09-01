@@ -104,4 +104,26 @@ class BookRepository {
     // Return the Book object
     return newBook;
   }
+
+// deleteBook makes a DELETE request to the server to delete the book
+// Returns the nothing
+// Takes Book book, String token as arguments
+  Future<void> deleteBook({
+    required String bookId,
+    required String token,
+  }) async {
+    // Uri of the server
+    Uri url = Uri.parse('$serverAddress/book/delete');
+    // Send a DELETE request to the server
+    await http.delete(
+      url,
+      headers: {
+        'x-auth-token': token,
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'bookId': bookId,
+      }),
+    );
+  }
 }

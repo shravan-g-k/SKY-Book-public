@@ -155,11 +155,24 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                       Positioned(
                         right: -5,
                         top: 10,
-                        child: IconButton(
-                            icon: const Icon(Icons.close),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            }),
+                        child: PopupMenuButton(
+                          itemBuilder: (context) {
+                            return [
+                              PopupMenuItem(
+                                child: ListTile(
+                                  leading: const Icon(Icons.delete),
+                                  title: const Text('Delete'),
+                                  onTap: () {
+                                    ref.read(bookControllerProvider).deleteBook(
+                                          context: context,
+                                          bookId: widget.book.id,
+                                        );
+                                  },
+                                ),
+                              ),
+                            ];
+                          },
+                        ),
                       ),
                     ],
                   ),

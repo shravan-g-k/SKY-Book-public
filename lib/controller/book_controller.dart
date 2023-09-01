@@ -6,6 +6,7 @@ import 'package:journalbot/common/widgets/error_dialog.dart';
 import 'package:journalbot/model/book_model.dart';
 import 'package:journalbot/repository/auth_repo.dart';
 import 'package:journalbot/repository/book_repo.dart';
+import 'package:journalbot/utils/routes.dart';
 
 // bookControllerProvider is a provider used to create an instance of BookController
 final bookControllerProvider = Provider((ref) => BookController(ref));
@@ -90,6 +91,43 @@ class BookController {
         context: context,
         title: 'Something went wrong',
         content: 'Error updating book',
+      );
+    }
+  }
+
+// Delete a book
+// Takes String bookId, token as arguments
+  void deleteBook({
+    required String bookId,
+    required BuildContext context,
+  }) async {
+    try {
+      final navigator = GoRouter.of(context);
+      final token = _ref.read(userProvider)!.token;
+      // Call the deleteBook method in the BookRepository
+      await _ref.read(bookRepositoryProvider).deleteBook(
+            bookId: bookId,
+            token: token,
+          );
+      // Update the booksProvider state
+      _ref.read(booksProvider.notifier).deleteBook(bookId);
+      // Show a toast message
+      Fluttertoast.showToast(
+        msg: "Book deleted successfully",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      // Navigate to the home page
+      navigator.pushReplacementNamed(MyRouter.homeRoute);
+    } catch (e) {
+      errorDialog(
+        context: context,
+        title: 'Something went wrong',
+        content: 'Error deleting book',
       );
     }
   }
