@@ -97,6 +97,7 @@ class BookRepository {
           'bookTitle': book.title,
           'bookDescription': book.description,
           'bookIcon': book.icon,
+          'bookPassword': book.password,
         }));
     // Decode the response body
     Map<String, dynamic> data = jsonDecode(response.body);

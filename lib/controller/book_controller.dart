@@ -63,7 +63,7 @@ class BookController {
 // Update a book
 // Return Book object
 // Takes String title, description, icon, token as arguments
-  void updateBook({
+  Future updateBook({
     required BuildContext context,
     required Book book,
   }) async {
