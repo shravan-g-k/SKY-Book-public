@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:journalbot/screens/auth_screen.dart';
 import 'package:journalbot/screens/books_screens/book_screen.dart';
+import 'package:journalbot/screens/books_screens/create_password_screen.dart';
 import 'package:journalbot/screens/home_screens/home_screen.dart';
 import 'package:journalbot/wrapper.dart';
 
@@ -15,6 +16,7 @@ class MyRouter {
   static const authRoute = '/auth';
   static const bookRoute = '/book';
   static const pageRoute = '/page';
+  static const createUpdatePasswordRoute = '/createUpdatePassword';
   //
 
   // The router config
@@ -57,7 +59,17 @@ class MyRouter {
           String bookId = list[1] as String;
           return PageScreen(page: page, bookId: bookId);
         },
-      )
+      ),
+      GoRoute(
+        name: createUpdatePasswordRoute,
+        path: createUpdatePasswordRoute,
+        pageBuilder: (context, state) {
+          return customTransitionPage(
+            const CreateUpdatePasswordScreen(),
+            key: state.pageKey,
+          );
+        },
+      ),
     ],
   );
   // CUstom transition used for all the routes
@@ -67,8 +79,11 @@ class MyRouter {
       key: key,
       child: child,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        return FadeTransition(
-          opacity: animation,
+        return SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(1, 0),
+            end: Offset.zero,
+          ).animate(animation),
           child: child,
         );
       },
