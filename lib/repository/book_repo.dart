@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:encrypt/encrypt.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -132,7 +131,6 @@ class BookRepository {
     if (data['password'] != null) {
       // Create a key and iv for decryption
       final key = Key.fromUtf8(userId);
-      print(data['password'] + "  " + userId);
       final iv = IV.fromLength(16);
       final encrypter = Encrypter(AES(key));
       decodedPassword =
