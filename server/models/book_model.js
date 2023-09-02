@@ -17,7 +17,7 @@ const bookSchema = Schema({
   },
   pages: [String],
   password: {
-    type: Number,
+    type: String,
   }
 });
 
