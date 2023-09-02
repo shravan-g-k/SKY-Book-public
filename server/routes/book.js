@@ -49,17 +49,18 @@ bookRouter.get("/book/all", auth, async (req, res) => {
 
 // UPDATE book
 // POST /book/update headers: {x-auth-token}
-// Request body: {bookId, bookTitle, bookIcon, bookDescription}
+// Request body: {bookId, bookTitle, bookIcon, bookDescription,password}
 // Response: {book}
 bookRouter.put("/book/update", auth, async (req, res) => {
   try {
-    const { bookId, bookTitle, bookIcon, bookDescription } = req.body;
+    const { bookId, bookTitle, bookIcon, bookDescription, bookPassword } = req.body;
     const book = await Book.findByIdAndUpdate(
       bookId,
       {
         title: bookTitle,
         icon: bookIcon,
         description: bookDescription,
+        password: bookPassword,
       },
       { new: true }
     );
@@ -77,13 +78,8 @@ bookRouter.put("/book/update", auth, async (req, res) => {
 bookRouter.delete("/book/delete", auth, async (req, res) => {
   try {
     const { bookId } = req.body;
-    Book.findByIdAndDelete(bookId, (err, book) => {
-      if (err) {
-        res.status(400).json({ msg: "Error deleting book" });
-      } else {
-        res.status(200).json({ msg: "Book deleted"});
-      }
-    });
+    await Book.findByIdAndDelete(bookId);
+    res.status(200).json({ msg: "Book deleted" });
   } catch (error) {
     res.status(400).json({ msg: "Error deleting book" });
   }

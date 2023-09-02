@@ -16,6 +16,9 @@ const bookSchema = Schema({
     length: 1,
   },
   pages: [String],
+  password: {
+    type: Number,
+  }
 });
 
 const Book = mongoose.model("Book", bookSchema);
