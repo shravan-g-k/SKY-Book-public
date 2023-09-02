@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:ffi';
 
+import 'package:encrypt/encrypt.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:journalbot/const.dart';
@@ -11,8 +13,9 @@ import 'auth_repo.dart';
 final bookRepositoryProvider = Provider((ref) => BookRepository());
 
 final futureBookProvider = FutureProvider<List<Book>>((ref) async {
-  final token = ref.read(userProvider)!.token;
-  final books = await ref.read(bookRepositoryProvider).getBooks(token);
+  final user = ref.read(userProvider)!;
+  final books =
+      await ref.read(bookRepositoryProvider).getBooks(user.token, user.id);
 
   ref.read(booksProvider.notifier).intializeBooks(books);
   return books;
@@ -58,7 +61,7 @@ class BookRepository {
   // Return List<Book> object
   // Takes String token as argument
   // No error handling - done in the controller
-  Future<List<Book>> getBooks(String token) async {
+  Future<List<Book>> getBooks(String token, String userId) async {
     // Uri of the server
     Uri url = Uri.parse('$serverAddress/book/all');
     // Send a GET request to the server
@@ -71,6 +74,16 @@ class BookRepository {
     List<Book> books = [];
     // Add each book to the list
     for (var i = 0; i < data.length; i++) {
+      if (data[i]['password'] != null) {
+        // Create a key and iv for decryption
+        final key = Key.fromUtf8(userId);
+        final iv = IV.fromLength(16);
+        final encrypter = Encrypter(AES(key));
+        // Decrypt the password
+        final decodedPassword =
+            encrypter.decrypt64(data[i]['password'], iv: iv).toString();
+        data[i]['password'] = decodedPassword;
+      }
       books.add(Book.fromMap(data[i]));
     }
     // Return the list of Book objects
@@ -83,9 +96,21 @@ class BookRepository {
   Future<Book> updateBook({
     required Book book,
     required String token,
+    required String userId,
   }) async {
     // Uri of the server
     Uri url = Uri.parse('$serverAddress/book/update');
+    String? encryptedPassword;
+    // Encrypt the password
+    if (book.password != null) {
+      // Create a key and iv for encryption
+      final key = Key.fromUtf8(userId);
+      final iv = IV.fromLength(16);
+      final encrypter = Encrypter(AES(key));
+      encryptedPassword =
+          encrypter.encrypt(book.password.toString(), iv: iv).base64;
+    }
+
     // Send a PUT request to the server
     final response = await http.put(url,
         headers: {
@@ -97,11 +122,32 @@ class BookRepository {
           'bookTitle': book.title,
           'bookDescription': book.description,
           'bookIcon': book.icon,
-          'bookPassword': book.password,
+          'bookPassword': encryptedPassword,
         }));
     // Decode the response body
     Map<String, dynamic> data = jsonDecode(response.body);
-    Book newBook = Book.fromMap(data);
+    String decodedPassword = '';
+    late Book newBook;
+    // Decrypt the password
+    if (data['password'] != null) {
+      // Create a key and iv for decryption
+      final key = Key.fromUtf8(userId);
+      print(data['password'] + "  " + userId);
+      final iv = IV.fromLength(16);
+      final encrypter = Encrypter(AES(key));
+      decodedPassword =
+          encrypter.decrypt64(data['password'], iv: iv).toString();
+      newBook = Book(
+        title: data['title'],
+        description: data['description'],
+        icon: data['icon'],
+        id: data['_id'],
+        pages: List<String>.from(data['pages']),
+        password: decodedPassword,
+      );
+    } else {
+      newBook = Book.fromMap(data);
+    }
     // Return the Book object
     return newBook;
   }

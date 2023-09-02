@@ -63,16 +63,17 @@ class BookController {
 // Update a book
 // Return Book object
 // Takes String title, description, icon, token as arguments
-  Future updateBook({
+  Future<bool> updateBook({
     required BuildContext context,
     required Book book,
   }) async {
     try {
-      final token = _ref.read(userProvider)!.token;
+      final user = _ref.read(userProvider)!;
       // Call the updateBook method in the BookRepository
       Book updatedBook = await _ref.read(bookRepositoryProvider).updateBook(
             book: book,
-            token: token,
+            token: user.token,
+            userId: user.id,
           );
       // Update the booksProvider state
       _ref.read(booksProvider.notifier).updateBook(updatedBook);
@@ -86,12 +87,14 @@ class BookController {
         textColor: Colors.white,
         fontSize: 16.0,
       );
+      return true;
     } catch (e) {
       errorDialog(
         context: context,
         title: 'Something went wrong',
         content: 'Error updating book',
       );
+      return false;
     }
   }
 

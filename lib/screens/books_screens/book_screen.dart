@@ -184,6 +184,11 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                                         MyRouter.createUpdatePasswordRoute,
                                         extra: [widget.book, true],
                                       );
+                                    } else {
+                                      context.pushNamed(
+                                        MyRouter.createUpdatePasswordRoute,
+                                        extra: [widget.book, false],
+                                      );
                                     }
                                   },
                                 ),

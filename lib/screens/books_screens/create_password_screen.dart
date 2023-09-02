@@ -42,12 +42,14 @@ class _CreatePasswordScreenState
     if (_formKey.currentState!.validate()) {
       if (isConfirmPasswordVisible) {
         if (password == _controller.text) {
-          Book book = widget.book.copyWith(password: int.parse(password));
+          Book book = widget.book.copyWith(password: password);
           ref
               .read(bookControllerProvider)
               .updateBook(context: context, book: book)
               .then((value) {
-            context.go(MyRouter.homeRoute);
+            if (value) {
+              context.go(MyRouter.homeRoute);
+            }
           });
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
