@@ -200,18 +200,21 @@ class _PageScreenState extends ConsumerState<PageScreen> {
                           itemBuilder: (context) {
                             return [
                               PopupMenuItem(
-                                child: const Text('Delete'),
-                                onTap: () {
-                                  ref
-                                      .read(
-                                        pageControllerProvider,
-                                      )
-                                      .deletePage(
-                                        pageId: widget.page.id,
-                                        bookId: widget.bookId,
-                                        context: context,
-                                      );
-                                },
+                                child: ListTile(
+                                  leading: const Icon(Icons.delete),
+                                  title: const Text('Delete'),
+                                  onTap: () {
+                                    ref
+                                        .read(
+                                          pageControllerProvider,
+                                        )
+                                        .deletePage(
+                                          pageId: widget.page.id,
+                                          bookId: widget.bookId,
+                                          context: context,
+                                        );
+                                  },
+                                ),
                               ),
                             ];
                           },

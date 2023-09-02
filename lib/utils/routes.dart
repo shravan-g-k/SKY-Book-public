@@ -8,6 +8,7 @@ import 'package:journalbot/wrapper.dart';
 
 import '../model/book_model.dart';
 import '../model/page_model.dart';
+import '../screens/books_screens/password_screen.dart';
 import '../screens/page_screen/page_screen.dart';
 
 class MyRouter {
@@ -17,6 +18,7 @@ class MyRouter {
   static const bookRoute = '/book';
   static const pageRoute = '/page';
   static const createUpdatePasswordRoute = '/createUpdatePassword';
+  static const passwordRoute = '/password';
   //
 
   // The router config
@@ -64,8 +66,22 @@ class MyRouter {
         name: createUpdatePasswordRoute,
         path: createUpdatePasswordRoute,
         pageBuilder: (context, state) {
+          final arr = state.extra as List<dynamic>;
+          final book = arr[0] as Book;
+          final isCreate = arr[1] as bool;
           return customTransitionPage(
-            const CreateUpdatePasswordScreen(),
+            CreateUpdatePasswordScreen(book: book, isCreate: isCreate),
+            key: state.pageKey,
+          );
+        },
+      ),
+      GoRoute(
+        name: passwordRoute,
+        path: passwordRoute,
+        pageBuilder: (context, state) {
+          final book = state.extra as Book;
+          return customTransitionPage(
+            PasswordScreen(book: book),
             key: state.pageKey,
           );
         },

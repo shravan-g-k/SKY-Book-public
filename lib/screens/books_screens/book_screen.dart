@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:journalbot/common/widgets/error_dialog.dart';
 import 'package:journalbot/controller/book_controller.dart';
 import 'package:journalbot/screens/books_screens/create_page_dialog.dart';
 import 'package:journalbot/screens/books_screens/pages_list.dart';
+import 'package:journalbot/utils/routes.dart';
 
 import '../../model/book_model.dart';
 
@@ -159,6 +161,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                           itemBuilder: (context) {
                             return [
                               PopupMenuItem(
+                                padding: const EdgeInsets.all(0),
                                 child: ListTile(
                                   leading: const Icon(Icons.delete),
                                   title: const Text('Delete'),
@@ -167,6 +170,21 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                                           context: context,
                                           bookId: widget.book.id,
                                         );
+                                  },
+                                ),
+                              ),
+                              PopupMenuItem(
+                                padding: const EdgeInsets.all(0),
+                                child: ListTile(
+                                  leading: const Icon(Icons.password_rounded),
+                                  title: const Text('Password'),
+                                  onTap: () {
+                                    if (widget.book.password == null) {
+                                      context.pushNamed(
+                                        MyRouter.createUpdatePasswordRoute,
+                                        extra: [widget.book, true],
+                                      );
+                                    }
                                   },
                                 ),
                               ),

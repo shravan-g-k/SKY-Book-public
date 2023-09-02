@@ -63,10 +63,17 @@ class BooksList extends ConsumerWidget {
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
-              context.pushNamed(
-                MyRouter.bookRoute,
-                extra: books[index],
-              );
+              if (books[index].password != null) {
+                context.pushNamed(
+                  MyRouter.passwordRoute,
+                  extra: books[index],
+                );
+              } else {
+                context.pushNamed(
+                  MyRouter.bookRoute,
+                  extra: books[index],
+                );
+              }
             },
             child: Hero(
               tag: books[index].id,

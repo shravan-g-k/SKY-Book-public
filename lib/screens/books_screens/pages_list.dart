@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -28,7 +27,7 @@ class _UserPagesState extends ConsumerState<UserPages> {
           error: (error, stackTrace) {
             return Center(
               child: Text(
-                stackTrace.toString(),
+                error.toString(),
               ),
             );
           },
@@ -127,12 +126,10 @@ class _PagesListState extends ConsumerState<PagesList> {
           // detector to navigate to the page
           return GestureDetector(
             onTap: () {
-              context
-                  .pushNamed(
+              context.pushNamed(
                 MyRouter.pageRoute,
                 extra: [page, widget.bookId],
-              )
-                  .then((value) {
+              ).then((value) {
                 if (value != null) {
                   ref.read(pageControllerProvider).updatePage(
                         pageModel: value as PageModel,
