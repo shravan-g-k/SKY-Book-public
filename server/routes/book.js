@@ -66,7 +66,6 @@ bookRouter.put("/book/update", auth, async (req, res) => {
     );
     res.status(200).json(book);
   } catch (error) {
-    console.log(error);
     res.status(400).json({ msg: "Error updating book" });
   }
 });

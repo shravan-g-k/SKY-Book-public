@@ -9,7 +9,7 @@ class Book {
   String icon;
   String id;
   List<String> pages;
-  int? password;
+  String? password;
   Book({
     required this.title,
     required this.description,
@@ -25,7 +25,7 @@ class Book {
     String? icon,
     String? id,
     List<String>? pages,
-    int? password,
+    String? password,
   }) {
     return Book(
       title: title ?? this.title,
@@ -55,7 +55,7 @@ class Book {
       icon: map['icon'] ?? '',
       id: map['_id'] ?? '',
       pages: List<String>.from(map['pages']),
-      password: map['password']?.toInt(),
+      password: map['password'],
     );
   }
 
