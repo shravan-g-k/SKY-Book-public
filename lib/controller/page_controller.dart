@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
-import 'package:SkyBook/common/widgets/loading.dart';
-import 'package:SkyBook/const.dart';
-import 'package:SkyBook/model/page_model.dart';
-import 'package:SkyBook/repository/auth_repo.dart';
-import 'package:SkyBook/repository/book_repo.dart';
+import 'package:skybook/common/widgets/loading.dart';
+import 'package:skybook/const.dart';
+import 'package:skybook/model/page_model.dart';
+import 'package:skybook/repository/auth_repo.dart';
+import 'package:skybook/repository/book_repo.dart';
 import 'package:http/http.dart' as http;
 
 import '../common/widgets/error_dialog.dart';

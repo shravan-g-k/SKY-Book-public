@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:SkyBook/common/widgets/error_dialog.dart';
-import 'package:SkyBook/controller/book_controller.dart';
-import 'package:SkyBook/screens/books_screens/create_page_dialog.dart';
-import 'package:SkyBook/screens/books_screens/pages_list.dart';
-import 'package:SkyBook/utils/routes.dart';
+import 'package:skybook/common/widgets/error_dialog.dart';
+import 'package:skybook/controller/book_controller.dart';
+import 'package:skybook/screens/books_screens/create_page_dialog.dart';
+import 'package:skybook/screens/books_screens/pages_list.dart';
+import 'package:skybook/utils/routes.dart';
 
 import '../../model/book_model.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:SkyBook/controller/page_controller.dart';
+import 'package:skybook/controller/page_controller.dart';
 
 // AiDialog class responsible for creating a dialog for the AI
 // Uses the getAIMessage func

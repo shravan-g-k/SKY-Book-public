@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:SkyBook/common/pages/error_screen.dart';
-import 'package:SkyBook/common/widgets/loading.dart';
-import 'package:SkyBook/controller/page_controller.dart';
-import 'package:SkyBook/repository/page_repo.dart';
+import 'package:skybook/common/pages/error_screen.dart';
+import 'package:skybook/common/widgets/loading.dart';
+import 'package:skybook/controller/page_controller.dart';
+import 'package:skybook/repository/page_repo.dart';
 
 import '../../model/page_model.dart';
 import '../../utils/routes.dart';

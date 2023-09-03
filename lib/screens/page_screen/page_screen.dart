@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:SkyBook/model/page_model.dart';
+import 'package:skybook/model/page_model.dart';
 
 import '../../controller/page_controller.dart';
 import 'ai_dialog.dart';

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:SkyBook/const.dart';
-import 'package:SkyBook/repository/auth_repo.dart';
-import 'package:SkyBook/screens/auth_screen.dart';
-import 'package:SkyBook/screens/home_screens/home_error_screen.dart';
-import 'package:SkyBook/screens/home_screens/home_screen.dart';
-import 'package:SkyBook/common/pages/error_screen.dart';
-import 'package:SkyBook/common/pages/splash_screen.dart';
+import 'package:skybook/const.dart';
+import 'package:skybook/repository/auth_repo.dart';
+import 'package:skybook/screens/auth_screen.dart';
+import 'package:skybook/screens/home_screens/home_error_screen.dart';
+import 'package:skybook/screens/home_screens/home_screen.dart';
+import 'package:skybook/common/pages/error_screen.dart';
+import 'package:skybook/common/pages/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Wrapper extends ConsumerStatefulWidget {

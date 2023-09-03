@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:SkyBook/common/pages/error_screen.dart';
-import 'package:SkyBook/common/widgets/loading.dart';
-import 'package:SkyBook/repository/book_repo.dart';
-import 'package:SkyBook/utils/routes.dart';
+import 'package:skybook/common/pages/error_screen.dart';
+import 'package:skybook/common/widgets/loading.dart';
+import 'package:skybook/repository/book_repo.dart';
+import 'package:skybook/utils/routes.dart';
 
 // User Books is just like a wrapper for the BooksList widget
 // calls the futureBookProvider to get the books of the user

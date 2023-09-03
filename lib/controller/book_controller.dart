@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
-import 'package:SkyBook/common/widgets/error_dialog.dart';
-import 'package:SkyBook/model/book_model.dart';
-import 'package:SkyBook/repository/auth_repo.dart';
-import 'package:SkyBook/repository/book_repo.dart';
-import 'package:SkyBook/utils/routes.dart';
+import 'package:skybook/common/widgets/error_dialog.dart';
+import 'package:skybook/model/book_model.dart';
+import 'package:skybook/repository/auth_repo.dart';
+import 'package:skybook/repository/book_repo.dart';
+import 'package:skybook/utils/routes.dart';
 
 import '../common/widgets/loading.dart';
 

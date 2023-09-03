@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:SkyBook/utils/routes.dart';
-import 'package:SkyBook/common/widgets/error_dialog.dart';
+import 'package:skybook/utils/routes.dart';
+import 'package:skybook/common/widgets/error_dialog.dart';
 import '../common/widgets/loading.dart';
 import '../repository/auth_repo.dart';
 
