@@ -4,7 +4,7 @@ import authRouter from "./routes/auth.js";
 import bookRouter from "./routes/book.js";
 import pageRouter from "./routes/page.js";
 import aiRouter from "./routes/ai.js";
-import { mongoDBpassword } from "./private.js";
+import { mongoDBpassword } from "./private.js";   
 import mongoose from "mongoose";
 
 // App initialization
