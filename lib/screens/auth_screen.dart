@@ -30,19 +30,19 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // JOURNAL BOT title
+              Image.asset(
+                'assets/sky-logo.png',
+                height: 100,
+              ),
+
+              // SKY BOOK title
               const Text(
-                'Journal Bot',
+                'SKY Book',
                 style: TextStyle(
                   fontSize: 40,
                 ),
               ),
-              const SizedBox(height: 16),
-              // WELCOME message
-              const Text(
-                'Welcome to Journal Bot!',
-              ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 10),
               // PLEASE SIGN IN message
               const Text(
                 'Please sign in to continue.',

@@ -66,24 +66,28 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                     wishUser(),
                     style: const TextStyle(fontSize: 30),
                   ),
-                  Flexible(
-                    flex: 1,
-                    child: IconButton(
-                      icon: const Icon(Icons.sunny),
-                      onPressed: () {
-                        ref.read(brightnessNotifierProvider.notifier).toggle();
-                      },
-                    ),
+                  const Spacer(),
+                  // POpUP MENU BUTTON
+                  PopupMenuButton(
+                    icon: const Icon(Icons.more_vert),
+                    itemBuilder: (context) => [
+                      PopupMenuItem(
+                        child: const Text("Sign Out"),
+                        onTap: () => ref
+                            .read(authControllerProvider)
+                            .signOut(context), // Sign out
+                      ),
+                      // change theme
+                      PopupMenuItem(
+                        child: const Text("Change Theme"),
+                        onTap: () {
+                          ref
+                              .read(brightnessNotifierProvider.notifier)
+                              .toggle();
+                        },
+                      ),
+                    ],
                   ),
-                  Flexible(
-                    flex: 1,
-                    child: IconButton(
-                      icon: const Icon(Icons.logout),
-                      onPressed: () {
-                        ref.read(authControllerProvider).signOut(context);
-                      },
-                    ),
-                  )
                 ],
               ),
               // USER NAME
