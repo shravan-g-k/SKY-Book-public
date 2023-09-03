@@ -7,14 +7,14 @@ import 'package:skybook/utils/theme.dart';
 void main() async {
   runApp(
     const ProviderScope(
-      child: skybook(),
+      child: SkyBook(),
     ),
   );
   await Firebase.initializeApp();
 }
 
-class skybook extends ConsumerWidget {
-  const skybook({super.key});
+class SkyBook extends ConsumerWidget {
+  const SkyBook({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,7 +26,7 @@ class skybook extends ConsumerWidget {
             seedColor: const Color.fromARGB(255, 89, 0, 255),
             brightness: brightness,
           ),
-          textTheme: const TextTheme(
+          textTheme: TextTheme(
             titleLarge: titleTextStyle,
             titleMedium: titleTextStyle,
             titleSmall: titleTextStyle,

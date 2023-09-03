@@ -46,6 +46,7 @@ dependencies:
   fluttertoast: ^8.2.2
   encrypt: ^5.0.1
   flutter_quill: ^7.0.4
+  google_fonts: ^5.1.0
 
 dev_dependencies:
   flutter_test:

@@ -193,6 +193,10 @@ class _CreatePasswordScreenState
                   ),
                 ),
               ),
+              const Text(
+                'If you forget your password, there is no way to recover the book',
+                textAlign: TextAlign.center,
+              )
             ],
           ),
         ),
