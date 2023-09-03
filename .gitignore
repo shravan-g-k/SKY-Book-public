@@ -45,10 +45,10 @@ app.*.map.json
 
 #Node Modules
 server/node_modules/
-#API Keys
-server/private.js
-#Firbase Credentials
-lib/firebase_options.dart
-android/app/google-services.json
-#Develpment Credentials
-lib/private.dart
+# #API Keys
+# server/private.js
+# #Firbase Credentials
+# lib/firebase_options.dart
+# android/app/google-services.json
+# #Develpment Credentials
+# lib/private.dart
