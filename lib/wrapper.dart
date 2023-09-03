@@ -9,7 +9,6 @@ import 'package:journalbot/common/pages/error_screen.dart';
 import 'package:journalbot/common/pages/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class Wrapper extends ConsumerStatefulWidget {
   const Wrapper({super.key});
 
@@ -40,7 +39,7 @@ class _WrapperState extends ConsumerState<Wrapper> {
             return UserWrapper(token);
           }
         } else if (snapshot.hasError) {
-          return const ErrorScreen();
+          return const MyErrorWidget();
         } else {
           return const SplashScreen();
         }
@@ -49,7 +48,6 @@ class _WrapperState extends ConsumerState<Wrapper> {
     );
   }
 }
-
 
 class UserWrapper extends ConsumerStatefulWidget {
   const UserWrapper(this.token, {super.key});

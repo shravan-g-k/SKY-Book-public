@@ -44,7 +44,7 @@ class PageController {
       // Show a loading dialog
       showDialog(
         context: context,
-        builder: (context) => const Loader(),
+        builder: (context) => const Center(child: Loader()),
       );
       // Create a page
       PageModel page = await _ref

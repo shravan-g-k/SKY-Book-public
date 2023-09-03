@@ -107,9 +107,8 @@ class _PageScreenState extends ConsumerState<PageScreen> {
       },
       // SCAFFOLD
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-          onPressed: () {
+        floatingActionButton: GestureDetector(
+          onTap: () {
             showDialog(
               context: context,
               builder: (context) {
@@ -122,7 +121,10 @@ class _PageScreenState extends ConsumerState<PageScreen> {
               },
             );
           },
-          child: const Icon(Icons.person_4),
+          child: Image.asset(
+            'assets/sky-chat-fb-button.png',
+            height: 80,
+          ),
         ),
         // BOTTOM NAVIGATION BAR - Quill toolbar
         bottomNavigationBar: Padding(
@@ -254,7 +256,6 @@ class _PageScreenState extends ConsumerState<PageScreen> {
             ),
             // SIZED BOX
             const SizedBox(height: 10),
-
             // EXPANDED - Quill editor
             Expanded(
               child: Container(

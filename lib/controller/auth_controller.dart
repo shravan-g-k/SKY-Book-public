@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:journalbot/utils/routes.dart';
 import 'package:journalbot/common/widgets/error_dialog.dart';
+import '../common/widgets/loading.dart';
 import '../repository/auth_repo.dart';
 
 final authControllerProvider = Provider<AuthController>((ref) {
@@ -16,6 +17,11 @@ class AuthController {
 
 // Sign in with Google - success updates userProvider navigates to HomeScreen, failure shows error dialog
   void signInWithGoogle(BuildContext context) {
+    // Show a loading dialog
+    showDialog(
+      context: context,
+      builder: (context) => const Center(child: Loader()),
+    );
     _ref.read(authRepositoryProvider).signInWithGoogle().then((value) {
       _ref.read(userProvider.notifier).update((state) => value);
       context.pushReplacementNamed(MyRouter.homeRoute);

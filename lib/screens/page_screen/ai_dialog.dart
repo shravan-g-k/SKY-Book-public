@@ -116,7 +116,22 @@ class _AiDialogState extends State<AiDialog> {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text('SKY Chat'),
+                const SizedBox(height: 5),
+                // ROW - SKY logo and SKY chat
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/sky-logo.png',
+                      height: 40,
+                    ),
+                    const SizedBox(width: 10),
+                    const Text(
+                      'SKY',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ],
+                ),
                 // LISTVIEW
                 Expanded(
                   child: ListView.builder(

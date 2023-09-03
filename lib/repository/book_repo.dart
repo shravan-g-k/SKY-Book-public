@@ -15,7 +15,6 @@ final futureBookProvider = FutureProvider<List<Book>>((ref) async {
   final user = ref.read(userProvider)!;
   final books =
       await ref.read(bookRepositoryProvider).getBooks(user.token, user.id);
-
   ref.read(booksProvider.notifier).intializeBooks(books);
   return books;
 });

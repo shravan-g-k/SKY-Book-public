@@ -29,21 +29,28 @@ class _UserBooksState extends ConsumerState<UserBooks> {
         if (books!.isNotEmpty) {
           return const BooksList();
         } else {
-          return const Center(
-            child: Text(
-              'No books',
-              style: TextStyle(
-                fontSize: 20,
-              ),
+          return Center(
+            child: Column(
+              children: [
+                const SizedBox(height: 10),
+                Image.asset(
+                  'assets/sky-logo.png',
+                  height: 150,
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  'Create your first book',
+                ),
+              ],
             ),
           );
         }
       },
       error: (error, stackTrace) {
-        return const ErrorScreen();
+        return const MyErrorWidget();
       },
       loading: () {
-        return const Loader();
+        return const Center(child: Loader());
       },
     );
   }

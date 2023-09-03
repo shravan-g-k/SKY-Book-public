@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ErrorScreen extends StatelessWidget {
-  const ErrorScreen({super.key});
+class MyErrorWidget extends StatelessWidget {
+  const MyErrorWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -9,19 +9,16 @@ class ErrorScreen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            "Something went wrong",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 25.0,
-            ),
+          SizedBox(height: 10),
+          Image(
+            image: AssetImage('assets/sky-error.png'),
+            height: 150,
           ),
+          SizedBox(height: 10),
           Text(
-            "😔",
-            style: TextStyle(
-              fontSize: 100.0,
-            ),
-          )
+            'Something unexpected happened',
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );

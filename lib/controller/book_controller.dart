@@ -8,6 +8,8 @@ import 'package:journalbot/repository/auth_repo.dart';
 import 'package:journalbot/repository/book_repo.dart';
 import 'package:journalbot/utils/routes.dart';
 
+import '../common/widgets/loading.dart';
+
 // bookControllerProvider is a provider used to create an instance of BookController
 final bookControllerProvider = Provider((ref) => BookController(ref));
 
@@ -28,9 +30,22 @@ class BookController {
     required BuildContext context,
   }) async {
     try {
+      // Show a loading dialog
+      showDialog(
+        context: context,
+        builder: (context) => const Center(child: Loader()),
+      );
       // Call the createBook method in the BookRepository
-      Book book = await _ref.read(bookRepositoryProvider).createBook(
-          title: title, description: description, icon: icon, token: token);
+      Book book = await _ref
+          .read(bookRepositoryProvider)
+          .createBook(
+              title: title, description: description, icon: icon, token: token)
+          .then((value) {
+        if (context.mounted) {
+          context.pop();
+        }
+        return value;
+      });
       // Update the userProvider state
       _ref.read(userProvider.notifier).update((state) {
         state!.books.add(book.id);

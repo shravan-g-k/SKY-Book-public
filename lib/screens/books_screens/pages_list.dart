@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:journalbot/common/pages/error_screen.dart';
 import 'package:journalbot/common/widgets/loading.dart';
 import 'package:journalbot/controller/page_controller.dart';
 import 'package:journalbot/repository/page_repo.dart';
@@ -25,11 +26,7 @@ class _UserPagesState extends ConsumerState<UserPages> {
           },
           loading: () => const Loader(),
           error: (error, stackTrace) {
-            return Center(
-              child: Text(
-                error.toString(),
-              ),
-            );
+            return const MyErrorWidget();
           },
         );
   }
@@ -96,8 +93,25 @@ class _PagesListState extends ConsumerState<PagesList> {
   Widget build(BuildContext context) {
     final pages = ref.watch(pagesProvider);
     final colorScheme = Theme.of(context).colorScheme;
-    // If there are no pages return a text widget
-    if (pages.isEmpty) return const Center(child: Text('No Pages'));
+    // If there are no pages return a create page illustration
+    if (pages.isEmpty) {
+      return Center(
+        child: Column(
+          children: [
+            const SizedBox(height: 10),
+            Image.asset(
+              'assets/sky-logo.png',
+              height: 150,
+            ),
+            const SizedBox(height: 10),
+            const Text(
+              'Create a page to talk to SKY \n:)',
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      );
+    }
     // show a list of pages with a loading indicator at the end
     return Expanded(
       child: ListView.builder(
@@ -116,7 +130,7 @@ class _PagesListState extends ConsumerState<PagesList> {
               // If the pages are loading
               return const Center(child: CircularProgressIndicator());
             } else {
-              // If the pages are not loading and there are more pages
+              // If the pages are not loading and there are no more pages
               return const SizedBox();
             }
           }
