@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:journalbot/screens/auth_screen.dart';
-import 'package:journalbot/screens/books_screens/book_screen.dart';
-import 'package:journalbot/screens/books_screens/create_password_screen.dart';
-import 'package:journalbot/screens/home_screens/home_screen.dart';
-import 'package:journalbot/wrapper.dart';
+import 'package:SkyBook/screens/auth_screen.dart';
+import 'package:SkyBook/screens/books_screens/book_screen.dart';
+import 'package:SkyBook/screens/books_screens/create_password_screen.dart';
+import 'package:SkyBook/screens/home_screens/home_screen.dart';
+import 'package:SkyBook/wrapper.dart';
 
 import '../model/book_model.dart';
 import '../model/page_model.dart';

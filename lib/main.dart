@@ -1,21 +1,21 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:journalbot/utils/routes.dart';
-import 'package:journalbot/utils/theme.dart';
+import 'package:SkyBook/utils/routes.dart';
+import 'package:SkyBook/utils/theme.dart';
 
 void main() async {
   runApp(
     const ProviderScope(
-      child: JournalBot(),
+      child: SkyBook(),
     ),
   );
   await Firebase.initializeApp();
 }
 
 // TODO : Change the name of the class
-class JournalBot extends ConsumerWidget {
-  const JournalBot({super.key});
+class SkyBook extends ConsumerWidget {
+  const SkyBook({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:encrypt/encrypt.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:journalbot/const.dart';
+import 'package:SkyBook/const.dart';
 import 'package:http/http.dart' as http;
-import 'package:journalbot/model/page_model.dart';
+import 'package:SkyBook/model/page_model.dart';
 
 import 'auth_repo.dart';
 

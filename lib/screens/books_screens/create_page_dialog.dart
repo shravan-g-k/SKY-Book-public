@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:journalbot/controller/page_controller.dart';
+import 'package:SkyBook/controller/page_controller.dart';
 
 // Create Page Dialog a small AlertDialog that pops up when the user clicks on the add page button
 class CreatePageDialog extends StatefulWidget {

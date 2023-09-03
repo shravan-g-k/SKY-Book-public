@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:journalbot/controller/auth_controller.dart';
-import 'package:journalbot/repository/auth_repo.dart';
-import 'package:journalbot/screens/home_screens/books_list.dart';
+import 'package:SkyBook/controller/auth_controller.dart';
+import 'package:SkyBook/repository/auth_repo.dart';
+import 'package:SkyBook/screens/home_screens/books_list.dart';
 
 import '../../utils/theme.dart';
 import 'add_book_bottom_sheet.dart';
