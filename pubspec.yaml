@@ -47,6 +47,13 @@ dependencies:
   encrypt: ^5.0.1
   flutter_quill: ^7.0.4
   google_fonts: ^5.1.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/sky-logo.png"
+  min_sdk_android: 19
 
 dev_dependencies:
   flutter_test:
