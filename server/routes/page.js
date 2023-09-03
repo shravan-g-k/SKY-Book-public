@@ -40,10 +40,8 @@ pageRouter.post("/page/create", auth, async (req, res) => {
 pageRouter.get("/pages", auth, async (req, res) => {
   try {
     const { bookid, from } = req.headers;
-    console.log(bookid);
     // Get book
     const book = await Book.findById(bookid);
-    console.log(book);
     // Get all the pageIds from book
     var pageIds = book.pages;
     const pages = [];
@@ -72,7 +70,6 @@ pageRouter.get("/pages", auth, async (req, res) => {
       res.status(200).json(pages); // Send the pages
     });
   } catch (error) {
-    console.log(error);
     res.status(400).json({ msg: "Error getting pages" });
   }
 });
