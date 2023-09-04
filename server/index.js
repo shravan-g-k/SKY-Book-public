@@ -4,8 +4,11 @@ import authRouter from "./routes/auth.js";
 import bookRouter from "./routes/book.js";
 import pageRouter from "./routes/page.js";
 import aiRouter from "./routes/ai.js";
-import { mongoDBpassword } from "./private.js";   
+import { mongoDBpassword } from "./private.js";
 import mongoose from "mongoose";
+import path from "path";
+import { fileURLToPath } from "url";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // App initialization
 const app = new Express();
@@ -24,7 +27,7 @@ mongoose
 // Middleware
 // JSON body parser
 app.use(Express.json());
-// Auth router - has the /signin /user 
+// Auth router - has the /signin /user
 app.use(authRouter);
 // Book router - has the /book/create /book/all /book/update
 app.use(bookRouter);
@@ -36,4 +39,8 @@ app.use(aiRouter);
 // Start server
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server listening on port ${PORT}`);
+});
+
+app.get("/privacy-policy", (req, res) => {
+  res.sendFile(__dirname + "/public/privacy_policy.html");
 });
