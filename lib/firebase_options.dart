@@ -17,7 +17,10 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -49,20 +52,11 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyADW7MGN02n2JC2c5rqGoBE1u0qE7eJiKk',
-    appId: '1:736283674057:web:1e2696ad3650b1a0ebd418',
-    messagingSenderId: '736283674057',
-    projectId: 'journalbot-web',
-    authDomain: 'journalbot-web.firebaseapp.com',
-    storageBucket: 'journalbot-web.appspot.com',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBZyMSyYAAlwLoGS9-CKIEXmKDDq0XCURY',
-    appId: '1:736283674057:android:f340754073bf4f3eebd418',
-    messagingSenderId: '736283674057',
-    projectId: 'journalbot-web',
-    storageBucket: 'journalbot-web.appspot.com',
+    apiKey: 'AIzaSyBDTCHZtyt_FD2I6Oqsa8owVsaTNFyQ0rQ',
+    appId: '1:830943029847:android:08956c7c0973b284015112',
+    messagingSenderId: '830943029847',
+    projectId: 'sky-book-af69b',
+    storageBucket: 'sky-book-af69b.appspot.com',
   );
 }

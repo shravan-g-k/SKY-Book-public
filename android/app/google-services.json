@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "736283674057",
-    "project_id": "journalbot-web",
-    "storage_bucket": "journalbot-web.appspot.com"
+    "project_number": "830943029847",
+    "project_id": "sky-book-af69b",
+    "storage_bucket": "sky-book-af69b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:736283674057:android:f340754073bf4f3eebd418",
+        "mobilesdk_app_id": "1:830943029847:android:08956c7c0973b284015112",
         "android_client_info": {
-          "package_name": "com.example.journalbot"
+          "package_name": "com.shravangk.skybook"
         }
       },
       "oauth_client": [
         {
-          "client_id": "736283674057-gncosbdrptjhrj8h02rr09dmu4oce9t6.apps.googleusercontent.com",
+          "client_id": "830943029847-sh1hi9b1sr2ul31bal92rr9k3180hp1d.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBZyMSyYAAlwLoGS9-CKIEXmKDDq0XCURY"
+          "current_key": "AIzaSyBDTCHZtyt_FD2I6Oqsa8owVsaTNFyQ0rQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "736283674057-gncosbdrptjhrj8h02rr09dmu4oce9t6.apps.googleusercontent.com",
+              "client_id": "830943029847-sh1hi9b1sr2ul31bal92rr9k3180hp1d.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

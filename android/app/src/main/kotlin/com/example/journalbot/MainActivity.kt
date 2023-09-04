@@ -1,4 +1,4 @@
-package com.example.journalbot
+package com.shravangk.skybook
 
 import io.flutter.embedding.android.FlutterActivity
 
