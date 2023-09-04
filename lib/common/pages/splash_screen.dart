@@ -6,25 +6,21 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: const Color(0xFF1A1A1A),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/sky-logo.png',
-                height: 200,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/sky-logo.png',
+              height: 200,
+            ),
+            const Text(
+              'SKY Book',
+              style: TextStyle(
+                fontSize: 50,
               ),
-              const Text(
-                'SKY Book',
-                style: TextStyle(
-                  color: Color(0xFFE5E5E5),
-                  fontSize: 50,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

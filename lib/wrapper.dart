@@ -8,6 +8,7 @@ import 'package:skybook/screens/home_screens/home_screen.dart';
 import 'package:skybook/common/pages/error_screen.dart';
 import 'package:skybook/common/pages/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:skybook/utils/theme.dart';
 
 class Wrapper extends ConsumerStatefulWidget {
   const Wrapper({super.key});
@@ -27,25 +28,24 @@ class _WrapperState extends ConsumerState<Wrapper> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          // Get the token from the shared preferences
-          final token = snapshot.data!.getString(tokenKey);
-          if (token == null) {
-            return const AuthScreen();
-          } else {
-            // UserWrapper is a wrapper for the HomeScreen
-            return UserWrapper(token);
-          }
-        } else if (snapshot.hasError) {
-          return const MyErrorWidget();
-        } else {
-          return const SplashScreen();
-        }
-      },
-      future: sharedPreferences,
-    );
+    return ref.watch(sharedPreferencesProvider).when(
+          data: (sharedPreferences) {
+             
+              // Get the token from the shared preferences
+              final token = sharedPreferences.getString(tokenKey);
+              if (token == null) {
+                return const AuthScreen();
+              } else {
+                // UserWrapper is a wrapper for the HomeScreen
+                return UserWrapper(token);
+              }
+            
+          },
+          error: (error, stackTrace) {
+            return const MyErrorWidget();
+          },
+          loading: () => const SplashScreen(),
+        );
   }
 }
 
