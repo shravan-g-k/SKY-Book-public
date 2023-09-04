@@ -7,7 +7,6 @@ import 'package:skybook/screens/home_screens/home_error_screen.dart';
 import 'package:skybook/screens/home_screens/home_screen.dart';
 import 'package:skybook/common/pages/error_screen.dart';
 import 'package:skybook/common/pages/splash_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skybook/utils/theme.dart';
 
 class Wrapper extends ConsumerStatefulWidget {
@@ -18,13 +17,7 @@ class Wrapper extends ConsumerStatefulWidget {
 }
 
 class _WrapperState extends ConsumerState<Wrapper> {
-  late Future<SharedPreferences> sharedPreferences;
-  @override
-  void initState() {
-    // Get the shared preferences to fetch the thememode
-    sharedPreferences = SharedPreferences.getInstance();
-    super.initState();
-  }
+ 
 
   @override
   Widget build(BuildContext context) {

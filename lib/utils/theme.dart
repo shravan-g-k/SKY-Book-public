@@ -7,6 +7,9 @@ import '../const.dart';
 
 final sharedPreferencesProvider = FutureProvider<SharedPreferences>((ref) {
   return SharedPreferences.getInstance().then((value) {
+    if(value.getBool(darkModeKey) == null) {
+      value.setBool(darkModeKey, true);
+    }
     final brightness = value.getBool(darkModeKey) == true
         ? Brightness.dark
         : Brightness.light;

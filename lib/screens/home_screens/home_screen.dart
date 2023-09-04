@@ -49,7 +49,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     ref.read(brightnessNotifierProvider.notifier).toggle();
     SharedPreferences.getInstance().then((value) {
       value.setBool(darkModeKey, !(brightness == Brightness.dark));
-      print(value.getBool(darkModeKey));
     });
   }
 
