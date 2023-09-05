@@ -52,3 +52,6 @@ server/node_modules/
 # android/app/google-services.json
 # #Develpment Credentials
 # lib/private.dart
+# #Android Signing Keys
+# android/key.properties
+# android/upload-keystore.jks
