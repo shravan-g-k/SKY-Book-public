@@ -47,6 +47,35 @@ class _BookScreenState extends ConsumerState<BookScreen> {
     );
   }
 
+  void deleteBookDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Delete Book'),
+          content: const Text('Are you sure you want to delete this book?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                ref.read(bookControllerProvider).deleteBook(
+                      context: context,
+                      bookId: widget.book.id,
+                    );
+              },
+              child: const Text('Yes'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('No'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -165,12 +194,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                                 child: ListTile(
                                   leading: const Icon(Icons.delete),
                                   title: const Text('Delete'),
-                                  onTap: () {
-                                    ref.read(bookControllerProvider).deleteBook(
-                                          context: context,
-                                          bookId: widget.book.id,
-                                        );
-                                  },
+                                  onTap: deleteBookDialog,
                                 ),
                               ),
                               PopupMenuItem(

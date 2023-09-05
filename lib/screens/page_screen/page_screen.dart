@@ -84,6 +84,38 @@ class _PageScreenState extends ConsumerState<PageScreen> {
     );
   }
 
+  void deletePage() {
+    Navigator.pop(context);
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Delete Page'),
+          content: const Text('Are you sure you want to delete this page?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                ref.read(pageControllerProvider).deletePage(
+                      pageId: widget.page.id,
+                      bookId: widget.bookId,
+                      context: context,
+                    );
+              },
+              child: const Text('Delete'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // WILL POP SCOPE - to return the pagemodel when the user presses the back button
@@ -205,17 +237,7 @@ class _PageScreenState extends ConsumerState<PageScreen> {
                                 child: ListTile(
                                   leading: const Icon(Icons.delete),
                                   title: const Text('Delete'),
-                                  onTap: () {
-                                    ref
-                                        .read(
-                                          pageControllerProvider,
-                                        )
-                                        .deletePage(
-                                          pageId: widget.page.id,
-                                          bookId: widget.bookId,
-                                          context: context,
-                                        );
-                                  },
+                                  onTap: deletePage,
                                 ),
                               ),
                             ];
