@@ -44,7 +44,7 @@ class SkyBook extends ConsumerWidget {
             labelSmall: titleTextStyle,
           )),
       routerConfig: MyRouter.routerConfig,
-      title: 'Journal Bot',
+      title: 'SKY Book',
     );
   }
 }
