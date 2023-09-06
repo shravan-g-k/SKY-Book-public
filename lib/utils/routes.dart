@@ -8,6 +8,7 @@ import 'package:skybook/wrapper.dart';
 
 import '../model/book_model.dart';
 import '../model/page_model.dart';
+import '../screens/about_page.dart';
 import '../screens/books_screens/password_screen.dart';
 import '../screens/page_screen/page_screen.dart';
 
@@ -19,6 +20,7 @@ class MyRouter {
   static const pageRoute = '/page';
   static const createUpdatePasswordRoute = '/createUpdatePassword';
   static const passwordRoute = '/password';
+  static const aboutUsRoute = '/aboutUs';
   //
 
   // The router config
@@ -44,6 +46,7 @@ class MyRouter {
           return customTransitionPage(const AuthScreen(), key: state.pageKey);
         },
       ),
+      // Book route - BookScreen
       GoRoute(
         name: bookRoute,
         path: bookRoute,
@@ -52,6 +55,7 @@ class MyRouter {
           return BookScreen(book: book);
         },
       ),
+      // Page route - PageScreen
       GoRoute(
         name: pageRoute,
         path: pageRoute,
@@ -62,6 +66,7 @@ class MyRouter {
           return PageScreen(page: page, bookId: bookId);
         },
       ),
+      // CreateUpdatePassword route - CreateUpdatePasswordScreen
       GoRoute(
         name: createUpdatePasswordRoute,
         path: createUpdatePasswordRoute,
@@ -75,6 +80,7 @@ class MyRouter {
           );
         },
       ),
+      // Password route - PasswordScreen
       GoRoute(
         name: passwordRoute,
         path: passwordRoute,
@@ -82,6 +88,17 @@ class MyRouter {
           final book = state.extra as Book;
           return customTransitionPage(
             PasswordScreen(book: book),
+            key: state.pageKey,
+          );
+        },
+      ),
+      // AboutUs route - AboutUsScreen
+      GoRoute(
+        name: aboutUsRoute,
+        path: aboutUsRoute,
+        pageBuilder: (context, state) {
+          return customTransitionPage(
+            const AboutUsScreen(),
             key: state.pageKey,
           );
         },

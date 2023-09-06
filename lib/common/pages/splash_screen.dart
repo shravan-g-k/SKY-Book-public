@@ -23,6 +23,24 @@ class SplashScreen extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            margin: const EdgeInsets.only(bottom: 5),
+            height: 40,
+            width: 40,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.0),
+              color: Colors.black,
+            ),
+            child: Image.asset(
+              'assets/SK.png',
+              height: 30,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

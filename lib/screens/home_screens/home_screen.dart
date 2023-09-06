@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skybook/controller/auth_controller.dart';
 import 'package:skybook/repository/auth_repo.dart';
 import 'package:skybook/screens/home_screens/books_list.dart';
+import 'package:skybook/utils/routes.dart';
 
 import '../../const.dart';
 import '../../utils/theme.dart';
@@ -81,16 +83,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                   PopupMenuButton(
                     icon: const Icon(Icons.more_vert),
                     itemBuilder: (context) => [
+                      // change theme
+                      PopupMenuItem(
+                        onTap: toggleTheme,
+                        child: const Text("Change Theme"),
+                      ),
+                      PopupMenuItem(
+                        onTap: () {
+                          context.pushNamed(MyRouter.aboutUsRoute);
+                        },
+                        child: const Text("About Us"),
+                      ),
                       PopupMenuItem(
                         child: const Text("Sign Out"),
                         onTap: () => ref
                             .read(authControllerProvider)
                             .signOut(context), // Sign out
-                      ),
-                      // change theme
-                      PopupMenuItem(
-                        onTap: toggleTheme,
-                        child: const Text("Change Theme"),
                       ),
                     ],
                   ),
