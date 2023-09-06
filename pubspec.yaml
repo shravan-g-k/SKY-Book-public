@@ -48,6 +48,7 @@ dependencies:
   flutter_quill: ^7.0.4
   google_fonts: ^5.1.0
   flutter_launcher_icons: ^0.13.1
+  url_launcher: ^6.1.14
 
 flutter_launcher_icons:
   android: "launcher_icon"
@@ -82,6 +83,10 @@ flutter:
       - assets/sky-logo.png
       - assets/sky-chat-fb-button.png
       - assets/sky-error.png
+      - assets/github-logo.png
+      - assets/x-logo.png
+      - assets/SK.png
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
