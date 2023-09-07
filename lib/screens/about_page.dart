@@ -77,6 +77,25 @@ class AboutUsScreen extends StatelessWidget {
                   'Organization and Accessibility',
                   'Keep your thoughts organized and easily accessible. Find what you need, when you need it.',
                 ),
+                Align(
+                  alignment: Alignment.center,
+                  child: InkWell(
+                    onTap: () {
+                      launchUrl(
+                          Uri.parse(
+                              'https://skybook-15p0.onrender.com/privacy-policy'),
+                          mode: LaunchMode.externalApplication);
+                    },
+                    child: const Text(
+                      'Privacy Policy',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 16.0),
