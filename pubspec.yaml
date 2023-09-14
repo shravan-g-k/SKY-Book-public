@@ -45,10 +45,11 @@ dependencies:
   go_router: ^10.0.0
   fluttertoast: ^8.2.2
   encrypt: ^5.0.1
-  flutter_quill: ^7.0.4
+  flutter_quill: ^7.4.6
   google_fonts: ^5.1.0
   flutter_launcher_icons: ^0.13.1
   url_launcher: ^6.1.14
+  image_picker: ^1.0.4
 
 flutter_launcher_icons:
   android: "launcher_icon"

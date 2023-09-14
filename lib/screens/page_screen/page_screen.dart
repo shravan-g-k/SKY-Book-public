@@ -4,10 +4,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:skybook/model/page_model.dart';
 
 import '../../controller/page_controller.dart';
 import 'ai_dialog.dart';
+import 'custom_image_embed.dart';
 
 // Page screen for editing a page data
 class PageScreen extends ConsumerStatefulWidget {
@@ -116,6 +118,25 @@ class _PageScreenState extends ConsumerState<PageScreen> {
     );
   }
 
+// Add image to the quill editor
+  void addImage() async {
+    final picker = ImagePicker();
+    final imageFile = await picker.pickImage(source: ImageSource.gallery);
+    // Create a new image block embed
+    final image = ImageBlockEmbed(
+      'image',
+      imageFile!.path,
+    );
+    // Insert the image block embed to the editor
+    controller.document.insert(
+      controller.document.length - 1,
+      image,
+    );
+    // Insert a few new line after the image bcz the image is inserted at the end of the editor
+    // and it gets difficult to add text after the image
+    controller.document.insert(controller.document.length - 1, '\n \n \n');
+  }
+
   @override
   Widget build(BuildContext context) {
     // WILL POP SCOPE - to return the pagemodel when the user presses the back button
@@ -166,6 +187,9 @@ class _PageScreenState extends ConsumerState<PageScreen> {
           // Quill toolbar
           child: quill.QuillToolbar.basic(
             controller: controller,
+            customButtons: [
+              quill.QuillCustomButton(icon: Icons.image, onTap: addImage)
+            ],
             iconTheme: quill.QuillIconTheme(
               iconSelectedColor: Theme.of(context).colorScheme.primary,
               iconUnselectedColor: Theme.of(context).colorScheme.primary,
@@ -302,7 +326,22 @@ class _PageScreenState extends ConsumerState<PageScreen> {
                     // QUILL EDITOR
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-                      child: quill.QuillEditor.basic(
+                      child: quill.QuillEditor(
+                        // Custom embeds
+                        embedBuilders: [
+                          ImageBlockBuilder((node) {
+                            // Delete the image from the editor
+                            // when the delete button is pressed
+                            controller.document.delete(
+                              node.offset,
+                              node.length,
+                            );
+                          }),
+                        ],
+                        focusNode: FocusNode(),
+                        scrollController: ScrollController(),
+                        scrollable: true,
+                        autoFocus: false,
                         controller: controller,
                         readOnly: false,
                         padding: const EdgeInsets.all(8),
