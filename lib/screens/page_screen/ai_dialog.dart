@@ -148,6 +148,7 @@ class _AiDialogState extends State<AiDialog> {
                             margin: const EdgeInsets.only(
                               right: 8,
                               bottom: 4,
+                              left: 8,
                             ),
                             decoration: BoxDecoration(
                               color: Theme.of(context)
