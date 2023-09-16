@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:skybook/common/widgets/error_dialog.dart';
 import 'package:skybook/controller/book_controller.dart';
+import 'package:skybook/controller/public_book_controller.dart';
+import 'package:skybook/repository/auth_repo.dart';
 import 'package:skybook/screens/books_screens/create_page_dialog.dart';
 import 'package:skybook/screens/books_screens/pages_list.dart';
 import 'package:skybook/utils/routes.dart';
@@ -76,9 +78,43 @@ class _BookScreenState extends ConsumerState<BookScreen> {
     );
   }
 
+  void makeBookPublicDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Are you sure?'),
+          content: const Text(
+              'Once you make this book public, you cannot make it private again.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                ref.read(publicBookControllerProvider).createPublicBook(
+                      title: widget.book.title,
+                      description: widget.book.description,
+                      icon: widget.book.icon,
+                      pages: widget.book.pages,
+                      context: context,
+                    );
+              },
+              child: const Text('Yes'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('No'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final book = widget.book;
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -90,7 +126,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
             children: [
               // ROW - Icon, Title
               Hero(
-                tag: widget.book.id,
+                tag: book.id,
                 child: Material(
                   child: Stack(
                     children: [
@@ -100,7 +136,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                         children: [
                           // ICON
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(8.0).copyWith(top: 0),
                             child: SizedBox(
                               width:
                                   100, //constriant the width of the textfield
@@ -114,7 +150,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                                 onSubmitted: (value) {
                                   // we check if the value is empty
                                   if (value.isEmpty) {
-                                    _iconController.text = widget.book
+                                    _iconController.text = book
                                         .icon; //set the icon to the previous value
                                     errorDialog(
                                       context: context,
@@ -122,7 +158,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                                       content: "Icon cannot be empty",
                                     );
                                     // we check if the value is same as the previous value
-                                  } else if (value == widget.book.icon) {
+                                  } else if (value == book.icon) {
                                     errorDialog(
                                       context: context,
                                       title: "Enter Icon",
@@ -134,8 +170,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                                   } else {
                                     ref.read(bookControllerProvider).updateBook(
                                         context: context,
-                                        book:
-                                            widget.book.copyWith(icon: value));
+                                        book: book.copyWith(icon: value));
                                   }
                                 },
                               ),
@@ -155,14 +190,14 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                                 onSubmitted: (value) {
                                   // we check if the value is empty
                                   if (value.isEmpty) {
-                                    _titleController.text = widget.book.title;
+                                    _titleController.text = book.title;
                                     errorDialog(
                                       context: context,
                                       title: "Enter Title",
                                       content: "Title cannot be empty",
                                     );
                                     // we check if the value is same as the previous value
-                                  } else if (value == widget.book.title) {
+                                  } else if (value == book.title) {
                                     errorDialog(
                                       context: context,
                                       title: "Enter Title",
@@ -174,8 +209,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                                   } else {
                                     ref.read(bookControllerProvider).updateBook(
                                         context: context,
-                                        book:
-                                            widget.book.copyWith(title: value));
+                                        book: book.copyWith(title: value));
                                   }
                                 },
                               ),
@@ -183,6 +217,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                           ),
                         ],
                       ),
+                      // POPUP MENU BUTTON
                       Positioned(
                         right: -5,
                         top: 10,
@@ -203,17 +238,27 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                                   leading: const Icon(Icons.password_rounded),
                                   title: const Text('Password'),
                                   onTap: () {
-                                    if (widget.book.password == null) {
+                                    if (book.password == null) {
                                       context.pushNamed(
                                         MyRouter.createUpdatePasswordRoute,
-                                        extra: [widget.book, true],
+                                        extra: [book, true],
                                       );
                                     } else {
                                       context.pushNamed(
                                         MyRouter.createUpdatePasswordRoute,
-                                        extra: [widget.book, false],
+                                        extra: [book, false],
                                       );
                                     }
+                                  },
+                                ),
+                              ),
+                              PopupMenuItem(
+                                child: ListTile(
+                                  leading: const Icon(Icons.public),
+                                  title: const Text('Public'),
+                                  onTap: () {
+                                    context.pop();
+                                    makeBookPublicDialog();
                                   },
                                 ),
                               ),
@@ -269,14 +314,14 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                   onSubmitted: (value) {
                     // we check if the value is empty
                     if (value.isEmpty) {
-                      _descriptionController.text = widget.book.description;
+                      _descriptionController.text = book.description;
                       errorDialog(
                         context: context,
                         title: "Enter Description",
                         content: "Description cannot be empty",
                       );
                       // we check if the value is same as the previous value
-                    } else if (value == widget.book.description) {
+                    } else if (value == book.description) {
                       errorDialog(
                         context: context,
                         title: "Enter Description",
@@ -286,7 +331,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                     } else {
                       ref.read(bookControllerProvider).updateBook(
                           context: context,
-                          book: widget.book.copyWith(description: value));
+                          book: book.copyWith(description: value));
                     }
                   },
                 ),
@@ -324,7 +369,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                 ),
               ),
               // PAGES
-              UserPages(widget.book.id)
+              UserPages(book.id)
             ],
           ),
         ),
