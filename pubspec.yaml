@@ -50,6 +50,8 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   url_launcher: ^6.1.14
   image_picker: ^1.0.4
+  animated_bottom_navigation_bar: ^1.2.1
+  molten_navigationbar_flutter: ^1.0.1
 
 flutter_launcher_icons:
   android: "launcher_icon"
