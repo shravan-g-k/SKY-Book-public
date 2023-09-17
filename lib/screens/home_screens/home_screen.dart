@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:molten_navigationbar_flutter/molten_navigationbar_flutter.dart';
-import 'package:skybook/screens/home_screens/nav_books_screen.dart';
+import 'package:skybook/screens/home_screens/nav_public_books_screen.dart';
 import 'package:skybook/screens/home_screens/nav_chat_screen.dart';
 import 'package:skybook/screens/home_screens/nav_home_screen.dart';
 
@@ -38,39 +38,38 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     // SCAFFOLD
-    return Scaffold(
-      // SAFE AREA
-      body: SafeArea(
-        // PADDING
-        child: navBarIndex == 0
+    return SafeArea(
+      child: Scaffold(
+        // SAFE AREA
+        body: navBarIndex == 0
             ? const PublicBookScreenComponent()
             : navBarIndex == 1
                 ? const HomeScreenComponent()
                 : const ChatScreenComponent(),
-      ),
-      bottomNavigationBar: MoltenBottomNavigationBar(
-        selectedIndex: navBarIndex,
-        barColor: colorScheme.secondaryContainer,
-        domeCircleColor: colorScheme.primary,
-        onTabChange: (index) {
-          setState(() {
-            navBarIndex = index;
-          });
-        },
-        tabs: [
-          MoltenTab(
-            icon: const Icon(Icons.book),
-            selectedColor: colorScheme.onPrimary.withOpacity(0.7),
-          ),
-          MoltenTab(
-            icon: const Icon(Icons.home_rounded),
-            selectedColor: colorScheme.onPrimary.withOpacity(0.7),
-          ),
-          MoltenTab(
-            icon: const Icon(Icons.chat_bubble_outline_rounded),
-            selectedColor: colorScheme.onPrimary.withOpacity(0.7),
-          ),
-        ],
+        bottomNavigationBar: MoltenBottomNavigationBar(
+          selectedIndex: navBarIndex,
+          barColor: colorScheme.secondaryContainer,
+          domeCircleColor: colorScheme.primary,
+          onTabChange: (index) {
+            setState(() {
+              navBarIndex = index;
+            });
+          },
+          tabs: [
+            MoltenTab(
+              icon: const Icon(Icons.book),
+              selectedColor: colorScheme.onPrimary.withOpacity(0.7),
+            ),
+            MoltenTab(
+              icon: const Icon(Icons.home_rounded),
+              selectedColor: colorScheme.onPrimary.withOpacity(0.7),
+            ),
+            MoltenTab(
+              icon: const Icon(Icons.chat_bubble_outline_rounded),
+              selectedColor: colorScheme.onPrimary.withOpacity(0.7),
+            ),
+          ],
+        ),
       ),
     );
   }

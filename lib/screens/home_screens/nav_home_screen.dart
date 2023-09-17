@@ -59,7 +59,7 @@ class _HomeScreenComponentState extends ConsumerState<HomeScreenComponent> {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Padding(
-      padding: const EdgeInsets.all(12.0),
+      padding: const EdgeInsets.all(12.0).copyWith(bottom: 5),
       // COLUMN
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -140,7 +140,7 @@ class _HomeScreenComponentState extends ConsumerState<HomeScreenComponent> {
               ),
             ),
           ),
-          UserBooks()
+          const UserBooks()
         ],
       ),
     );

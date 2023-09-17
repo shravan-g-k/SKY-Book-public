@@ -15,7 +15,10 @@ class _PublicBookScreenComponentState extends State<PublicBookScreenComponent> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text('Public Book Screen'),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text('Explore Public Books'),
+          ),
         ],
       ),
     );

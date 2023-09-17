@@ -81,6 +81,7 @@ class BookController {
   Future<bool> updateBook({
     required BuildContext context,
     required Book book,
+    bool showToast = true,
   }) async {
     try {
       final user = _ref.read(userProvider)!;
@@ -92,16 +93,18 @@ class BookController {
           );
       // Update the booksProvider state
       _ref.read(booksProvider.notifier).updateBook(updatedBook);
-      // Show a toast message
-      Fluttertoast.showToast(
-        msg: "Book updated successfully",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.black,
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
+      if (showToast == true) {
+        // Show a toast message
+        Fluttertoast.showToast(
+          msg: "Book updated successfully",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.black,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+      }
       return true;
     } catch (e) {
       errorDialog(
