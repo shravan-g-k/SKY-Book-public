@@ -18,10 +18,18 @@ bookRouter.post("/book/create", auth, async (req, res) => {
     });
     const book = await newBook.save();
     // Add book to user
-    const user = await User.findOneAndUpdate(
+    const a = await User.findOneAndUpdate(
       { _id: req.user.id }, // Find user by id
-      { $push: { books: book._id } }, // Add book to user
-      { new: true }
+      {
+        // push book to user to the top of the array
+        $push: {
+          books: {
+            $each: [book._id],
+            $position: 0,
+          },
+        },
+      },
+      { new: true}
     );
     // Send book
     res.status(200).json(book);
@@ -72,7 +80,6 @@ bookRouter.put("/book/update", auth, async (req, res) => {
       },
       { new: true }
     );
-    console.log(book);
     res.status(200).json(book);
   } catch (error) {
     res.status(400).json({ msg: "Error updating book" });
@@ -87,6 +94,15 @@ bookRouter.delete("/book/delete", auth, async (req, res) => {
   try {
     const { bookId } = req.body;
     await Book.findByIdAndDelete(bookId);
+    // Remove book from user
+    await User.findOneAndUpdate(
+      { _id: req.user.id },
+      {
+        $pull: {
+          books: bookId,
+        },
+      }
+    );
     res.status(200).json({ msg: "Book deleted" });
   } catch (error) {
     res.status(400).json({ msg: "Error deleting book" });

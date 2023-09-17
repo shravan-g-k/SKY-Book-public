@@ -16,7 +16,6 @@ router.post("/publicbook/create", auth ,async (req, res) => {
     const public_book = await newPublicBook.save();
     res.status(200).json(public_book);
   } catch (error) {
-    console.log(error);
     res.status(400).json({ msg: "Error creating public book" });
   }
 });
@@ -26,10 +25,8 @@ router.get("/publicbook/:id/likes" ,async (req, res) => {
     const {id} = req.params;
     const public_book = await publicBook.findById(id);
     const likes = public_book.likes;
-    console.log(likes);
     res.status(200).json(likes);
   } catch (error) {
-    console.log(error);
     res.status(400).json({ msg: "Error getting public books" });
   }
 }

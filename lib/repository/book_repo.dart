@@ -82,7 +82,7 @@ class BookRepository {
             encrypter.decrypt64(data[i]['password'], iv: iv).toString();
         data[i]['password'] = decodedPassword;
       }
-      books.add(Book.fromMap(data[i]));
+      books.insert(0, Book.fromMap(data[i]));
     }
     // Return the list of Book objects
     return books;
