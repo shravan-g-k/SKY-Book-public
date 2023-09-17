@@ -48,7 +48,7 @@ class BookController {
       });
       // Update the userProvider state
       _ref.read(userProvider.notifier).update((state) {
-        state!.books.add(book.id);
+        state!.books.insert(0, book.id);
         return state;
       });
       // Update the booksProvider state
