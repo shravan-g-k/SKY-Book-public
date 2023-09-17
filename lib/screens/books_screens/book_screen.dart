@@ -37,6 +37,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
     _descriptionController =
         TextEditingController(text: widget.book.description);
     _iconController = TextEditingController(text: widget.book.icon);
+    if (widget.book.publicBookId != null) {}
     super.initState();
   }
 
@@ -91,10 +92,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
               onPressed: () {
                 final user = ref.read(userProvider)!;
                 ref.read(publicBookControllerProvider).createPublicBook(
-                      title: widget.book.title,
-                      description: widget.book.description,
-                      icon: widget.book.icon,
-                      pages: widget.book.pages,
+                      book: widget.book,
                       creator: user.name,
                       context: context,
                     );
@@ -254,16 +252,17 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                                   },
                                 ),
                               ),
-                              PopupMenuItem(
-                                child: ListTile(
-                                  leading: const Icon(Icons.public),
-                                  title: const Text('Public'),
-                                  onTap: () {
-                                    context.pop();
-                                    makeBookPublicDialog();
-                                  },
+                              if (book.publicBookId == null)
+                                PopupMenuItem(
+                                  child: ListTile(
+                                    leading: const Icon(Icons.public),
+                                    title: const Text('Public'),
+                                    onTap: () {
+                                      context.pop();
+                                      makeBookPublicDialog();
+                                    },
+                                  ),
                                 ),
-                              ),
                             ];
                           },
                         ),
@@ -273,36 +272,50 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                 ),
               ),
               // HIDE/SHOW DESCRIPTION BUTTON
-              Align(
-                alignment: Alignment.centerLeft,
-                child: OutlinedButton.icon(
-                  onPressed: () {
-                    // we toggle the visibility of the description
-                    setState(() {
-                      _isDescriptionVisible = !_isDescriptionVisible;
-                    });
-                  },
-                  icon: Icon(
-                    _isDescriptionVisible
-                        ? CupertinoIcons.eye_slash_fill
-                        : CupertinoIcons.eye_fill,
-                  ),
-                  label: Text(
-                    _isDescriptionVisible
-                        ? 'Hide Description'
-                        : 'Show Description',
-                    style: const TextStyle(
-                      fontSize: 12,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  OutlinedButton.icon(
+                    onPressed: () {
+                      // we toggle the visibility of the description
+                      setState(() {
+                        _isDescriptionVisible = !_isDescriptionVisible;
+                      });
+                    },
+                    icon: Icon(
+                      _isDescriptionVisible
+                          ? CupertinoIcons.eye_slash_fill
+                          : CupertinoIcons.eye_fill,
                     ),
-                  ),
-                  style: ButtonStyle(
-                    side: MaterialStateProperty.all(
-                      const BorderSide(
-                        color: Colors.transparent, //hide the border
+                    label: Text(
+                      _isDescriptionVisible
+                          ? 'Hide Description'
+                          : 'Show Description',
+                      style: const TextStyle(
+                        fontSize: 12,
+                      ),
+                    ),
+                    style: ButtonStyle(
+                      side: MaterialStateProperty.all(
+                        const BorderSide(
+                          color: Colors.transparent, //hide the border
+                        ),
                       ),
                     ),
                   ),
-                ),
+                  if (book.publicBookId != null)
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.favorite_rounded,
+                          color: colorScheme.primary,
+                        ),
+                        Text(
+                          ' ${book.publicBookId}',
+                        ),
+                      ],
+                    ),
+                ],
               ),
               // DESCRIPTION
               // show the description if _isDescriptionVisible is true

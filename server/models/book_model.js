@@ -18,7 +18,10 @@ const bookSchema = Schema({
   pages: [String],
   password: {
     type: String,
-  }
+  },
+  publicBookId: {
+    type: String,
+  },
 });
 
 const Book = mongoose.model("Book", bookSchema);

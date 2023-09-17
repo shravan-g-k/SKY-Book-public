@@ -13,7 +13,6 @@ router.post("/publicbook/create", auth ,async (req, res) => {
       pages,
       creator,
     });
-    console.log(newPublicBook);
     const public_book = await newPublicBook.save();
     res.status(200).json(public_book);
   } catch (error) {

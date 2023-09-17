@@ -65,10 +65,13 @@ class BooksList extends ConsumerWidget {
     final books = ref.watch(booksProvider);
     final colorScheme = Theme.of(context).colorScheme;
     return Expanded(
-      child: ListView.builder(
+      child: ReorderableListView.builder(
+        // TODO: implement onReorder
+        onReorder: (oldIndex, newIndex) {},
         shrinkWrap: true,
         itemBuilder: (context, index) {
           return GestureDetector(
+            key: ValueKey(books[index].id),
             onTap: () {
               if (books[index].password != null) {
                 context.pushNamed(
@@ -110,15 +113,25 @@ class BooksList extends ConsumerWidget {
                       color: colorScheme.onSecondaryContainer,
                     ),
                   ),
-                  // BOOK PAGES
-                  trailing: Text(
-                    books[index].pages.length <= 1
-                        ? '${books[index].pages.length} page'
-                        : '${books[index].pages.length} pages',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: colorScheme.onSecondaryContainer,
-                    ),
+                  // BOOK PAGES & public/private
+                  trailing: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // PUBLIC/PRIVATE
+                      if (books[index].publicBookId != null)
+                        const Icon(
+                          Icons.public,
+                        ),
+                      Text(
+                        books[index].pages.length <= 1
+                            ? '${books[index].pages.length} page'
+                            : '${books[index].pages.length} pages',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: colorScheme.onSecondaryContainer,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),

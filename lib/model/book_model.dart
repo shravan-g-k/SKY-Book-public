@@ -10,7 +10,7 @@ class Book {
   String id;
   List<String> pages;
   String? password;
-  int? likes;
+  String? publicBookId;
   Book({
     required this.title,
     required this.description,
@@ -18,7 +18,7 @@ class Book {
     required this.id,
     required this.pages,
     this.password,
-    this.likes,
+    this.publicBookId,
   });
 
   Book copyWith({
@@ -28,7 +28,7 @@ class Book {
     String? id,
     List<String>? pages,
     String? password,
-    int? likes,
+    String? publicBookId,
   }) {
     return Book(
       title: title ?? this.title,
@@ -37,7 +37,7 @@ class Book {
       id: id ?? this.id,
       pages: pages ?? this.pages,
       password: password ?? this.password,
-      likes: likes ?? this.likes,
+      publicBookId: publicBookId ?? this.publicBookId,
     );
   }
 
@@ -49,7 +49,7 @@ class Book {
       'id': id,
       'pages': pages,
       'password': password,
-      'likes': likes,
+      'publicBookId': publicBookId,
     };
   }
 
@@ -61,7 +61,7 @@ class Book {
       id: map['_id'] ?? '',
       pages: List<String>.from(map['pages']),
       password: map['password'],
-      likes: map['likes']?.toInt(),
+      publicBookId: map['publicBookId'],
     );
   }
 
@@ -71,32 +71,32 @@ class Book {
 
   @override
   String toString() {
-    return 'Book(title: $title, description: $description, icon: $icon, id: $id, pages: $pages, password: $password, likes: $likes)';
+    return 'Book(title: $title, description: $description, icon: $icon, id: $id, pages: $pages, password: $password, publicBookId: $publicBookId)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-
+  
     return other is Book &&
-        other.title == title &&
-        other.description == description &&
-        other.icon == icon &&
-        other.id == id &&
-        listEquals(other.pages, pages) &&
-        other.password == password &&
-        other.likes == likes;
+      other.title == title &&
+      other.description == description &&
+      other.icon == icon &&
+      other.id == id &&
+      listEquals(other.pages, pages) &&
+      other.password == password &&
+      other.publicBookId == publicBookId;
   }
 
   @override
   int get hashCode {
     return title.hashCode ^
-        description.hashCode ^
-        icon.hashCode ^
-        id.hashCode ^
-        pages.hashCode ^
-        password.hashCode ^
-        likes.hashCode;
+      description.hashCode ^
+      icon.hashCode ^
+      id.hashCode ^
+      pages.hashCode ^
+      password.hashCode ^
+      publicBookId.hashCode;
   }
 }
 

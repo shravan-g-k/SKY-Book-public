@@ -49,11 +49,18 @@ bookRouter.get("/book/all", auth, async (req, res) => {
 
 // UPDATE book
 // POST /book/update headers: {x-auth-token}
-// Request body: {bookId, bookTitle, bookIcon, bookDescription,password}
+// Request body: {bookId, bookTitle, bookIcon, bookDescription,password, publicBookId}
 // Response: {book}
 bookRouter.put("/book/update", auth, async (req, res) => {
   try {
-    const { bookId, bookTitle, bookIcon, bookDescription, bookPassword } = req.body;
+    const {
+      bookId,
+      bookTitle,
+      bookIcon,
+      bookDescription,
+      bookPassword,
+      publicBookId,
+    } = req.body;
     const book = await Book.findByIdAndUpdate(
       bookId,
       {
@@ -61,9 +68,11 @@ bookRouter.put("/book/update", auth, async (req, res) => {
         icon: bookIcon,
         description: bookDescription,
         password: bookPassword,
+        publicBookId: publicBookId,
       },
       { new: true }
     );
+    console.log(book);
     res.status(200).json(book);
   } catch (error) {
     res.status(400).json({ msg: "Error updating book" });
