@@ -6,9 +6,9 @@ import 'package:http/http.dart' as http;
 import '../const.dart';
 import '../model/public_book_model.dart';
 
-final publicBookRepositoryProvider = Provider((ref) => PublicBookRepository());
+final publicContentRepositoryProvider = Provider((ref) => PublicContentRepository());
 
-class PublicBookRepository {
+class PublicContentRepository {
   Future<PublicBook> createPublicBook({
     required String title,
     required String description,

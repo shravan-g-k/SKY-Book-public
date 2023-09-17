@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:skybook/common/widgets/error_dialog.dart';
 import 'package:skybook/controller/book_controller.dart';
-import 'package:skybook/controller/public_book_controller.dart';
+import 'package:skybook/controller/public_content_controller.dart';
 import 'package:skybook/screens/books_screens/create_page_dialog.dart';
 import 'package:skybook/screens/books_screens/pages_list.dart';
 import 'package:skybook/utils/routes.dart';
@@ -40,7 +40,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
     _iconController = TextEditingController(text: widget.book.icon);
     if (widget.book.publicBookId != null) {
       ref
-          .read(publicBookControllerProvider)
+          .read(publicContentControllerProvider)
           .getLikesCount(widget.book.publicBookId!)
           .then((value) {
         setState(() {
@@ -90,6 +90,14 @@ class _BookScreenState extends ConsumerState<BookScreen> {
   }
 
   void makeBookPublicDialog() {
+    if (widget.book.pages.isEmpty) {
+      errorDialog(
+        context: context,
+        title: "Empty Book",
+        content: "You cannot make an empty book public",
+      );
+      return;
+    }
     showDialog(
       context: context,
       builder: (context) {
@@ -104,7 +112,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
             TextButton(
               onPressed: () {
                 final user = ref.read(userProvider)!;
-                ref.read(publicBookControllerProvider).createPublicBook(
+                ref.read(publicContentControllerProvider).createPublicBook(
                       book: widget.book,
                       creator: user.name,
                       context: context,

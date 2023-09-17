@@ -4,17 +4,17 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:skybook/common/widgets/error_dialog.dart';
 import 'package:skybook/controller/book_controller.dart';
 import 'package:skybook/repository/auth_repo.dart';
-import 'package:skybook/repository/public_book_repo.dart';
+import 'package:skybook/repository/public_content_repo.dart';
 
 import '../model/book_model.dart';
 
-final publicBookControllerProvider =
-    Provider((ref) => PublicBookController(ref));
+final publicContentControllerProvider =
+    Provider((ref) => PublicContentController(ref));
 
-class PublicBookController {
+class PublicContentController {
   final Ref _ref;
 
-  PublicBookController(this._ref);
+  PublicContentController(this._ref);
   void createPublicBook({
     required Book book,
     required String creator,
@@ -23,7 +23,7 @@ class PublicBookController {
     try {
       final token = _ref.read(userProvider)!.token;
       await _ref
-          .read(publicBookRepositoryProvider)
+          .read(publicContentRepositoryProvider)
           .createPublicBook(
             title: book.title,
             description: book.description,
@@ -59,7 +59,7 @@ class PublicBookController {
   Future<int> getLikesCount(String publicBookId) async {
     try {
       final likes = await _ref
-          .read(publicBookRepositoryProvider)
+          .read(publicContentRepositoryProvider)
           .getLikesCount(publicBookId);
       return likes;
     } catch (e) {
