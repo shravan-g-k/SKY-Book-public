@@ -21,4 +21,18 @@ router.post("/publicbook/create", auth ,async (req, res) => {
   }
 });
 
+router.get("/publicbook/:id/likes" ,async (req, res) => {
+  try {
+    const {id} = req.params;
+    const public_book = await publicBook.findById(id);
+    const likes = public_book.likes;
+    console.log(likes);
+    res.status(200).json(likes);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ msg: "Error getting public books" });
+  }
+}
+);
+
 export default router;

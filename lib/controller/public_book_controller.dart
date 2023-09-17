@@ -55,4 +55,15 @@ class PublicBookController {
       );
     }
   }
+
+  Future<int> getLikesCount(String publicBookId) async {
+    try {
+      final likes = await _ref
+          .read(publicBookRepositoryProvider)
+          .getLikesCount(publicBookId);
+      return likes;
+    } catch (e) {
+      return 0;
+    }
+  }
 }

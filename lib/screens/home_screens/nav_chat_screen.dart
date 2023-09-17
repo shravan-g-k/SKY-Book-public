@@ -190,50 +190,37 @@ class _ChatScreenState extends State<ChatScreenComponent> {
                 ),
               ),
             ),
-          // ROW - TEXTFIELD, ADD BUTTON
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // EXPANDED - TEXTFIELD
-              Expanded(
-                child: TextField(
-                  controller: textEditingController,
-                  autocorrect: true,
-                  decoration: InputDecoration(
-                    suffix: IconButton(
-                      onPressed: () {
-                        // if the textfield is empty then return
-                        if (textEditingController.text.isEmpty) {
-                          return;
-                        }
-                        askAI(textEditingController.text); //ask AI
-                        textEditingController.clear();
-                      },
-                      icon: const Icon(Icons.send),
-                    ),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    labelText: 'Ask SKY',
-                    labelStyle: const TextStyle(fontSize: 15),
-                    constraints: const BoxConstraints(maxHeight: 70),
-                  ),
-                  onSubmitted: (value) {
-                    if (value.isEmpty) {
-                      return; //if the textfield is empty then return
-                    }
-                    askAI(value); //ask AI
-                    textEditingController.clear(); //clear the textfield
-                  },
-                  cursorHeight: 30, //cursor height
-                  style: const TextStyle(fontSize: 15),
-                ),
+          // TEXTFIELD
+          TextField(
+            controller: textEditingController,
+            autocorrect: true,
+            decoration: InputDecoration(
+              suffix: IconButton(
+                onPressed: () {
+                  // if the textfield is empty then return
+                  if (textEditingController.text.isEmpty) {
+                    return;
+                  }
+                  askAI(textEditingController.text); //ask AI
+                  textEditingController.clear();
+                },
+                icon: const Icon(Icons.send),
               ),
-              // ICONBUTTON - ADD BUTTON
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.add_box_rounded),
-              )
-            ],
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+              labelText: 'Ask SKY',
+              labelStyle: const TextStyle(fontSize: 15),
+              constraints: const BoxConstraints(maxHeight: 70),
+            ),
+            onSubmitted: (value) {
+              if (value.isEmpty) {
+                return; //if the textfield is empty then return
+              }
+              askAI(value); //ask AI
+              textEditingController.clear(); //clear the textfield
+            },
+            cursorHeight: 30, //cursor height
+            style: const TextStyle(fontSize: 15),
           ),
         ],
       ),

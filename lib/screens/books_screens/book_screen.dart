@@ -28,6 +28,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
   late TextEditingController _titleController;
   late TextEditingController _descriptionController;
   late TextEditingController _iconController;
+  int likesCount = 0;
 
   @override
   void initState() {
@@ -37,7 +38,16 @@ class _BookScreenState extends ConsumerState<BookScreen> {
     _descriptionController =
         TextEditingController(text: widget.book.description);
     _iconController = TextEditingController(text: widget.book.icon);
-    if (widget.book.publicBookId != null) {}
+    if (widget.book.publicBookId != null) {
+      ref
+          .read(publicBookControllerProvider)
+          .getLikesCount(widget.book.publicBookId!)
+          .then((value) {
+        setState(() {
+          likesCount = value;
+        });
+      });
+    }
     super.initState();
   }
 
@@ -86,7 +96,10 @@ class _BookScreenState extends ConsumerState<BookScreen> {
         return AlertDialog(
           title: const Text('Are you sure?'),
           content: const Text(
-              'Once you make this book public, you cannot make it private again.'),
+              'Once you make this book public, you cannot make it private again.',
+              style: TextStyle(
+                fontSize: 12,
+              )),
           actions: [
             TextButton(
               onPressed: () {
@@ -310,9 +323,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                           Icons.favorite_rounded,
                           color: colorScheme.primary,
                         ),
-                        Text(
-                          ' ${book.publicBookId}',
-                        ),
+                        Text(' $likesCount'),
                       ],
                     ),
                 ],

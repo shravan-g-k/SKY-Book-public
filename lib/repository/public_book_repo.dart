@@ -37,4 +37,13 @@ class PublicBookRepository {
     final publicBook = PublicBook.fromMap(responseBody);
     return publicBook;
   }
+
+  Future<int> getLikesCount(
+    String publicBookId,
+  ) async {
+    final url = Uri.parse('$serverAddress/publicbook/$publicBookId/likes');
+    final response = await http.get(url);
+    final responseBody = jsonDecode(response.body);
+    return responseBody;
+  }
 }
