@@ -1,6 +1,7 @@
 import Express from "express";
 const router = Express.Router();
 import publicBook from "../models/public_book_model.js";
+import publicPage from "../models/public_page_model.js";
 import auth from "../middleware/auth_middleware.js";
 
 router.post("/publicbook/create", auth, async (req, res) => {
@@ -20,7 +21,7 @@ router.post("/publicbook/create", auth, async (req, res) => {
   }
 });
 
-router.post('publicpage/create', auth, async (req, res) => {
+router.post("/publicpage/create", auth, async (req, res) => {
   try {
     const { title, data, icon, creator } = req.body;
     const newPublicPage = new publicPage({
@@ -30,13 +31,24 @@ router.post('publicpage/create', auth, async (req, res) => {
       creator,
     });
     const public_page = await newPublicPage.save();
+    console.log(public_page);
     res.status(200).json(public_page);
   } catch (error) {
     res.status(400).json({ msg: "Error creating public page" });
   }
-}
-);
+});
 
+
+router.get("/publicpage/:id/likes", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const public_page = await publicPage.findById(id);
+    const likes = public_page.likes;
+    res.status(200).json(likes);
+  } catch (error) {
+    res.status(400).json({ msg: "Error getting public books" });
+  }
+});
 router.get("/publicbook/:id/likes", async (req, res) => {
   try {
     const { id } = req.params;
@@ -48,14 +60,13 @@ router.get("/publicbook/:id/likes", async (req, res) => {
   }
 });
 
-router.get("/publicbook" , async (req, res) => {
+router.get("/publicbook", async (req, res) => {
   try {
     const public_books = await publicBook.find().sort({ _id: 1 }).limit(30);
     res.status(200).json(public_books);
   } catch (error) {
     res.status(400).json({ msg: "Error getting public books" });
   }
-}
-);
+});
 
 export default router;

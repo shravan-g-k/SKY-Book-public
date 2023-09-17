@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:skybook/controller/public_content_controller.dart';
 import 'package:skybook/model/page_model.dart';
 
+import '../../common/widgets/error_dialog.dart';
 import '../../controller/page_controller.dart';
 import 'ai_dialog.dart';
 import 'custom_image_embed.dart';
@@ -26,8 +28,19 @@ class _PageScreenState extends ConsumerState<PageScreen> {
   late TextEditingController iconController;
   late quill.QuillController controller;
   late Timer timer; // Timer for autosaving
+  late String? publicPageId;
+  int? likesCount = 0;
   @override
   void initState() {
+    publicPageId = widget.page.publicPageId;
+    if (publicPageId != null) {
+      ref
+          .read(publicContentControllerProvider)
+          .getLikesCount(publicPageId!)
+          .then((value) {
+        likesCount = value;
+      });
+    }
     // Initialize the controllers with the intitial page data
     titleController = TextEditingController(text: widget.page.title);
     iconController = TextEditingController(text: widget.page.icon);
@@ -71,6 +84,7 @@ class _PageScreenState extends ConsumerState<PageScreen> {
           createdAt: widget.page.createdAt,
           updatedAt: widget.page
               .updatedAt, //updatedAt is not updated bcz we want to check if the data has changed or not
+          publicPageId: publicPageId,
         );
         // Only update the page if the data has changed
         if (pageModel.data != widget.page.data) {
@@ -118,6 +132,54 @@ class _PageScreenState extends ConsumerState<PageScreen> {
     );
   }
 
+  void publishPage() {
+    if (widget.page.data.isEmpty) {
+      errorDialog(
+        context: context,
+        title: "Empty Book",
+        content: "You cannot make an empty book public",
+      );
+      return;
+    }
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Are you sure?'),
+          content: const Text(
+              'Once you make this page public, you cannot make it private again.',
+              style: TextStyle(
+                fontSize: 12,
+              )),
+          actions: [
+            TextButton(
+              onPressed: () {
+                ref
+                    .read(publicContentControllerProvider)
+                    .createPublicPage(
+                      page: widget.page,
+                      context: context,
+                    )
+                    .then((value) {
+                  if (value != null) {
+                    publicPageId = value.id;
+                  }
+                });
+              },
+              child: const Text('Yes'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('No'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 // Add image to the quill editor
   void addImage() async {
     final picker = ImagePicker();
@@ -154,6 +216,7 @@ class _PageScreenState extends ConsumerState<PageScreen> {
             data: jsonEncode(controller.document.toDelta().toJson()),
             createdAt: widget.page.createdAt,
             updatedAt: DateTime.now(),
+            publicPageId: publicPageId,
           ),
         );
         return true;
@@ -264,6 +327,16 @@ class _PageScreenState extends ConsumerState<PageScreen> {
                                   onTap: deletePage,
                                 ),
                               ),
+                              PopupMenuItem(
+                                child: ListTile(
+                                  leading: const Icon(Icons.public),
+                                  title: const Text('Public'),
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    publishPage();
+                                  },
+                                ),
+                              ),
                             ];
                           },
                         ),
@@ -289,9 +362,24 @@ class _PageScreenState extends ConsumerState<PageScreen> {
                       fontSize: 12,
                     ),
                   ),
+                  if (widget.page.publicPageId != null)
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.favorite_rounded,
+                          color: Theme.of(context).colorScheme.primary,
+                          size: 18,
+                        ),
+                        Text(likesCount.toString(),
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 12,
+                            ))
+                      ],
+                    ),
                   // UPDATED AT
                   Text(
-                    'Updated :  ${widget.page.updatedAt.day}/${widget.page.updatedAt.month}/${widget.page.updatedAt.year}',
+                    'Updated : ${widget.page.updatedAt.day}/${widget.page.updatedAt.month}/${widget.page.updatedAt.year}',
                     style: const TextStyle(
                       color: Colors.grey,
                       fontSize: 12,

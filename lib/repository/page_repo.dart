@@ -75,7 +75,7 @@ class PageRepository {
     // Create a page from the decoded response
     final page = PageModel.fromMap({
       ...jsonDecode(decodedPage),
-      'id': json['_id'],
+      '_id': json['_id'],
     });
     return page;
   }
@@ -115,7 +115,7 @@ class PageRepository {
       // Create a PageModel object
       final page = PageModel.fromMap({
         ...jsonDecode(decodedPage),
-        'id': data[i]['_id'],
+        '_id': data[i]['_id'],
       });
       // Add the page to the list
       pages.add(page);
@@ -135,6 +135,7 @@ class PageRepository {
     required String data,
     required DateTime updatedAt,
     required DateTime createdAt,
+    String? publicPageId,
     required String userId,
     required String token,
   }) async {
@@ -151,6 +152,7 @@ class PageRepository {
             'data': data,
             'updatedAt': updatedAt.millisecondsSinceEpoch,
             'createdAt': createdAt.millisecondsSinceEpoch,
+            'publicPageId' : publicPageId,
           }),
           iv: iv,
         )
@@ -174,7 +176,7 @@ class PageRepository {
     final page = PageModel.fromJson(
       jsonEncode({
         ...jsonDecode(decodedPage),
-        'id': json['_id'],
+        '_id': json['_id'],
       }),
     );
     return page;

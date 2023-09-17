@@ -159,30 +159,36 @@ class _PagesListState extends ConsumerState<PagesList> {
                 color: colorScheme.secondaryContainer,
                 // LIST TILE
                 child: ListTile(
-                  // PAGE ICON
-                  leading: Text(
-                    page.icon,
-                    style: const TextStyle(fontSize: 30),
-                  ),
-                  // PAGE TITLE
-                  title: Text(
-                    page.title,
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: colorScheme.onSecondaryContainer,
-                      overflow: TextOverflow.ellipsis,
+                    // PAGE ICON
+                    leading: Text(
+                      page.icon,
+                      style: const TextStyle(fontSize: 30),
                     ),
-                  ),
-                  // PAGE UPDATED AT
-                  subtitle: Text(
-                    "${page.updatedAt.day}/${page.updatedAt.month}/${page.updatedAt.year}",
-                    style: TextStyle(
-                      overflow: TextOverflow.ellipsis,
-                      fontSize: 15,
-                      color: colorScheme.onSecondaryContainer,
+                    // PAGE TITLE
+                    title: Text(
+                      page.title,
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: colorScheme.onSecondaryContainer,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                  ),
-                ),
+                    // PAGE UPDATED AT
+                    subtitle: Text(
+                      "${page.updatedAt.day}/${page.updatedAt.month}/${page.updatedAt.year}",
+                      style: TextStyle(
+                        overflow: TextOverflow.ellipsis,
+                        fontSize: 15,
+                        color: colorScheme.onSecondaryContainer,
+                      ),
+                    ),
+                    trailing: page.publicPageId != null
+                        ? const Icon(
+                            Icons.public,
+                          )
+                        : null
+                    // trailing: ,
+                    ),
               ),
             ),
           );
