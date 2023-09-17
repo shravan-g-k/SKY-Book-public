@@ -333,7 +333,7 @@ class _PageScreenState extends ConsumerState<PageScreen> {
                             // Delete the image from the editor
                             // when the delete button is pressed
                             controller.document.delete(
-                              node.offset,
+                              node.documentOffset,
                               node.length,
                             );
                           }),
