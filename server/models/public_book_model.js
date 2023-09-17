@@ -16,6 +16,10 @@ const publicBookSchema = Schema({
     length: 1,
   },
   pages: [String],
+  creator: {
+    type: String,
+    required: true,
+  },
   likes: {
     type: Number,
     default: 0,

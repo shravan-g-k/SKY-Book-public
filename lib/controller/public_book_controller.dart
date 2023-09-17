@@ -12,12 +12,14 @@ class PublicBookController {
   final Ref _ref;
 
   PublicBookController(this._ref);
-  void createPublicBook(
-      {required String title,
-      required String description,
-      required String icon,
-      required List<String> pages,
-      required BuildContext context}) async {
+  void createPublicBook({
+    required String title,
+    required String description,
+    required String icon,
+    required List<String> pages,
+    required String creator,
+    required BuildContext context,
+  }) async {
     try {
       final token = _ref.read(userProvider)!.token;
       await _ref
@@ -28,6 +30,7 @@ class PublicBookController {
             icon: icon,
             pages: pages,
             token: token,
+            creator: creator,
           )
           .then((value) {
         // pop the dialog

@@ -5,12 +5,13 @@ import auth from "../middleware/auth_middleware.js";
 
 router.post("/publicbook/create", auth ,async (req, res) => {
   try {
-    const { title, description, icon, pages } = req.body;
+    const { title, description, icon, pages, creator } = req.body;
     const newPublicBook = new publicBook({
       title,
       description,
       icon,
       pages,
+      creator,
     });
     console.log(newPublicBook);
     const public_book = await newPublicBook.save();

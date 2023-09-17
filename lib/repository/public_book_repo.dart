@@ -14,6 +14,7 @@ class PublicBookRepository {
     required String description,
     required String icon,
     required List<String> pages,
+    required String creator,
     required String token,
   }) async {
     final url = Uri.parse('$serverAddress/publicbook/create');
@@ -22,6 +23,7 @@ class PublicBookRepository {
       'description': description,
       'icon': icon,
       'pages': pages,
+      'creator': creator,
     };
     final response = await http.post(
       url,

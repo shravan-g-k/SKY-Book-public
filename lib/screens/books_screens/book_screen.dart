@@ -5,12 +5,12 @@ import 'package:go_router/go_router.dart';
 import 'package:skybook/common/widgets/error_dialog.dart';
 import 'package:skybook/controller/book_controller.dart';
 import 'package:skybook/controller/public_book_controller.dart';
-import 'package:skybook/repository/auth_repo.dart';
 import 'package:skybook/screens/books_screens/create_page_dialog.dart';
 import 'package:skybook/screens/books_screens/pages_list.dart';
 import 'package:skybook/utils/routes.dart';
 
 import '../../model/book_model.dart';
+import '../../repository/auth_repo.dart';
 
 // BookScreen is the screen where the user can edit the book
 // create a new page
@@ -89,11 +89,13 @@ class _BookScreenState extends ConsumerState<BookScreen> {
           actions: [
             TextButton(
               onPressed: () {
+                final user = ref.read(userProvider)!;
                 ref.read(publicBookControllerProvider).createPublicBook(
                       title: widget.book.title,
                       description: widget.book.description,
                       icon: widget.book.icon,
                       pages: widget.book.pages,
+                      creator: user.name,
                       context: context,
                     );
               },
