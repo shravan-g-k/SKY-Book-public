@@ -10,6 +10,7 @@ class Book {
   String id;
   List<String> pages;
   String? password;
+  int? likes;
   Book({
     required this.title,
     required this.description,
@@ -17,6 +18,7 @@ class Book {
     required this.id,
     required this.pages,
     this.password,
+    this.likes,
   });
 
   Book copyWith({
@@ -26,6 +28,7 @@ class Book {
     String? id,
     List<String>? pages,
     String? password,
+    int? likes,
   }) {
     return Book(
       title: title ?? this.title,
@@ -34,6 +37,7 @@ class Book {
       id: id ?? this.id,
       pages: pages ?? this.pages,
       password: password ?? this.password,
+      likes: likes ?? this.likes,
     );
   }
 
@@ -45,6 +49,7 @@ class Book {
       'id': id,
       'pages': pages,
       'password': password,
+      'likes': likes,
     };
   }
 
@@ -56,6 +61,7 @@ class Book {
       id: map['_id'] ?? '',
       pages: List<String>.from(map['pages']),
       password: map['password'],
+      likes: map['likes']?.toInt(),
     );
   }
 
@@ -65,7 +71,7 @@ class Book {
 
   @override
   String toString() {
-    return 'Book(title: $title, description: $description, icon: $icon, id: $id, pages: $pages, password: $password)';
+    return 'Book(title: $title, description: $description, icon: $icon, id: $id, pages: $pages, password: $password, likes: $likes)';
   }
 
   @override
@@ -78,7 +84,8 @@ class Book {
         other.icon == icon &&
         other.id == id &&
         listEquals(other.pages, pages) &&
-        other.password == password;
+        other.password == password &&
+        other.likes == likes;
   }
 
   @override
@@ -88,7 +95,8 @@ class Book {
         icon.hashCode ^
         id.hashCode ^
         pages.hashCode ^
-        password.hashCode;
+        password.hashCode ^
+        likes.hashCode;
   }
 }
 
@@ -99,7 +107,7 @@ class UserBooksNotifier extends StateNotifier<List<Book>> {
   }
 
   void addBook(Book book) {
-    state = [...state, book];
+    state = [book, ...state];
   }
 
   void updateBook(Book book) {
