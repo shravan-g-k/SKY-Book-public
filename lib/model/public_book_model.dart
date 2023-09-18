@@ -3,12 +3,13 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 class PublicBook {
-  String title;
-  String description;
-  String icon;
-  String id;
-  List<String> pages;
+  final String title;
+  final String description;
+  final String icon;
+  final String id;
+  final List<String> pages;
   int likes;
+  final String creator;
   PublicBook({
     required this.title,
     required this.description,
@@ -16,6 +17,7 @@ class PublicBook {
     required this.id,
     required this.pages,
     required this.likes,
+    required this.creator,
   });
 
   PublicBook copyWith({
@@ -25,6 +27,7 @@ class PublicBook {
     String? id,
     List<String>? pages,
     int? likes,
+    String? creator,
   }) {
     return PublicBook(
       title: title ?? this.title,
@@ -33,6 +36,7 @@ class PublicBook {
       id: id ?? this.id,
       pages: pages ?? this.pages,
       likes: likes ?? this.likes,
+      creator: creator ?? this.creator,
     );
   }
 
@@ -44,6 +48,7 @@ class PublicBook {
       'id': id,
       'pages': pages,
       'likes': likes,
+      'creator': creator,
     };
   }
 
@@ -55,6 +60,7 @@ class PublicBook {
       id: map['_id'] ?? '',
       pages: List<String>.from(map['pages']),
       likes: map['likes']?.toInt() ?? 0,
+      creator: map['creator'] ?? '',
     );
   }
 
@@ -65,7 +71,7 @@ class PublicBook {
 
   @override
   String toString() {
-    return 'PublicBook(title: $title, description: $description, icon: $icon, id: $id, pages: $pages, likes: $likes)';
+    return 'PublicBook(title: $title, description: $description, icon: $icon, id: $id, pages: $pages, likes: $likes, creator: $creator)';
   }
 
   @override
@@ -78,7 +84,8 @@ class PublicBook {
         other.icon == icon &&
         other.id == id &&
         listEquals(other.pages, pages) &&
-        other.likes == likes;
+        other.likes == likes &&
+        other.creator == creator;
   }
 
   @override
@@ -88,6 +95,7 @@ class PublicBook {
         icon.hashCode ^
         id.hashCode ^
         pages.hashCode ^
-        likes.hashCode;
+        likes.hashCode ^
+        creator.hashCode;
   }
 }

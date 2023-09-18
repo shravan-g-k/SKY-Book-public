@@ -36,9 +36,11 @@ class _PageScreenState extends ConsumerState<PageScreen> {
     if (publicPageId != null) {
       ref
           .read(publicContentControllerProvider)
-          .getLikesCount(publicPageId!)
+          .getPageLikes(publicPageId!)
           .then((value) {
-        likesCount = value;
+        setState(() {
+          likesCount = value;
+        });
       });
     }
     // Initialize the controllers with the intitial page data
@@ -133,7 +135,7 @@ class _PageScreenState extends ConsumerState<PageScreen> {
   }
 
   void publishPage() {
-    if (widget.page.data.isEmpty) {
+    if (controller.document.toPlainText().isEmpty) {
       errorDialog(
         context: context,
         title: "Empty Book",
@@ -157,7 +159,17 @@ class _PageScreenState extends ConsumerState<PageScreen> {
                 ref
                     .read(publicContentControllerProvider)
                     .createPublicPage(
-                      page: widget.page,
+                      page: widget.page.copyWith(
+                        title: titleController.text.isEmpty
+                            ? 'Untitled'
+                            : titleController.text,
+                        icon: iconController.text.isEmpty
+                            ? '📄'
+                            : iconController.text,
+                        data: jsonEncode(controller.document
+                            .toDelta()
+                            .toJson()), // Convert the quill document to json
+                      ),
                       context: context,
                     )
                     .then((value) {

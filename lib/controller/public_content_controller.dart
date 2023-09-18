@@ -60,16 +60,28 @@ class PublicContentController {
     }
   }
 
-  Future<int> getLikesCount(String publicBookId) async {
+  Future<int> getBookLikes(String publicBookId) async {
     try {
       final likes = await _ref
           .read(publicContentRepositoryProvider)
-          .getLikesCount(publicBookId);
+          .getBookLikes(publicBookId);
       return likes;
     } catch (e) {
       return 0;
     }
   }
+  Future<int> getPageLikes(String publicPageId) async {
+    try {
+      final likes = await _ref
+          .read(publicContentRepositoryProvider)
+          .getPageLikes(publicPageId);
+      return likes;
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  
 
   Future<PublicPage?> createPublicPage({
     required PageModel page,

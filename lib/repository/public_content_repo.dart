@@ -40,7 +40,7 @@ class PublicContentRepository {
     return publicBook;
   }
 
-  Future<int> getLikesCount(String publicBookId) async {
+  Future<int> getBookLikes(String publicBookId) async {
     final url = Uri.parse('$serverAddress/publicbook/$publicBookId/likes');
     final response = await http.get(url);
     final responseBody = jsonDecode(response.body);
@@ -74,15 +74,77 @@ class PublicContentRepository {
     return publicPage;
   }
 
-  Future<int> getPageLikes({
-    required String publicPageId,
-  }) async {
+  Future<int> getPageLikes(String publicPageId) async {
     final url = Uri.parse('$serverAddress/publicpage/$publicPageId/likes');
     final response = await http.get(url);
     final responseBody = jsonDecode(response.body);
+    print(responseBody);
     return responseBody;
-
   }
 
+  Future<List<PublicBook>> getPublicBooks({int next = 0}) async {
+    final url = Uri.parse('$serverAddress/publicbook');
+    final response = await http.get(url, headers: {
+      'next': next.toString(),
+      'Content-Type': 'application/json',
+    });
+    final responseBody = jsonDecode(response.body);
+    final List<PublicBook> publicBooks = [];
+    for (var i = 0; i < responseBody.length; i++) {
+      publicBooks.insert(0, PublicBook.fromMap(responseBody[i]));
+    }
+    return publicBooks;
+  }
 
+  Future<List<PublicPage>> getPublicPages({int next = 0}) async {
+    final url = Uri.parse('$serverAddress/publicpage');
+    final response = await http.get(url, headers: {
+      'next': next.toString(),
+      'Content-Type': 'application/json',
+    });
+    final responseBody = jsonDecode(response.body);
+    final List<PublicPage> publicPages = [];
+    for (var i = 0; i < responseBody.length; i++) {
+      publicPages.insert(0, PublicPage.fromMap(responseBody[i]));
+    }
+    return publicPages;
+  }
+
+  Future<List<dynamic>> getPagesAndBooks({int next = 0}) async {
+    List<PublicBook> publicBooks = await getPublicBooks(next: next);
+    List<PublicPage> publicPages = await getPublicPages(next: next);
+    List<dynamic> publicContent = [];
+    publicContent.addAll(publicBooks);
+    publicContent.addAll(publicPages);
+    publicContent.shuffle();
+    return publicContent;
+  }
+
+  void likePublicBook({
+    required String publicBookId,
+    required String token,
+  }) async {
+    final url = Uri.parse('$serverAddress/publicbook/$publicBookId/likes');
+    await http.put(
+      url,
+      headers: {
+        'x-auth-token': token,
+        'Content-Type': 'application/json',
+      },
+    );
+  }
+
+  void likePublicPage({
+    required String publicPageId,
+    required String token,
+  }) async {
+    final url = Uri.parse('$serverAddress/publicpage/$publicPageId/likes');
+    await http.put(
+      url,
+      headers: {
+        'x-auth-token': token,
+        'Content-Type': 'application/json',
+      },
+    );
+  }
 }

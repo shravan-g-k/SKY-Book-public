@@ -41,7 +41,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
     if (widget.book.publicBookId != null) {
       ref
           .read(publicContentControllerProvider)
-          .getLikesCount(widget.book.publicBookId!)
+          .getBookLikes(widget.book.publicBookId!)
           .then((value) {
         setState(() {
           likesCount = value;
@@ -113,7 +113,17 @@ class _BookScreenState extends ConsumerState<BookScreen> {
               onPressed: () {
                 final user = ref.read(userProvider)!;
                 ref.read(publicContentControllerProvider).createPublicBook(
-                      book: widget.book,
+                      book: widget.book.copyWith(
+                        title: _titleController.text.isEmpty
+                            ? 'Book'
+                            : _titleController.text,
+                        icon: _iconController.text.isEmpty
+                            ? '📒'
+                            : _iconController.text,
+                        description: _descriptionController.text.isEmpty
+                            ? 'No description'
+                            : _descriptionController.text,
+                      ),
                       creator: user.name,
                       context: context,
                     );
