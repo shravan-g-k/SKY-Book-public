@@ -4,13 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:skybook/common/widgets/error_dialog.dart';
 import 'package:skybook/controller/book_controller.dart';
-import 'package:skybook/controller/public_content_controller.dart';
 import 'package:skybook/screens/books_screens/create_page_dialog.dart';
 import 'package:skybook/screens/books_screens/pages_list.dart';
 import 'package:skybook/utils/routes.dart';
 
 import '../../model/book_model.dart';
-import '../../repository/auth_repo.dart';
 
 // BookScreen is the screen where the user can edit the book
 // create a new page
@@ -28,7 +26,6 @@ class _BookScreenState extends ConsumerState<BookScreen> {
   late TextEditingController _titleController;
   late TextEditingController _descriptionController;
   late TextEditingController _iconController;
-  int likesCount = 0;
 
   @override
   void initState() {
@@ -38,16 +35,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
     _descriptionController =
         TextEditingController(text: widget.book.description);
     _iconController = TextEditingController(text: widget.book.icon);
-    if (widget.book.publicBookId != null) {
-      ref
-          .read(publicContentControllerProvider)
-          .getBookLikes(widget.book.publicBookId!)
-          .then((value) {
-        setState(() {
-          likesCount = value;
-        });
-      });
-    }
+
     super.initState();
   }
 
@@ -98,48 +86,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
       );
       return;
     }
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Are you sure?'),
-          content: const Text(
-              'Once you make this book public, you cannot make it private again.',
-              style: TextStyle(
-                fontSize: 12,
-              )),
-          actions: [
-            TextButton(
-              onPressed: () {
-                final user = ref.read(userProvider)!;
-                ref.read(publicContentControllerProvider).createPublicBook(
-                      book: widget.book.copyWith(
-                        title: _titleController.text.isEmpty
-                            ? 'Book'
-                            : _titleController.text,
-                        icon: _iconController.text.isEmpty
-                            ? '📒'
-                            : _iconController.text,
-                        description: _descriptionController.text.isEmpty
-                            ? 'No description'
-                            : _descriptionController.text,
-                      ),
-                      creator: user.name,
-                      context: context,
-                    );
-              },
-              child: const Text('Yes'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('No'),
-            ),
-          ],
-        );
-      },
-    );
+
   }
 
   @override
@@ -283,17 +230,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                                   },
                                 ),
                               ),
-                              if (book.publicBookId == null)
-                                PopupMenuItem(
-                                  child: ListTile(
-                                    leading: const Icon(Icons.public),
-                                    title: const Text('Public'),
-                                    onTap: () {
-                                      context.pop();
-                                      makeBookPublicDialog();
-                                    },
-                                  ),
-                                ),
+                        
                             ];
                           },
                         ),
@@ -334,16 +271,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                       ),
                     ),
                   ),
-                  if (book.publicBookId != null)
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.favorite_rounded,
-                          color: colorScheme.primary,
-                        ),
-                        Text(' $likesCount'),
-                      ],
-                    ),
+                
                 ],
               ),
               // DESCRIPTION

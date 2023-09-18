@@ -121,7 +121,6 @@ class BookRepository {
           'bookDescription': book.description,
           'bookIcon': book.icon,
           'bookPassword': encryptedPassword,
-          'publicBookId': book.publicBookId,
         }));
     // Decode the response body
     Map<String, dynamic> data = jsonDecode(response.body);
@@ -142,7 +141,6 @@ class BookRepository {
         id: data['_id'],
         pages: List<String>.from(data['pages']),
         password: decodedPassword,
-        publicBookId: data['publicBookId'],
       );
     } else {
       newBook = Book.fromMap(data);

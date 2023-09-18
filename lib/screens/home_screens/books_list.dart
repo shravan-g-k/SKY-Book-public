@@ -113,15 +113,11 @@ class BooksList extends ConsumerWidget {
                       color: colorScheme.onSecondaryContainer,
                     ),
                   ),
-                  // BOOK PAGES & public/private
+                  // BOOK PAGES 
                   trailing: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // PUBLIC/PRIVATE
-                      if (books[index].publicBookId != null)
-                        const Icon(
-                          Icons.public,
-                        ),
+                     
                       Text(
                         books[index].pages.length <= 1
                             ? '${books[index].pages.length} page'

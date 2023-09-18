@@ -10,7 +10,6 @@ class Book {
   String id;
   List<String> pages;
   String? password;
-  String? publicBookId;
   Book({
     required this.title,
     required this.description,
@@ -18,7 +17,6 @@ class Book {
     required this.id,
     required this.pages,
     this.password,
-    this.publicBookId,
   });
 
   Book copyWith({
@@ -28,7 +26,6 @@ class Book {
     String? id,
     List<String>? pages,
     String? password,
-    String? publicBookId,
   }) {
     return Book(
       title: title ?? this.title,
@@ -37,7 +34,6 @@ class Book {
       id: id ?? this.id,
       pages: pages ?? this.pages,
       password: password ?? this.password,
-      publicBookId: publicBookId ?? this.publicBookId,
     );
   }
 
@@ -49,7 +45,6 @@ class Book {
       'id': id,
       'pages': pages,
       'password': password,
-      'publicBookId': publicBookId,
     };
   }
 
@@ -61,7 +56,6 @@ class Book {
       id: map['_id'] ?? '',
       pages: List<String>.from(map['pages']),
       password: map['password'],
-      publicBookId: map['publicBookId'],
     );
   }
 
@@ -71,7 +65,7 @@ class Book {
 
   @override
   String toString() {
-    return 'Book(title: $title, description: $description, icon: $icon, id: $id, pages: $pages, password: $password, publicBookId: $publicBookId)';
+    return 'Book(title: $title, description: $description, icon: $icon, id: $id, pages: $pages, password: $password)';
   }
 
   @override
@@ -84,8 +78,7 @@ class Book {
       other.icon == icon &&
       other.id == id &&
       listEquals(other.pages, pages) &&
-      other.password == password &&
-      other.publicBookId == publicBookId;
+      other.password == password;
   }
 
   @override
@@ -95,8 +88,7 @@ class Book {
       icon.hashCode ^
       id.hashCode ^
       pages.hashCode ^
-      password.hashCode ^
-      publicBookId.hashCode;
+      password.hashCode;
   }
 }
 

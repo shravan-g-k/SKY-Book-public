@@ -128,7 +128,7 @@ class _PagesListState extends ConsumerState<PagesList> {
               return const Center(child: Text('No more pages'));
             } else if (isLoading) {
               // If the pages are loading
-              return const Center(child: CircularProgressIndicator());
+              return const Center(child: Loader());
             } else {
               // If the pages are not loading and there are no more pages
               return const SizedBox();

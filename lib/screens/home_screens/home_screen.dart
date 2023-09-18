@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:molten_navigationbar_flutter/molten_navigationbar_flutter.dart';
-import 'package:skybook/screens/home_screens/nav_public_books_screen.dart';
+import 'package:skybook/screens/home_screens/nav_public_page_screen.dart';
 import 'package:skybook/screens/home_screens/nav_chat_screen.dart';
 import 'package:skybook/screens/home_screens/nav_home_screen.dart';
 
@@ -42,7 +42,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       child: Scaffold(
         // SAFE AREA
         body: navBarIndex == 0
-            ? const PublicBookScreenComponent()
+            ? const PublicContentScreenComponent()
             : navBarIndex == 1
                 ? const HomeScreenComponent()
                 : const ChatScreenComponent(),
