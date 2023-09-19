@@ -16,7 +16,7 @@ const app = new Express();
 // MongoDB connection
 mongoose
   .connect(
-    `mongodb+srv://sk:${mongoDBpassword}@journalbot.vjrj3zu.mongodb.net/?retryWrites=true&w=majority`
+      `mongodb+srv://skybook:${mongoDBpassword}@cluster0.9gj5u4u.mongodb.net/Production?retryWrites=true&w=majority`
   )
   .then(() => {
     console.log("Connected to MongoDB");

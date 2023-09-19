@@ -65,9 +65,7 @@ class BooksList extends ConsumerWidget {
     final books = ref.watch(booksProvider);
     final colorScheme = Theme.of(context).colorScheme;
     return Expanded(
-      child: ReorderableListView.builder(
-        // TODO: implement onReorder
-        onReorder: (oldIndex, newIndex) {},
+      child: ListView.builder(
         shrinkWrap: true,
         itemBuilder: (context, index) {
           return GestureDetector(

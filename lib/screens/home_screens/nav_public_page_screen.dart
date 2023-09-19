@@ -55,7 +55,7 @@ class _PublicContentScreenComponentState
         children: [
           const Padding(
             padding: EdgeInsets.all(8.0),
-            child: Text('Featured Books and Pages'),
+            child: Text('Featured Pages'),
           ),
           FutureBuilder(
             future: futurePublicContent,

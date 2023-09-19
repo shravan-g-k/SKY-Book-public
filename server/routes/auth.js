@@ -31,6 +31,7 @@ authRouter.post("/signin", async (req, res) => {
     // Send user and token as response
     res.status(200).json({ user, token });
   } catch (err) {
+    console.log(err);
     // Send error if user not created
     res.status(500).send("Error, user not created");
   }

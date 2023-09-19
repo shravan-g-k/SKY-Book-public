@@ -197,6 +197,9 @@ class _ChatScreenState extends State<ChatScreenComponent> {
             decoration: InputDecoration(
               suffix: IconButton(
                 onPressed: () {
+                  if (isLoading) return; //if SKY is typing then return
+                  if (isError) return; //if SKY is offline then return
+
                   // if the textfield is empty then return
                   if (textEditingController.text.isEmpty) {
                     return;
@@ -213,6 +216,8 @@ class _ChatScreenState extends State<ChatScreenComponent> {
               constraints: const BoxConstraints(maxHeight: 70),
             ),
             onSubmitted: (value) {
+              if (isLoading) return; //if SKY is typing then return
+              if (isError) return; //if SKY is offline then return
               if (value.isEmpty) {
                 return; //if the textfield is empty then return
               }

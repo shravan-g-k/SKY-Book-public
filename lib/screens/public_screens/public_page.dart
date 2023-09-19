@@ -47,16 +47,18 @@ class _PublicPageScreenState extends State<PublicPageScreen> {
                     style: const TextStyle(fontSize: 50),
                   ),
                   const SizedBox(width: 10),
-                  Text(
-                    page.title,
-                    style: const TextStyle(fontSize: 30),
+                  Flexible(
+                    child: Text(
+                      page.title,
+                      style: const TextStyle(fontSize: 20),
+                    ),
                   )
                 ],
               ),
               const SizedBox(height: 10),
               Text(
                 "by ${page.creator}",
-                style: const TextStyle(fontSize: 20),
+                style: const TextStyle(fontSize: 15),
                 overflow: TextOverflow.ellipsis,
               ),
               const SizedBox(height: 10),
