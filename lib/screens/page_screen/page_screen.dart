@@ -135,7 +135,7 @@ class _PageScreenState extends ConsumerState<PageScreen> {
   }
 
   void publishPage() {
-    if (controller.document.toPlainText().isEmpty) {
+    if (controller.document.isEmpty()) {
       errorDialog(
         context: context,
         title: "Empty Book",
