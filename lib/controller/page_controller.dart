@@ -111,28 +111,31 @@ class PageController {
   Future<void> updatePage({
     required PageModel pageModel,
     required BuildContext context,
+    bool showToast = true,
   }) async {
     final user = _ref.read(userProvider)!; // Get the user to get the token
     try {
       // Update a page
       PageModel page = await _ref.read(pageRepositoryProvider).updatePage(
-            title: pageModel.title,
-            icon: pageModel.icon,
-            data: pageModel.data,
-            updatedAt: pageModel.updatedAt,
-            createdAt: pageModel.createdAt,
-            userId: user.id,
-            token: user.token,
-            pageId: pageModel.id,
-          );
+          title: pageModel.title,
+          icon: pageModel.icon,
+          data: pageModel.data,
+          updatedAt: pageModel.updatedAt,
+          createdAt: pageModel.createdAt,
+          userId: user.id,
+          token: user.token,
+          pageId: pageModel.id,
+          publicPageId: pageModel.publicPageId);
       // Update the page in the pagesProvider updating the UI
       _ref.read(pagesProvider.notifier).updatePage(page);
     } catch (e) {
-      Fluttertoast.showToast(
-        msg: "Couldn't auto save",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-      );
+      if (showToast) {
+        Fluttertoast.showToast(
+          msg: "Couldn't auto save",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+        );
+      }
     }
   }
 

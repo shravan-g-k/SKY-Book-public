@@ -69,6 +69,7 @@ class BooksList extends ConsumerWidget {
         shrinkWrap: true,
         itemBuilder: (context, index) {
           return GestureDetector(
+            key: ValueKey(books[index].id),
             onTap: () {
               if (books[index].password != null) {
                 context.pushNamed(
@@ -110,15 +111,21 @@ class BooksList extends ConsumerWidget {
                       color: colorScheme.onSecondaryContainer,
                     ),
                   ),
-                  // BOOK PAGES
-                  trailing: Text(
-                    books[index].pages.length <= 1
-                        ? '${books[index].pages.length} page'
-                        : '${books[index].pages.length} pages',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: colorScheme.onSecondaryContainer,
-                    ),
+                  // BOOK PAGES 
+                  trailing: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                     
+                      Text(
+                        books[index].pages.length <= 1
+                            ? '${books[index].pages.length} page'
+                            : '${books[index].pages.length} pages',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: colorScheme.onSecondaryContainer,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),

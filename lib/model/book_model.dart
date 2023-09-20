@@ -71,24 +71,24 @@ class Book {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-
+  
     return other is Book &&
-        other.title == title &&
-        other.description == description &&
-        other.icon == icon &&
-        other.id == id &&
-        listEquals(other.pages, pages) &&
-        other.password == password;
+      other.title == title &&
+      other.description == description &&
+      other.icon == icon &&
+      other.id == id &&
+      listEquals(other.pages, pages) &&
+      other.password == password;
   }
 
   @override
   int get hashCode {
     return title.hashCode ^
-        description.hashCode ^
-        icon.hashCode ^
-        id.hashCode ^
-        pages.hashCode ^
-        password.hashCode;
+      description.hashCode ^
+      icon.hashCode ^
+      id.hashCode ^
+      pages.hashCode ^
+      password.hashCode;
   }
 }
 
@@ -99,7 +99,7 @@ class UserBooksNotifier extends StateNotifier<List<Book>> {
   }
 
   void addBook(Book book) {
-    state = [...state, book];
+    state = [book, ...state];
   }
 
   void updateBook(Book book) {

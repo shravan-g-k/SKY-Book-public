@@ -35,6 +35,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
     _descriptionController =
         TextEditingController(text: widget.book.description);
     _iconController = TextEditingController(text: widget.book.icon);
+
     super.initState();
   }
 
@@ -76,9 +77,22 @@ class _BookScreenState extends ConsumerState<BookScreen> {
     );
   }
 
+  void makeBookPublicDialog() {
+    if (widget.book.pages.isEmpty) {
+      errorDialog(
+        context: context,
+        title: "Empty Book",
+        content: "You cannot make an empty book public",
+      );
+      return;
+    }
+
+  }
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final book = widget.book;
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -90,7 +104,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
             children: [
               // ROW - Icon, Title
               Hero(
-                tag: widget.book.id,
+                tag: book.id,
                 child: Material(
                   child: Stack(
                     children: [
@@ -100,7 +114,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                         children: [
                           // ICON
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(8.0).copyWith(top: 0),
                             child: SizedBox(
                               width:
                                   100, //constriant the width of the textfield
@@ -114,7 +128,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                                 onSubmitted: (value) {
                                   // we check if the value is empty
                                   if (value.isEmpty) {
-                                    _iconController.text = widget.book
+                                    _iconController.text = book
                                         .icon; //set the icon to the previous value
                                     errorDialog(
                                       context: context,
@@ -122,7 +136,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                                       content: "Icon cannot be empty",
                                     );
                                     // we check if the value is same as the previous value
-                                  } else if (value == widget.book.icon) {
+                                  } else if (value == book.icon) {
                                     errorDialog(
                                       context: context,
                                       title: "Enter Icon",
@@ -134,8 +148,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                                   } else {
                                     ref.read(bookControllerProvider).updateBook(
                                         context: context,
-                                        book:
-                                            widget.book.copyWith(icon: value));
+                                        book: book.copyWith(icon: value));
                                   }
                                 },
                               ),
@@ -155,14 +168,14 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                                 onSubmitted: (value) {
                                   // we check if the value is empty
                                   if (value.isEmpty) {
-                                    _titleController.text = widget.book.title;
+                                    _titleController.text = book.title;
                                     errorDialog(
                                       context: context,
                                       title: "Enter Title",
                                       content: "Title cannot be empty",
                                     );
                                     // we check if the value is same as the previous value
-                                  } else if (value == widget.book.title) {
+                                  } else if (value == book.title) {
                                     errorDialog(
                                       context: context,
                                       title: "Enter Title",
@@ -174,8 +187,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                                   } else {
                                     ref.read(bookControllerProvider).updateBook(
                                         context: context,
-                                        book:
-                                            widget.book.copyWith(title: value));
+                                        book: book.copyWith(title: value));
                                   }
                                 },
                               ),
@@ -183,6 +195,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                           ),
                         ],
                       ),
+                      // POPUP MENU BUTTON
                       Positioned(
                         right: -5,
                         top: 10,
@@ -203,20 +216,21 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                                   leading: const Icon(Icons.password_rounded),
                                   title: const Text('Password'),
                                   onTap: () {
-                                    if (widget.book.password == null) {
+                                    if (book.password == null) {
                                       context.pushNamed(
                                         MyRouter.createUpdatePasswordRoute,
-                                        extra: [widget.book, true],
+                                        extra: [book, true],
                                       );
                                     } else {
                                       context.pushNamed(
                                         MyRouter.createUpdatePasswordRoute,
-                                        extra: [widget.book, false],
+                                        extra: [book, false],
                                       );
                                     }
                                   },
                                 ),
                               ),
+                        
                             ];
                           },
                         ),
@@ -226,36 +240,39 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                 ),
               ),
               // HIDE/SHOW DESCRIPTION BUTTON
-              Align(
-                alignment: Alignment.centerLeft,
-                child: OutlinedButton.icon(
-                  onPressed: () {
-                    // we toggle the visibility of the description
-                    setState(() {
-                      _isDescriptionVisible = !_isDescriptionVisible;
-                    });
-                  },
-                  icon: Icon(
-                    _isDescriptionVisible
-                        ? CupertinoIcons.eye_slash_fill
-                        : CupertinoIcons.eye_fill,
-                  ),
-                  label: Text(
-                    _isDescriptionVisible
-                        ? 'Hide Description'
-                        : 'Show Description',
-                    style: const TextStyle(
-                      fontSize: 12,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  OutlinedButton.icon(
+                    onPressed: () {
+                      // we toggle the visibility of the description
+                      setState(() {
+                        _isDescriptionVisible = !_isDescriptionVisible;
+                      });
+                    },
+                    icon: Icon(
+                      _isDescriptionVisible
+                          ? CupertinoIcons.eye_slash_fill
+                          : CupertinoIcons.eye_fill,
                     ),
-                  ),
-                  style: ButtonStyle(
-                    side: MaterialStateProperty.all(
-                      const BorderSide(
-                        color: Colors.transparent, //hide the border
+                    label: Text(
+                      _isDescriptionVisible
+                          ? 'Hide Description'
+                          : 'Show Description',
+                      style: const TextStyle(
+                        fontSize: 12,
+                      ),
+                    ),
+                    style: ButtonStyle(
+                      side: MaterialStateProperty.all(
+                        const BorderSide(
+                          color: Colors.transparent, //hide the border
+                        ),
                       ),
                     ),
                   ),
-                ),
+                
+                ],
               ),
               // DESCRIPTION
               // show the description if _isDescriptionVisible is true
@@ -269,14 +286,14 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                   onSubmitted: (value) {
                     // we check if the value is empty
                     if (value.isEmpty) {
-                      _descriptionController.text = widget.book.description;
+                      _descriptionController.text = book.description;
                       errorDialog(
                         context: context,
                         title: "Enter Description",
                         content: "Description cannot be empty",
                       );
                       // we check if the value is same as the previous value
-                    } else if (value == widget.book.description) {
+                    } else if (value == book.description) {
                       errorDialog(
                         context: context,
                         title: "Enter Description",
@@ -286,7 +303,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                     } else {
                       ref.read(bookControllerProvider).updateBook(
                           context: context,
-                          book: widget.book.copyWith(description: value));
+                          book: book.copyWith(description: value));
                     }
                   },
                 ),
@@ -324,7 +341,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                 ),
               ),
               // PAGES
-              UserPages(widget.book.id)
+              UserPages(book.id)
             ],
           ),
         ),

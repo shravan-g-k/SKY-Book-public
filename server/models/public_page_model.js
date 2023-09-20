@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
-const bookSchema = Schema({
+const publicBookSchema = Schema({
   title: {
     type: String,
     required: true,
   },
-  description: {
+  data : {
     type: String,
     required: true,
   },
@@ -15,14 +15,15 @@ const bookSchema = Schema({
     required: true,
     length: 1,
   },
-  pages: [String],
-  password: {
+  creator: {
     type: String,
+    required: true,
   },
-  publicBookId: {
-    type: String,
+  likes: {
+    type: Number,
+    default: 0,
   },
 });
 
-const Book = mongoose.model("Book", bookSchema);
-export default Book;
+const publicPage = mongoose.model("PublicPage", publicBookSchema);
+export default publicPage;

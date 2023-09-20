@@ -9,6 +9,7 @@ class PageModel {
   final String data;
   final DateTime createdAt;
   final DateTime updatedAt;
+  final String? publicPageId;
   PageModel({
     required this.id,
     required this.title,
@@ -16,6 +17,7 @@ class PageModel {
     required this.data,
     required this.createdAt,
     required this.updatedAt,
+    this.publicPageId,
   });
 
   PageModel copyWith({
@@ -25,6 +27,7 @@ class PageModel {
     String? data,
     DateTime? createdAt,
     DateTime? updatedAt,
+    String? publicPageId,
   }) {
     return PageModel(
       id: id ?? this.id,
@@ -33,6 +36,7 @@ class PageModel {
       data: data ?? this.data,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      publicPageId: publicPageId ?? this.publicPageId,
     );
   }
 
@@ -44,17 +48,19 @@ class PageModel {
       'data': data,
       'createdAt': createdAt.millisecondsSinceEpoch,
       'updatedAt': updatedAt.millisecondsSinceEpoch,
+      'publicPageId': publicPageId,
     };
   }
 
   factory PageModel.fromMap(Map<String, dynamic> map) {
     return PageModel(
-      id: map['id'] ?? '',
+      id: map['_id'] ?? '',
       title: map['title'] ?? '',
       icon: map['icon'] ?? '',
       data: map['data'] ?? '',
       createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']),
       updatedAt: DateTime.fromMillisecondsSinceEpoch(map['updatedAt']),
+      publicPageId: map['publicPageId'],
     );
   }
 
@@ -65,30 +71,32 @@ class PageModel {
 
   @override
   String toString() {
-    return 'PageModel(id: $id, title: $title, icon: $icon, data: $data, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'PageModel(id: $id, title: $title, icon: $icon, data: $data, createdAt: $createdAt, updatedAt: $updatedAt, publicPageId: $publicPageId)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-
+  
     return other is PageModel &&
-        other.id == id &&
-        other.title == title &&
-        other.icon == icon &&
-        other.data == data &&
-        other.createdAt == createdAt &&
-        other.updatedAt == updatedAt;
+      other.id == id &&
+      other.title == title &&
+      other.icon == icon &&
+      other.data == data &&
+      other.createdAt == createdAt &&
+      other.updatedAt == updatedAt &&
+      other.publicPageId == publicPageId;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-        title.hashCode ^
-        icon.hashCode ^
-        data.hashCode ^
-        createdAt.hashCode ^
-        updatedAt.hashCode;
+      title.hashCode ^
+      icon.hashCode ^
+      data.hashCode ^
+      createdAt.hashCode ^
+      updatedAt.hashCode ^
+      publicPageId.hashCode;
   }
 }
 

@@ -1,5 +1,5 @@
 name: skybook
-description: A new Flutter project.
+description: Private Diary with AI
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.2.0+2
+version: 2.0.1+4
 
 environment:
   sdk: '>=3.0.6 <4.0.0'
@@ -45,10 +45,12 @@ dependencies:
   go_router: ^10.0.0
   fluttertoast: ^8.2.2
   encrypt: ^5.0.1
-  flutter_quill: ^7.0.4
+  flutter_quill: ^7.4.6
   google_fonts: ^5.1.0
   flutter_launcher_icons: ^0.13.1
   url_launcher: ^6.1.14
+  image_picker: ^1.0.4
+  molten_navigationbar_flutter: ^1.0.1
 
 flutter_launcher_icons:
   android: "launcher_icon"

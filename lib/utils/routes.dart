@@ -8,9 +8,11 @@ import 'package:skybook/wrapper.dart';
 
 import '../model/book_model.dart';
 import '../model/page_model.dart';
+import '../model/public_page_model.dart';
 import '../screens/about_page.dart';
 import '../screens/books_screens/password_screen.dart';
 import '../screens/page_screen/page_screen.dart';
+import '../screens/public_screens/public_page.dart';
 
 class MyRouter {
   // All the routes in the app
@@ -21,6 +23,8 @@ class MyRouter {
   static const createUpdatePasswordRoute = '/createUpdatePassword';
   static const passwordRoute = '/password';
   static const aboutUsRoute = '/aboutUs';
+  static const publicPageRoute = '/publicPage';
+  static const publicBookRoute = '/publicBook';
   //
 
   // The router config
@@ -103,6 +107,20 @@ class MyRouter {
           );
         },
       ),
+      // PublicPage route - PublicPageScreen
+      GoRoute(
+        name: publicPageRoute,
+        path: publicPageRoute,
+        pageBuilder: (context, state) {
+          final page = state.extra as PublicPage;
+          return customTransitionPage(
+            PublicPageScreen(publicPage: page),
+            key: state.pageKey,
+          );
+        },
+      ),
+
+    
     ],
   );
   // CUstom transition used for all the routes

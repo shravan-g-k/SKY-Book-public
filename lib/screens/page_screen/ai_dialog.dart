@@ -144,44 +144,73 @@ class _AiDialogState extends State<AiDialog> {
                         // Align - to align the message to the right
                         return Align(
                           alignment: Alignment.centerRight,
-                          child: Container(
-                            margin: const EdgeInsets.only(
-                              right: 8,
-                              bottom: 4,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .secondaryContainer,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            padding: const EdgeInsets.all(6),
-                            child: Text(
-                              list[index],
-                              style: const TextStyle(fontSize: 10),
-                            ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  widget.onAddText(list[index]);
+                                  context.pop();
+                                },
+                                icon: const Icon(Icons.add_box_rounded),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(
+                                  right: 8,
+                                  bottom: 4,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .secondaryContainer,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                padding: const EdgeInsets.all(6),
+                                child: Text(
+                                  list[index],
+                                  style: const TextStyle(fontSize: 10),
+                                ),
+                              ),
+                            ],
                           ),
                         );
                       }
                       // Align - to align the message to the left
                       return Align(
                         alignment: Alignment.centerLeft,
-                        child: Container(
-                          margin: const EdgeInsets.only(
-                            left: 8,
-                            bottom: 4,
-                            right: 8,
-                          ),
-                          decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).colorScheme.tertiaryContainer,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          padding: const EdgeInsets.all(6),
-                          child: Text(
-                            list[index],
-                            style: const TextStyle(fontSize: 10),
-                          ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Flexible(
+                              flex: 1,
+                              child: Container(
+                                margin: const EdgeInsets.only(
+                                  left: 8,
+                                  bottom: 4,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .tertiaryContainer,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                padding: const EdgeInsets.all(6),
+                                child: Text(
+                                  list[index],
+                                  style: const TextStyle(fontSize: 10),
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                widget.onAddText(list[index]);
+                                context.pop();
+                              },
+                              icon: const Icon(Icons.add_box_rounded),
+                            ),
+                          ],
                         ),
                       );
                     },
@@ -224,6 +253,10 @@ class _AiDialogState extends State<AiDialog> {
                         decoration: InputDecoration(
                           suffix: IconButton(
                             onPressed: () {
+                               //if SKY is typing then return
+                              if (isLoading)return;
+                              //if SKY is offline then return
+                              if (isError)return; 
                               // if the textfield is empty then return
                               if (textEditingController.text.isEmpty) {
                                 return;
@@ -240,6 +273,8 @@ class _AiDialogState extends State<AiDialog> {
                           constraints: const BoxConstraints(maxHeight: 70),
                         ),
                         onSubmitted: (value) {
+                          if (isLoading) return; //if SKY is typing then return
+                          if (isError) return; //if SKY is offline then return
                           if (value.isEmpty) {
                             return; //if the textfield is empty then return
                           }
@@ -257,7 +292,7 @@ class _AiDialogState extends State<AiDialog> {
                         context.pop();
                       },
                       icon: const Icon(Icons.add_box_rounded),
-                    )
+                    ),
                   ],
                 ),
               ],

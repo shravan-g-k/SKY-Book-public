@@ -80,9 +80,13 @@ pageRouter.get("/pages", auth, async (req, res) => {
 // response body: {page} where page is the updated page
 pageRouter.put("/page/update", auth, async (req, res) => {
   try {
-    const { pageId, encoded } = req.body;// Get the pageId and the encoded string
-    const page = await  Page.findByIdAndUpdate(pageId, { encoded }, { new: true });// Update the page with the new encoded string and return the updated page
-    res.status(200).json(page);// Send the updated page
+    const { pageId, encoded } = req.body; // Get the pageId and the encoded string
+    const page = await Page.findByIdAndUpdate(
+      pageId,
+      { encoded },
+      { new: true }
+    ); // Update the page with the new encoded string and return the updated page
+    res.status(200).json(page); // Send the updated page
   } catch (error) {
     res.status(400).json({ msg: "Error updating page" });
   }
@@ -94,7 +98,7 @@ pageRouter.delete("/page/delete", auth, async (req, res) => {
     // Delete the page
     const page = await Page.findByIdAndDelete(pageId);
     // Remove the page from the book
-    const book  = await Book.findByIdAndUpdate(bookId, {
+    const book = await Book.findByIdAndUpdate(bookId, {
       $pull: {
         pages: pageId,
       },

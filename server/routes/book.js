@@ -18,10 +18,18 @@ bookRouter.post("/book/create", auth, async (req, res) => {
     });
     const book = await newBook.save();
     // Add book to user
-    const user = await User.findOneAndUpdate(
+    const a = await User.findOneAndUpdate(
       { _id: req.user.id }, // Find user by id
-      { $push: { books: book._id } }, // Add book to user
-      { new: true }
+      {
+        // push book to user to the top of the array
+        $push: {
+          books: {
+            $each: [book._id],
+            $position: 0,
+          },
+        },
+      },
+      { new: true}
     );
     // Send book
     res.status(200).json(book);
@@ -49,11 +57,18 @@ bookRouter.get("/book/all", auth, async (req, res) => {
 
 // UPDATE book
 // POST /book/update headers: {x-auth-token}
-// Request body: {bookId, bookTitle, bookIcon, bookDescription,password}
+// Request body: {bookId, bookTitle, bookIcon, bookDescription,password, publicBookId}
 // Response: {book}
 bookRouter.put("/book/update", auth, async (req, res) => {
   try {
-    const { bookId, bookTitle, bookIcon, bookDescription, bookPassword } = req.body;
+    const {
+      bookId,
+      bookTitle,
+      bookIcon,
+      bookDescription,
+      bookPassword,
+      publicBookId,
+    } = req.body;
     const book = await Book.findByIdAndUpdate(
       bookId,
       {
@@ -61,6 +76,7 @@ bookRouter.put("/book/update", auth, async (req, res) => {
         icon: bookIcon,
         description: bookDescription,
         password: bookPassword,
+        publicBookId: publicBookId,
       },
       { new: true }
     );
@@ -78,6 +94,15 @@ bookRouter.delete("/book/delete", auth, async (req, res) => {
   try {
     const { bookId } = req.body;
     await Book.findByIdAndDelete(bookId);
+    // Remove book from user
+    await User.findOneAndUpdate(
+      { _id: req.user.id },
+      {
+        $pull: {
+          books: bookId,
+        },
+      }
+    );
     res.status(200).json({ msg: "Book deleted" });
   } catch (error) {
     res.status(400).json({ msg: "Error deleting book" });
