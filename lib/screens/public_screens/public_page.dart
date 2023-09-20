@@ -126,7 +126,7 @@ class _PublicPageScreenState extends State<PublicPageScreen> {
                           scrollController: ScrollController(),
                           scrollable: true,
                           autoFocus: false,
-                          readOnly: true,
+                          readOnly: false,
                           padding: const EdgeInsets.all(8),
                           placeholder: 'Add your thoughts here...',
                           expands: false,

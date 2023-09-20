@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
@@ -196,10 +197,13 @@ class _PageScreenState extends ConsumerState<PageScreen> {
   void addImage() async {
     final picker = ImagePicker();
     final imageFile = await picker.pickImage(source: ImageSource.gallery);
+    final imageBytes = File(imageFile!.path).readAsBytesSync();
+    final s = String.fromCharCodes(imageBytes);
+
     // Create a new image block embed
     final image = ImageBlockEmbed(
       'image',
-      imageFile!.path,
+      s,
     );
     // Insert the image block embed to the editor
     controller.document.insert(
@@ -209,6 +213,7 @@ class _PageScreenState extends ConsumerState<PageScreen> {
     // Insert a few new line after the image bcz the image is inserted at the end of the editor
     // and it gets difficult to add text after the image
     controller.document.insert(controller.document.length - 1, '\n \n \n');
+    setState(() {});
   }
 
   @override

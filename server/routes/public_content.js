@@ -16,6 +16,7 @@ router.post("/publicpage/create", auth, async (req, res) => {
     const public_page = await newPublicPage.save();
     res.status(200).json(public_page);
   } catch (error) {
+    console.log(error);
     res.status(400).json({ msg: "Error creating public page" });
   }
 });

@@ -99,6 +99,37 @@ class AboutUsScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16.0),
+            InkWell(
+              onTap: () {
+                launchUrl(Uri.parse('https://www.instagram.com/nikshith_167/'),
+                    mode: LaunchMode.externalApplication);
+              },
+              child: const Wrap(
+                children: [
+                  Text(
+                    'Credits to @',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                    ),
+                  ),
+                  Text(
+                    'nikshith',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.blue,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                  Text(
+                    ' - for the public page idea',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16.0),
             Align(
               alignment: Alignment.center,
               child: Row(

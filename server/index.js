@@ -27,7 +27,7 @@ mongoose
 
 // Middleware
 // JSON body parser
-app.use(Express.json());
+app.use(Express.json({ limit: "50mb" }));
 // Auth router - has the /signin /user
 app.use(authRouter);
 // Book router - has the /book/create /book/all /book/update

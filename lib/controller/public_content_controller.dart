@@ -9,7 +9,6 @@ import 'package:skybook/model/public_page_model.dart';
 import 'package:skybook/repository/auth_repo.dart';
 import 'package:skybook/repository/public_content_repo.dart';
 
-
 final publicContentControllerProvider =
     Provider((ref) => PublicContentController(ref));
 
@@ -17,7 +16,6 @@ class PublicContentController {
   final Ref _ref;
 
   PublicContentController(this._ref);
-
 
   Future<int> getPageLikes(String publicPageId) async {
     try {
@@ -29,8 +27,6 @@ class PublicContentController {
       return 0;
     }
   }
-
-  
 
   Future<PublicPage?> createPublicPage({
     required PageModel page,

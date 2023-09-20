@@ -1,5 +1,5 @@
-import 'dart:io';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter/material.dart';
 
@@ -22,12 +22,14 @@ class ImageBlockBuilder extends EmbedBuilder {
   @override
   Widget build(BuildContext context, QuillController controller, Embed node,
       bool readOnly, bool inline, TextStyle textStyle) {
+    final imageBytes = Uint8List.fromList((node.value.data).codeUnits);
     // STACK - Image + Delete Button
     return Stack(
       children: [
         // IMAGE
-        Image.file(
-          File(node.value.data),
+        Image.memory(
+          imageBytes,
+          gaplessPlayback: true,
         ),
         // DELETE BUTTON
         Positioned(
