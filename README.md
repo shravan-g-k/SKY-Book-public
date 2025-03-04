@@ -19,5 +19,5 @@ SKY Book - Where your thoughts find a home, your AI finds a friend, and your pri
  - Front end - Flutter
 - Back end.  - Node Js
 - Database   - Mongo DB
-- APIs           - PaLM 2 API
+- APIs       - Gemini API
 - Cloud Service - Render
